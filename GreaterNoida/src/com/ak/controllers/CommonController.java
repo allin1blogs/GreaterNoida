@@ -63,6 +63,7 @@ public class CommonController
 			if(uId.equals("CEO"))
 			{
 				model.addAttribute("userForm",userService.getUserDetails(uId));
+				System.out.println("===");
 				return "users/ceoDetails";
 			}
 			ArrayList<String> users=commonService.getAllUsers(uId);
