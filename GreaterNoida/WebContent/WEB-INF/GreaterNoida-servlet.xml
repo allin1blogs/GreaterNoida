@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-4.0.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+						http://www.springframework.org/schema/mvc
+						http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	
+	<context:property-placeholder location="classpath:resources/database.properties" ignore-unresolvable="true"/>
+	<context:component-scan base-package="com.ak.*"/>
+	
+	<bean id="properties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="location" value="classpath:resources/application.properties"/>
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="hibernateTransactionManager"/>
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="requestContextAttribute" value="requestContext"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+   	</bean>
+   	
+   	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+   	
+   	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+	    <property name="definitions">
+	        <list>
+	            <value>/WEB-INF/views/tiles/tiles.xml</value>
+	        </list>
+	    </property>
+	</bean>
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${database.driver}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.user}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.ak.modals.Users</value>
+				<value>com.ak.modals.Departments</value>
+				<value>com.ak.modals.UserDepartments</value>
+				<value>com.ak.modals.General</value>
+				<value>com.ak.modals.Finance</value>
+				<value>com.ak.modals.Project</value>
+				<value>com.ak.modals.Planning</value>
+				<value>com.ak.modals.EM</value>
+				<value>com.ak.modals.EM3</value>
+				<value>com.ak.modals.Law</value>
+				<value>com.ak.modals.Agenda</value>
+				<value>com.ak.modals.Logs</value>
+				
+				
+				<value>com.ak.modals.HR</value>
+				<value>com.ak.modals.UE</value>
+				<value>com.ak.modals.EM2</value>				
+				<value>com.ak.modals.Systems</value>
+				<value>com.ak.modals.Marketing</value>
+				<value>com.ak.modals.ProjectTech</value>
+				<value>com.ak.modals.Planning2</value>
+				
+				
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>	
+				<prop key="hibernate.connection.autocommit">${hibernate.connection.autocommit}</prop>		
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:resources location="/staticResources/" mapping="/staticResources/**"></mvc:resources>
+	<mvc:resources location="/WEB-INF/views/" mapping="/WEB-INF/views/*"></mvc:resources>
+	
+</beans>

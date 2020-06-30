@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="base.definition" template="/WEB-INF/views/tiles/mainTemplate.jsp">
+        <put-attribute name="title" value=""></put-attribute>
+        <put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"></put-attribute>
+        <put-attribute name="menu" value="/WEB-INF/views/tiles/menu.jsp"></put-attribute>
+        <put-attribute name="body" value=""></put-attribute>
+        <put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="main.definition" template="/WEB-INF/views/tiles/basicTiles/basicTemplate.jsp">
+        <put-attribute name="title" value=""></put-attribute>
+        <put-attribute name="body" value=""></put-attribute>
+    </definition>
+    
+    <definition name="error" extends="main.definition">
+        <put-attribute name="title" value="Error"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/error.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="index" extends="main.definition">
+        <put-attribute name="title" value="DocRetSys"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/index.jsp"></put-attribute>
+    </definition>
+ 	<!-- ====================================================================== -->
+    <definition name="users/users" extends="base.definition">
+        <put-attribute name="title" value="Manage Users"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/users/users.jsp"></put-attribute>
+    </definition>
+    <!-- ======================================================================== -->
+    <definition name="users/userDetailsForUserModule" extends="base.definition">
+        <put-attribute name="title" value="User Details"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/users/userDetailsForUserModule.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="users/userDetails" extends="base.definition">
+        <put-attribute name="title" value="User Details"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/users/userDetails.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="users/ceoDetails" extends="base.definition">
+        <put-attribute name="title" value="CEO Details"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/users/ceoDetails.jsp"></put-attribute>
+    </definition>
+    
+     <definition name="home" extends="base.definition">
+        <put-attribute name="title" value="Document Retrieval System"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/home.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/uploadBulk" extends="base.definition">
+        <put-attribute name="title" value="Bulk Upload"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/bulkUpload.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/print" extends="base.definition">
+        <put-attribute name="title" value="Print"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/print.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/General/upload" extends="base.definition">
+        <put-attribute name="title" value="Manual Upload"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/General/upload.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/General/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/General/retrieve.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/General/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/General/update.jsp"></put-attribute>
+    </definition>
+    
+     <definition name="departments/Marketing/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Marketing/retrieve.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Marketing/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Marketing/update.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Finance/upload" extends="base.definition">
+        <put-attribute name="title" value="Manual Upload"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Finance/upload.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Finance/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Finance/retrieve.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Finance/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Finance/update.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Project/upload" extends="base.definition">
+        <put-attribute name="title" value="Manual Upload"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Project/upload.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Project/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Project/retrieve.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Project/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Project/update.jsp"></put-attribute>
+    </definition>
+   
+    
+    <definition name="departments/Planning/upload" extends="base.definition">
+        <put-attribute name="title" value="Manual Upload"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/records/Establishment/upload.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Planning/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Planning/retrieve.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Planning/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Planning/update.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/EM/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/EM/retrieve.jsp"></put-attribute>
+    </definition>
+    
+     <definition name="departments/EM2/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search EM2 Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/EM2/retrieve.jsp"></put-attribute>
+    </definition>
+   <definition name="departments/EM2/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/EM2/update.jsp"></put-attribute>
+    </definition>
+    <definition name="departments/EM3/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search EM2 Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/EM3/retrieve.jsp"></put-attribute>
+    </definition>
+   <definition name="departments/EM3/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/EM3/update.jsp"></put-attribute>
+    </definition>
+ 
+      
+     
+      <definition name="departments/UE/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search UE Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/UE/retrieve.jsp"></put-attribute>
+    </definition>
+    
+    
+    
+    
+     <definition name="departments/HR/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search HR Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/HR/retrieve.jsp"></put-attribute>
+    </definition>
+      
+     <definition name="departments/Systems/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search System Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Systems/retrieve.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/ProjectTech/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Retrieve Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/ProjectTech/retrieve.jsp"></put-attribute>
+    </definition>
+    
+      <definition name="departments/Planning2/retrieve" extends="base.definition">
+        <put-attribute name="title" value=" Search Planning2 Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Planning2/retrieve.jsp"></put-attribute>
+    </definition>
+    
+        
+ 
+    <definition name="departments/Law/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Law/retrieve.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Law/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Law/update.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/constr" extends="base.definition">
+        <put-attribute name="title" value="Null Department"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/constr.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="agenda/agenda" extends="base.definition">
+        <put-attribute name="title" value="Agenda"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/agenda/agenda.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="tracking/logs" extends="base.definition">
+        <put-attribute name="title" value="Logs"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/tracking/logs.jsp"></put-attribute>
+    </definition>
+    
+</tiles-definitions>
