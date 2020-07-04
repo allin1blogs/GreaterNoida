@@ -12,7 +12,7 @@
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.min.js'/>"></script>
 
-<div id="ftsNo" style="display:block">${param.fts_No_Opa_No}</div>
+<div id="ftsNo" style="display:none">${param.fts_No_Opa_No}</div>
 <script type="text/javascript">
 	var request,fileId,count,currentCount;
 	$(document).ready(function() 

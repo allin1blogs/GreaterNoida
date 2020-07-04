@@ -60,6 +60,9 @@ public class Keys
 	
 	@Value("#{'${MarketingHeader}'.split(',')}")
 	private String[] MarketingHeader;
+	
+	@Value("#{'${LandHeader}'.split(',')}")
+	private String[] LandHeader;
 	/*----------------------------------------*/
 	
 	
@@ -212,6 +215,12 @@ public class Keys
 	}
 	public void setMarketingHeader(String[] marketingHeader) {
 		MarketingHeader = marketingHeader;
+	}
+	public String[] getLandHeader() {
+		return LandHeader;
+	}
+	public void setLandHeader(String[] landHeader) {
+		LandHeader = landHeader;
 	}
 	
 	

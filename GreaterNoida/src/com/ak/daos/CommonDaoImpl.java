@@ -52,12 +52,21 @@ public class CommonDaoImpl implements CommonDao
 		for(String a:sectors) {
 			System.out.println(a+" ");
 		}
-		
+		// for finance sub-department
+		if(department.equals("Finance")) {
+			ArrayList<String> subdepartment=new ArrayList<String>();
+			List list=sessionFactory.getCurrentSession().createSQLQuery("Select subdepartment from FinSubDepartment where department='"+department+"'").list();
+			for(Iterator it=list.iterator();it.hasNext();)
+				subdepartment.add((String)it.next());
+			return subdepartment;
+		}
+		else {
 		System.out.println("CommanDaoImp");
 		List list=sessionFactory.getCurrentSession().createSQLQuery("Select distinct sector from Departments where department='"+department+"'").list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			sectors.add((String)it.next());
 		return sectors;
+		}
 	}
 	
 	@Override

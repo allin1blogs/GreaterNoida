@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ak.daos.HRDao;
 import com.ak.modals.HR;
+import com.ak.modals.Marketing;
 
 
 @Service("HRService")
@@ -22,6 +23,12 @@ public class HRServiceImp implements HRService
 	@Override
 	public HR retrieveHRRecords(int snos) {
 		return hrd.retrieveHRRecords(snos);
+	}
+	
+	@Override
+	public HR getHRRecord(int sno)
+	{
+		return hrd.getHRRecord(sno);
 	}
 
 	@Override

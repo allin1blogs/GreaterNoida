@@ -1,4 +1,8 @@
-
+<%-- 
+    Document   : Create Records
+    Created on : 22 June, 2020, 01:00:32 PM
+    Author     : Preeti Rani
+--%>
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="SystemForm"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,7 +11,7 @@
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/retrieval.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.min.js'/>"></script>
-
+<div id="ftsNo" style="display:none">${param.file_No}</div>
 <script type="text/javascript">
 	var request,fileId,count,currentCount;
 	$(document).ready(function() 
@@ -53,7 +57,8 @@
 			else if(window.ActiveXObject)  
 				request=new ActiveXObject("Microsoft.XMLHTTP");
 			document.getElementById('id01').style.display='block';
-			document.getElementById('div').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Page Loading...</p>';
+			document.getElementById('noteDiv').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Opening Notesheet...</p>';
+			document.getElementById('corrDiv').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Opening Correspondence...</p>';
 			try
 			{
 				request.onreadystatechange=setFile;
@@ -69,39 +74,88 @@
 		if(request.readyState==4)
 		{
 			var data=request.responseText.split('<@>');
-			fileId=data[0];count=data[1];
-			setPageList();
+			fileId=data[0];noteCount=data[1];corrCount=data[2];
+			var notePage=document.getElementById('notePage');
+			var corrPage=document.getElementById('corrPage');
+			for(var i=0;i<noteCount;i++)
+			{
+				if(i==0)
+					notePage.innerHTML='<option value="Select">Select</option>';
+				else
+					notePage.innerHTML=notePage.innerHTML+'<option value="'+i+'">'+i+'</option>'
+			}
+			for(var i=0;i<corrCount;i++)
+			{
+				if(i==0)
+					corrPage.innerHTML='<option value="Select">Select</option>';
+				else
+					corrPage.innerHTML=corrPage.innerHTML+'<option value="'+i+'">'+i+'</option>'
+			}
 			var pages='<p style="text-align: center; font-family: cambria; font-size: 14px; color: #ffffff;">Go To Page:</p><select style="width: 50px; height: 15px;" name="notePage"><option value="Select">Select</option></select>';
-			currentCount=1;
-			getPage(1);
+			currentNote=1;currentCorr=1;
+			getPage('noteDiv',1);getPage('corrDiv',1);
 		}
 	}
-	function nexPre(opr)
+	function nexPre(type,opr)
 	{
-		if(opr=='pre' && currentCount!=1)
-			currentCount=currentCount-1;
-		if(opr=='nex' && currentCount<(count-1))
-			currentCount=currentCount+1;
-		getPage(currentCount);
+		if(type=='noteDiv')
+		{
+			if(opr=='pre' && currentNote!=1)
+				currentNote=currentNote-1;
+			if(opr=='nex' && currentNote<(noteCount-1))
+				currentNote=currentNote+1;
+			getPage(type,currentNote);
+		}
+		else
+		{
+			if(opr=='pre' && currentCorr!=1)
+				currentCorr=currentCorr-1;
+			if(opr=='nex' && currentCorr<(corrCount-1))
+				currentCorr=currentCorr+1;
+			getPage(type,currentCorr);
+		}
 		setPageList();
 	}
-	function getPage(page)
+	function getPage(type,page)
 	{
-		var div=document.getElementById('div');
+		var div=document.getElementById(type);
 		if(page=='self')
-			page=parseInt(document.getElementById('page').value);
-		currentCount=page;
-		div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'@'+page+'.pdf#toolbar=0"></object>';
-	}
+		{
+			page=parseInt(document.getElementById(type).value);
+			if(type=='notePage')
+				div=document.getElementById('noteDiv');
+			else
+				div=document.getElementById('corrDiv');
+		}
+		var ftsNumber =document.getElementById('ftsNo').innerHTML;
+		if(type=='noteDiv' || type=='notePage')
+		{
+			currentNote=page;
+			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+ftsNumber+'L@'+page+'L.pdf#toolbar=0"></object>';
+		}
+		else
+		{
+			currentCorr=page;
+			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+ftsNumber+'R@'+page+'R.pdf#toolbar=0"></object>';
+		}
+		}
 	function setPageList()
 	{
-		var page=document.getElementById('page');
-		for(var i=0;i<count;i++)
+		var notePage=document.getElementById('notePage');
+		var corrPage=document.getElementById('corrPage');
+		for(var i=0;i<noteCount;i++)
 		{
 			if(i==0)
-				page.innerHTML='<option value="Select">Select</option>';
+				notePage.innerHTML='<option value="Select">Select</option>';
 			else
-				page.innerHTML=page.innerHTML+'<option value="'+i+'">'+i+'</option>'
+				notePage.innerHTML=notePage.innerHTML+'<option value="'+i+'">'+i+'</option>'
+		}
+		for(var i=0;i<corrCount;i++)
+		{
+			if(i==0)
+				corrPage.innerHTML='<option value="Select">Select</option>';
+			else
+				corrPage.innerHTML=corrPage.innerHTML+'<option value="'+i+'">'+i+'</option>'
 		}
 	}
 	function downloadFile(pos,sno,right)
@@ -153,15 +207,28 @@
 	function singlePrint()
 	{
 		var contentDiv=document.getElementById('singlePrintDiv');
-		contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'@print.pdf"></iframe>';
-		document.getElementById('singlePdf').contentWindow.print();
-	}
-	function firLas(page)
-	{
-		if(page=='fir')
-			getPage(1);
+		if(type=='note')
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fts_No_Opa_No+'L@'+currentNote+'L@print.pdf"></iframe>';
 		else
-			getPage(count-1);
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fts_No_Opa_No+'R@'+currentCorr+'R@print.pdf"></iframe>';
+		document.getElementById('singlePdf').contentWindow.print();
+		}
+	function firLas(type,page)
+	{
+		if(type=='noteDiv')
+		{
+			if(page=='fir')
+				getPage(type,1);
+			else
+				getPage(type,noteCount-1);
+		}
+		else
+		{
+			if(page=='fir')
+				getPage(type,1);
+			else
+				getPage(type,corrCount-1);
+		}
 	}
 	function setContent(content)
 	{
@@ -176,16 +243,26 @@
 		<tr>
 			<td>
 				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
-				<button style="margin-left: 33%;" class="btn btn-primary" id="preButNote" onclick="firLas('fir');">First</button>
-				<button class="btn btn-primary" onclick="nexPre('pre');">Previous</button>
-				<select style="width: 70px; height: 25px;" id="page" onchange="getPage('self');"></select>
-				<button class="btn btn-primary" onclick="nexPre('nex');">Next</button>
-				<button class="btn btn-primary" id="preButNote" onclick="firLas('las');">Last</button>
-				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 35%;" onclick="singlePrint();">Print It</button></c:if>
+				<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','fir');">First</button>
+				<button class="btn btn-primary" id="preButNote" onclick="nexPre('noteDiv','pre');">Previous</button>
+				<select style="width: 70px; height: 25px;" id="notePage" onchange="getPage('notePage','self');"></select>
+				<button class="btn btn-primary" id="nexButNote" onclick="nexPre('noteDiv','nex');">Next</button>
+				<button class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','las');">Last</button>
+				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('L');">Print It</button></c:if>
+			</td>
+			<td>
+				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
+				<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','fir');">First</button>
+				<button class="btn btn-primary" id="preButCorr" onclick="nexPre('corrDiv','pre')">Previous</button>
+				<select style="width: 70px; height: 25px;" id="corrPage" onchange="getPage('corrPage','self');"></select>
+				<button class="btn btn-primary" onclick="nexPre('corrDiv','nex')" id="nexButCorr">Next</button>
+				<button class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','las');">Last</button>
+				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('R');">Print It</button></c:if>
 			</td>
 		</tr>
 	</table>
-    <div id="div" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:100%; height:90%;"></div>
+    <div id="noteDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height:90%;"></div>
+    <div id="corrDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height: 90%;"></div>
 </div>
 
 <div id="printModel" class="base-modal" style="display: none; z-index:99999;">

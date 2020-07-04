@@ -30,6 +30,7 @@ public interface EMLawDao
 	public ArrayList<EM3> retrieveEM3Records(ArrayList<String> params);
 	
 	public EM2 retrieveEM2Records(int snos);//1
+	public EM3 retrieveEM3Records(int snos);//1
 	public ArrayList<EM2> retrieveEM2Records(String[] snos);//2	
 	
 	

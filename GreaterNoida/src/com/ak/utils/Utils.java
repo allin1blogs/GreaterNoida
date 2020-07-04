@@ -13,6 +13,7 @@ import com.ak.modals.EM3;
 import com.ak.modals.Finance;
 import com.ak.modals.General;
 import com.ak.modals.HR;
+import com.ak.modals.Land;
 import com.ak.modals.Law;
 import com.ak.modals.Marketing;
 import com.ak.modals.Planning;
@@ -33,6 +34,8 @@ import java.util.Calendar;
 /*
  *	@Author
  *	Swapril Tyagi 
+ *Updated By:Preeti Rani
+ *  Started 20-Jun-2020 to till
 */
 
 @Component("utils")
@@ -123,10 +126,12 @@ public class Utils
 		else if(department.equals("Project") || department.equals("Sewage") || department.equals("Water"))
 			return keys.getProjectHeader();
 		
-		else if(department.equals("EM") || department.equals("EM3"))
+		else if(department.equals("EM") || department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
 			return keys.getEmHeader();
 		else if(department.equals("Law"))
 			return keys.getLawHeader();
+		else if(department.equals("Land"))
+			return keys.getLandHeader();
 		else if(department.equals("Planning(Residential)"))
 			return keys.getPlnResHeader();
 		else if(department.equals("Planning(Industry)"))
@@ -210,6 +215,8 @@ public class Utils
 			params.add(finance.getStatement()+"@statement");
 		if(finance.getRegisterName().trim().length()>0)
 			params.add(finance.getRegisterName()+"@registerName");
+		if(finance.getSubdepartment().trim().length()>0)
+			params.add(finance.getSubdepartment()+"@subdepartment");
 		return params;
 	}
 	
@@ -433,6 +440,37 @@ public class Utils
 		
 		if(mk.getFts_No_Opa_No()!=null && mk.getFts_No_Opa_No().trim().length()>0)
 			params.add(mk.getFts_No_Opa_No()+"@fts_No_Opa_No");
+		
+		
+		return params;
+	}
+	
+	public ArrayList<String> generateLandParams(Land mk)
+	{
+		ArrayList<String> params=new ArrayList<String>();
+		if(mk.getFileNo()!=null && mk.getFileNo().trim().length()>0)
+			params.add(mk.getFileNo()+"@fileNo");
+		
+		if(mk.getFilesub()!=null && mk.getFilesub().trim().length()>0)
+			params.add(mk.getFilesub()+"@fileSub");
+		
+		if(mk.getOpaFts()!=null && mk.getOpaFts().trim().length()>0)
+			params.add(mk.getOpaFts()+"@opaFts");
+		
+		if(mk.getDepartment()!=null && mk.getDepartment().trim().length()>0)
+			params.add(mk.getDepartment()+"@department");
+		
+		if(mk.getServey_letter()!=null && mk.getServey_letter().trim().length()>0)
+			params.add(mk.getServey_letter()+"@servey_letter");
+		
+		if(mk.getNotifection()!=null && mk.getNotifection().trim().length()>0)
+			params.add(mk.getNotifection()+"@notifection");
+		
+		if(mk.getTotal_pages()!=null && mk.getTotal_pages().trim().length()>0)
+			params.add(mk.getTotal_pages()+"@total_pages");
+		
+		if(mk.getNo_of_notsheet()!=null && mk.getNo_of_notsheet().trim().length()>0)
+			params.add(mk.getNo_of_notsheet()+"@no_of_notsheet");
 		
 		
 		return params;

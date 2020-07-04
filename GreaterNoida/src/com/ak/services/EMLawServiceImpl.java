@@ -31,7 +31,7 @@ public class EMLawServiceImpl implements EMLawService
 	{
 		emlDao.insertOrUpdateEMRecord(em);		
 	}
-
+	
 	@Override
 	public void insertOrUpdateEM2Record(EM2 em2)
 	{
@@ -193,6 +193,12 @@ public class EMLawServiceImpl implements EMLawService
 		public EM2 retrieveEM2Records(int snos) {
 			return emlDao.retrieveEM2Records(snos);
 		}
+		
+		@Override
+		public EM3 retrieveEM3Records(int snos) {
+			return emlDao.retrieveEM3Records(snos);
+		}
+
 
 		@Override
 		public ArrayList<EM2> retrieveEM2Records(String[] snos) {

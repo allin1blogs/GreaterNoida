@@ -1,6 +1,10 @@
+<%-- 
+    Document   : Create Records
+    Created on : 22 June, 2020, 01:00:32 PM
+    Author     : Preeti Rani
+--%>
 
-
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="HrForm"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="LandForm"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <link rel="stylesheet" href="<c:url value='staticResources/styleSheets/tableManager.css'/>"/>
@@ -8,8 +12,9 @@
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.min.js'/>"></script>
 
+<div id="ftsNo" style="display:block"></div>
 <script type="text/javascript">
-	var request,fileId,corrCount,noteCount,currentNote,currentCorr;
+	var request,fileId,count,currentCount;
 	$(document).ready(function() 
 	{
     	$('#fileTable').DataTable({
@@ -25,30 +30,29 @@
 	});
 	function retrieveFiles()
 	{
-		var line_No=document.getElementById('line_No').value;
 		var fileNo=document.getElementById('fileNo').value;
-		var fileCode=document.getElementById('fileCode').value;
-		var file_Subject=document.getElementById('file_Subject').value;
-		
+		var filesub=document.getElementById('filesub').value;
+		var accountNo=document.getElementById('accountNo').value;
+		var Department=document.getElementById('department').value;
 		var opaFts=document.getElementById('opaFts').value;
-		var no_Of_Noteeing=document.getElementById('no_Of_Noteeing').value;
-		var total_No_Of_Pages=document.getElementById('total_No_Of_Pages').value;	
-		
-				
-		if(line_No=='' && fileNo=='' && fileCode=='' && file_Subject=='' && opaFts=='' && no_Of_Noteeing=='' && total_No_Of_Pages=='')
-			setContent('Empty Parameters!');
+		var servey_letter=document.getElementById('servey_letter').value;
+		//var No_Of_NoteSheet=document.getElementById('no_Of_NoteSheet').value;
+		if(fileNo=='' && filesub=='' &&  accountNo=='' &&  department=='' && opaFts=='' && servey_letter=='' 
+		//	 && No_Of_NoteSheet==''
+				 )
+			setContent('Sorry Empty Parameters!');
 		else
-			document.getElementById('HRForm').submit();
+			document.getElementById('LandForm').submit();
 	}
 	function deleteFile()
 	{
-		window.location="delView?department=HR";
+		window.location="delView?department=Land";
 	}
-	function viewFile(fileCode,sno,right,contractorName)
+	function viewFile(pos,sno,right,name)
 	{
 		if(right==1)
 		{
-			var url="viewFile?id="+fileCode+"&sno="+sno+"&department=HR&prFlage=null&name="+contractorName;
+			var url="viewFile?id="+pos+"&sno="+sno+"&department=Land&prFlage=null&name="+name;
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
 			else if(window.ActiveXObject)  
@@ -61,6 +65,8 @@
 				request.onreadystatechange=setFile;
 				request.open("GET",url,true);  
 				request.send();
+				//if(request.)
+				document.getElementById('ftsNo').innerHTML = pos;
 			}
 			catch(e)
 			{}
@@ -72,7 +78,22 @@
 		{
 			var data=request.responseText.split('<@>');
 			fileId=data[0];noteCount=data[1];corrCount=data[2];
-			setPageList();
+			var notePage=document.getElementById('notePage');
+			var corrPage=document.getElementById('corrPage');
+			for(var i=0;i<noteCount;i++)
+			{
+				if(i==0)
+					notePage.innerHTML='<option value="Select">Select</option>';
+				else
+					notePage.innerHTML=notePage.innerHTML+'<option value="'+i+'">'+i+'</option>'
+			}
+			for(var i=0;i<corrCount;i++)
+			{
+				if(i==0)
+					corrPage.innerHTML='<option value="Select">Select</option>';
+				else
+					corrPage.innerHTML=corrPage.innerHTML+'<option value="'+i+'">'+i+'</option>'
+			}
 			var pages='<p style="text-align: center; font-family: cambria; font-size: 14px; color: #ffffff;">Go To Page:</p><select style="width: 50px; height: 15px;" name="notePage"><option value="Select">Select</option></select>';
 			currentNote=1;currentCorr=1;
 			getPage('noteDiv',1);getPage('corrDiv',1);
@@ -109,17 +130,18 @@
 			else
 				div=document.getElementById('corrDiv');
 		}
+		var ftsNumber =document.getElementById('ftsNo').innerHTML;
 		if(type=='noteDiv' || type=='notePage')
 		{
 			currentNote=page;
-			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'L@'+page+'L.pdf#toolbar=0"></object>';
+			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+ftsNumber+'L@'+page+'L.pdf#toolbar=0"></object>';
 		}
 		else
 		{
 			currentCorr=page;
-			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'R@'+page+'R.pdf#toolbar=0"></object>';
+			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+ftsNumber+'R@'+page+'R.pdf#toolbar=0"></object>';
 		}
-	}
+		}
 	function setPageList()
 	{
 		var notePage=document.getElementById('notePage');
@@ -139,26 +161,26 @@
 				corrPage.innerHTML=corrPage.innerHTML+'<option value="'+i+'">'+i+'</option>'
 		}
 	}
-	function downloadFile(fileCode,sno,right)
+	function downloadFile(pos,sno,right)
 	{
 		if(right==1)
-			window.location="downloadFile?id="+fileCode+"&sno="+sno+"&department=HR";
+			window.location="downloadFile?id="+pos+"&sno="+sno+"&department=Land";
 	}
 	function updateFile(sno,right)
 	{
 		if(right==1)
-			window.location="updateFile?sno="+sno+"&department=HR";
+			window.location="updateFile?sno="+sno+"&department=Land";
 	}
 	function report(sno,right,flage)
 	{
 		if(right==1)
 			document.getElementById('reportForm').submit();
 	}
-	function printOut(opaFts,sno,right,contractorName)
+	function printOut(pos,sno,right,bankName)
 	{
 		if(right==1)
 		{
-			var url="viewFile?id="+opaFts+"&sno="+sno+"&department=HR&prFlage=print&name="+contractorName;
+			var url="viewFile?id="+pos+"&sno="+sno+"&department=Land&prFlage=print&name="+bankName;
 			setContent('Processing...');
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
@@ -185,15 +207,15 @@
 			ifr.contentWindow.print();
 		}
 	}
-	function singlePrint(type)
+	function singlePrint()
 	{
 		var contentDiv=document.getElementById('singlePrintDiv');
 		if(type=='note')
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'L@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+opaFts+'L@'+currentNote+'L@print.pdf"></iframe>';
 		else
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'R@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+opaFts+'R@'+currentCorr+'R@print.pdf"></iframe>';
 		document.getElementById('singlePdf').contentWindow.print();
-	}
+		}
 	function firLas(type,page)
 	{
 		if(type=='noteDiv')
@@ -222,23 +244,24 @@
     <a href="" style="font-size: 26px;"><span onclick="deleteFile();" style="float: right; color: red;"><b>&times;</b></span></a>
 	<table style="width: 100%;">
 		<tr>
+			
 			<td>
 				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
 				<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','fir');">First</button>
-				<button class="btn btn-primary" onclick="nexPre('noteDiv','pre');">Previous</button>
+				<button class="btn btn-primary" id="preButNote" onclick="nexPre('noteDiv','pre');">Previous</button>
 				<select style="width: 70px; height: 25px;" id="notePage" onchange="getPage('notePage','self');"></select>
-				<button class="btn btn-primary" onclick="nexPre('noteDiv','nex');">Next</button>
+				<button class="btn btn-primary" id="nexButNote" onclick="nexPre('noteDiv','nex');">Next</button>
 				<button class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','las');">Last</button>
-				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 25%;" onclick="singlePrint('note');">Print It</button></c:if>
+				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('L');">Print It</button></c:if>
 			</td>
 			<td>
 				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
 				<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','fir');">First</button>
-				<button class="btn btn-primary" onclick="nexPre('corrDiv','pre')">Previous</button>
+				<button class="btn btn-primary" id="preButCorr" onclick="nexPre('corrDiv','pre')">Previous</button>
 				<select style="width: 70px; height: 25px;" id="corrPage" onchange="getPage('corrPage','self');"></select>
-				<button class="btn btn-primary" onclick="nexPre('corrDiv','nex')">Next</button>
+				<button class="btn btn-primary" onclick="nexPre('corrDiv','nex')" id="nexButCorr">Next</button>
 				<button class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','las');">Last</button>
-				<button class="btn btn-primary" style="margin-left: 25%;" onclick="singlePrint('corr');">Print It</button>
+				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('R');">Print It</button></c:if>
 			</td>
 		</tr>
 	</table>
@@ -247,7 +270,8 @@
 </div>
 
 <div id="printModel" class="base-modal" style="display: none; z-index:99999;">
-    <a href="#" style="text-decoration: none; color: red; font-family: cambria; font-size: 20px;"><span onclick="deleteFile();" class="base-closebtn base-hover-red base-display-topright">X</span></a>
+    <a href="#" style="text-decoration: none; color: red; font-family: cambria; font-size: 20px;"><span onclick="deleteFile();" class="base-closebtn base-hover-red base-display-topright">Close
+    </span></a>
     <div id="printDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height:99%;"></div>
 </div>
 
@@ -271,99 +295,98 @@
   		<div class="modal-content">
     		<div class="modal-header" style="background-color: #387403;">
       			<span class="close" onclick="document.getElementById('modal').style.display='none'" style="color: #FFFFFF;">&times;</span>
-      			<p style="text-align: center; color: #FFFFFF;" class="h3" id="contentPara">${msg}</p>
+      			<p style="text-align: center; color: #ffffff;" class="h3" id="contentPara">${msg}</p>
     		</div>
   		</div>
 	</div>
 </c:if>
 
-<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">HR</p>
+<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Land</p>
 <div style="margin-bottom: 0px; padding-bottom: 0px; margin-left: 1%;">
-    <HrForm:form action="retrieveHR" id="HRForm" method="get" modelAttribute="HRForm">
+    <LandForm:form action="retrieveLand" id="LandForm" method="get" modelAttribute="LandForm">
         <table style="border-spacing: 20px; border-top:0px; border-collapse: separate;">
             <tr>
             	<td>
-                	<label style="font-family: cambria;" for="Department"><h4><b>Line No:</b></h4></label><br>
-                	<HrForm:input style="width: 230px; height: 35px;" id="line_No" path="line_No" list="departmentHelp" onkeyup="getHelp('department');"/>
-                	<datalist id="departmentHelp"></datalist>
+                	<label style="font-family: cambria;" for="Court Name"><h4><b>File No:</b></h4></label><br>
+                	<LandForm:input style="width: 230px; height: 35px;" path="fileNo" id="fileNo" list="courtNameHelp" onkeyup="getHelp('fileNo');"/>
+                	<datalist id="courtNameHelp"></datalist>
                 </td>
             	<td>
-            		<label style="font-family: cambria;" for="Contractor Name"><h4><b>FileNo:</b></h4></label><br>
-            		<HrForm:input style="width: 230px; height: 35px;" id="fileNo" path="fileNo" list="contractorNameHelp" onkeyup="getHelp('contractorName');"/>
-            		<datalist id="contractorNameHelp"></datalist>
+            		<label style="font-family: cambria;" for="PetitionNo"><h4><b>File Sub:</b></h4></label><br>
+            		<LandForm:input style="width: 230px; height: 35px;" id="filesub" path="filesub" list="petitionNoHelp" onkeyup="getHelp('petitionNo');"/>
+            		<datalist id="petitionNoHelp"></datalist>
             	</td>
                 <td>
-                	<label style="font-family: cambria;" for="Work Name"><h4><b>FileCode:</b></h4></label><br>
-                	<HrForm:input style="width: 230px; height: 35px;" id="fileCode" path="fileCode" list="workHelp" onkeyup="getHelp('workName');"/>
-                	<datalist id="workNameHelp"></datalist>
+                	<label style="font-family: cambria;" for="Party Name"><h4><b>Account No:</b></h4></label><br>
+                	<LandForm:input style="width: 230px; height: 35px;" id="accountNo" path="accountNo" list="partyNameHelp" onkeyup="getHelp('partyName');"/>
+                	<datalist id="partyNameHelp"></datalist>
                 </td>
+               <td>
+            		<label style="font-family: cambria;" for="Year"><h4><b>Survey Letter:</b></h4></label><br>
+            		<LandForm:input style="width: 230px; height: 35px;" id="servey_letter" path="servey_letter" list="yearHelp" onkeyup="getHelp('year');"/>
+            		<datalist id="yearHelp"></datalist>
+            	</td>
                 <td>
-                	<label style="font-family: cambria;" for="OPA/FTS"><h4><b>File_Subject.:</b></h4></label><br>
-                	<HrForm:input style="width: 230px; height: 35px;" path="file_Subject" id="file_Subject" list="opaFtsHelp" onkeyup="getHelp('opaFts');"/>
-                	<datalist id="opaFtsHelp"></datalist>
+                	<label style="font-family: cambria;" for="Respondent's Advocate"><h4><b>FTS_NO/OPA_NO:</b></h4></label><br>
+                	<LandForm:input style="width: 230px; height: 35px;" path="opaFts" id="opaFts" list="respondentAdvocateHelp" onkeyup="getHelp('respondentAdvocate');"/>
+                	<datalist id="respondentAdvocateHelp"></datalist>
                 </td>
-                <td>
-                	<label style="font-family: cambria;" for="Category"><h4><b>OPA/FTS:</b></h4></label><br>
-                	<HrForm:input style="width: 230px; height: 35px;" path="opaFts" id="opaFts" list="categoryHelp" onkeyup="getHelp('category');"/>
-                	<datalist id="categoryHelp"></datalist>
-                </td>
-              
-   
             </tr>
             <tr>
-                       
-				 <td>
-                	<label style="font-family: cambria;" for="Category"><h4><b>No_Of_Noteeing:</b></h4></label><br>
-                	<HrForm:input style="width: 230px; height: 35px;" path="no_Of_Noteeing" id="no_Of_Noteeing" list="categoryHelp" onkeyup="getHelp('category');"/>
-                	<datalist id="categoryHelp"></datalist>
-                </td>
-                <td>
-                	<label style="font-family: cambria;" for="Year"><h4><b>Total_No_Of_Pages:</b></h4></label><br>
-                	<HrForm:input style="width: 230px; height: 35px;" path="total_No_Of_Pages" id="total_No_Of_Pages" list="yearHelp" onkeyup="getHelp('year');"/>
-                	<datalist id="yearHelp"></datalist>
-                </td>
-                </tr>
-                <tr>
-				<td><br><br><input class="btn btn-primary" style="background-color: #1B3AD1; color: #ffffff; font-size: 14px;" type="button" value="Retrieve Files" onclick="retrieveFiles();"></td>
-			</tr>
+            	
+            	 <td>
+            		<label style="font-family: cambria;" for="Department"><h4><b>Department:</b></h4></label><br>
+            		<LandForm:input style="width: 230px; height: 35px;" id="department" path="department" list="relatedDepartmentHelp" onkeyup="getHelp('relatedDepartment');"/>
+            		<datalist id="relatedDepartmentHelp"></datalist>
+            	</td>  
+            	 </tr>
+            	<tr>
+            	<td><br><br><input class="btn btn-primary" style="background-color: #1B3AD1; color: #ffffff; font-size: 14px;" type="button" value="Retrieve Files" onclick="retrieveFiles();"></td>
+            </tr>
         </table>
-    </HrForm:form>
+    </LandForm:form>
 </div><br>
 <c:if test="${not empty records}">
 	<form action="generateReport" id="reportForm" method="post">
-		<input type="hidden" name="department" value="HR">
+		<input type="hidden" name="department" value="Land">
 		<table id="fileTable" class="table display" style="margin-left: 1%; width: 99%;">
 			<thead>
 				<tr>
-					<th></th>
-					<th>FileNo</th>
-					<th>LineNo</th>
-					<th>FileCode</th>
-					<th>FileSubject</th>
-					<th>OPA/FTS No.</th>
-					<th>NoOfNoteeing</th>
-					<th>TotalNoOfPages</th>
-					
-					
-					<th>Action</th>
-					
+				    <th></th>
+				    <th>SNo.</th>
+				     
+					<th>Account No</th>
+					<th>File No</th>
+					<th>File Sub</th>	
+					<th>FTS_NO/OPA_NO</th>
+					<th>Survey Letter</th>					
+					<!-- <th>Notification</th> -->
+					<th>Date</th>		
+					<th>Action</th>		
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${records}" var="record">
 					<tr>
 						<td><input type="checkbox" name="snos" value="${record.sno}"></td>
-						<td><a href="#" onclick="updateFile('${record.sno}','${update}')" style="text-decoration: none;">${record.fileNo}</a></td>
-						<td>${record.line_No}</td>
-						<td>${record.fileCode}</td>
-						<td>${record.file_Subject}</td>
-						<td>${record.opaFts}</td>						
-						<td>${record.no_Of_Noteeing}</td>
-						<td>${record.total_No_Of_Pages}</td>
-						<td>
-							<a href="#" onclick="viewFile('${record.fileCode}','${record.sno}','${view}','${record.file_Subject}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
-							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.fileCode}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
-							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.fileCode}','${record.sno}','${print}','${record.fileNo}');" style="text-decoration: none;">Print</a></c:if>
+						<td>${record.sno}</td> 					
+						<td><a href="#" onclick="updateFile('${record.sno}','${update}')" style="text-decoration: none;">${record.accountNo}</a></td>
+						<%-- <td>${record.accountNo}</td>	 --%>
+											
+						<td>${record.fileNo}</td>
+						<td>${record.filesub}</td>						
+						<td>${record.opaFts}</td>
+						<td>${record.servey_letter}</td>						
+			           <%--  <td>${record.notifection}</td> --%>
+			            <td>${record.date}</td>
+						<%-- <td>${record.no_Of_NoteSheet}</td> --%>
+					   <%-- 	<td>${record.No_Of_Cros}</td> --%>
+						<%-- <td>${record.Total_No_Of_Pages}</td> --%>
+       <td>            
+      
+							<a href="#" onclick="viewFile('${record.opaFts}','${record.sno}','${view}','${record.opaFts}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
+							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.opaFts}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.opaFts}','${record.sno}','${print}','${record.servey_letter}');" style="text-decoration: none;">Print</a></c:if>
 						</td>
 					</tr>
 				</c:forEach>

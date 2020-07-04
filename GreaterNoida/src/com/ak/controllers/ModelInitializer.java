@@ -15,6 +15,7 @@ import com.ak.modals.EM3;
 import com.ak.modals.Finance;
 import com.ak.modals.General;
 import com.ak.modals.HR;
+import com.ak.modals.Land;
 import com.ak.modals.Law;
 import com.ak.modals.Marketing;
 import com.ak.modals.Systems;
@@ -124,6 +125,9 @@ public class ModelInitializer
 		if(department.equals("Finance"))
 			model.addAttribute("financeForm",new Finance());
 		
+		if(department.equals("Land"))
+			model.addAttribute("LandForm",new Land());
+		
 		if(department.equals("Project") || department.equals("Sewage") || department.equals("Water") ) {
 			Project project=new Project();
 			project.setDepartment(department);
@@ -138,7 +142,9 @@ public class ModelInitializer
 		if(department.equals("EM")) {
 			model.addAttribute("emForm",new EM());
 		}
-		if(department.equals("EM3")) {
+		if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban")) {
+			EM3 em3=new EM3();
+			em3.setDepartment(department);
 			model.addAttribute("em3Form",new EM3());
 		}
 		
@@ -182,10 +188,12 @@ public class ModelInitializer
 			return "EM";
 		else if(department.equals("EM2"))
 			return "EM2";
-		else if(department.equals("EM3"))
+		else if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
 			return "EM3";
 		else if(department.equals("Law"))
 			return "Law";
+		else if(department.equals("Land"))
+			return "Land";
 		else if(department.equals("Systems"))
 			return "Systems";
 		else if(department.equals("Marketing"))

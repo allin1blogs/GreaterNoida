@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.ak.modals.HR;
+import com.ak.modals.Marketing;
 
 
 
@@ -71,6 +72,16 @@ public class HRDaoImp implements HRDao{
 			for(Iterator it=session.createQuery("From HR law where law.sno="+Integer.parseInt(sno)+"").list().iterator();it.hasNext();)
 				records.add((HR)it.next());
 		return records;
+	}
+	
+	@Override
+	public HR getHRRecord(int sno) {
+		System.out.println("getHRRecord(int sno):1");
+		for (Iterator it = sessionFactory.getCurrentSession()
+				.createQuery("From HR hr where hr.sno=" + sno + "").list().iterator(); it
+						.hasNext();)
+			return (HR) it.next();
+		return null;
 	}
 
 	/*@Override

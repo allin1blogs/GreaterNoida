@@ -84,6 +84,7 @@ public class EMLController
 		if(uId==null)
 			return "error";
 		model=modelInitializer.initializeModel(model,request);
+		model.addAttribute("department",em.getDepartment());
 		ArrayList<String> params=utils.generateEM3Params(em);
 		
 		for(String p:params) {
@@ -143,7 +144,7 @@ public class EMLController
 	}
 	
 	@RequestMapping(value="/retrieveUE",method=RequestMethod.GET)
-	 public String retrieveHR(ModelMap model,HttpServletRequest req,@ModelAttribute("UEForm")UE ue)	{
+	 public String retrieveUE(ModelMap model,HttpServletRequest req,@ModelAttribute("UEForm")UE ue)	{
 			String uId=modelInitializer.getId(req);
 			if(uId==null)
 				return "error";
@@ -165,7 +166,7 @@ public class EMLController
 			return "departments/UE/retrieve";
 		}
 	
-	@RequestMapping(value="/updateEM",method=RequestMethod.GET)
+	@RequestMapping(value="/updateEM",method=RequestMethod.POST)
 	public String updateEM(HttpServletRequest request,@ModelAttribute("emForm")EM em,@RequestParam("noteSheet")MultipartFile noteSheet,@RequestParam("correspondence")MultipartFile correspondence,RedirectAttributes flashAttributes)throws IOException
 	{
 		String uId=modelInitializer.getId(request);
@@ -273,7 +274,7 @@ public class EMLController
 		return "departments/Law/retrieve";
 	}
 	@RequestMapping(value="/retrieveEM2",method=RequestMethod.GET)
-	 public String retrieveHR(ModelMap model,HttpServletRequest req,@ModelAttribute("EM2Form")EM2 em2)	{
+	 public String retrieveEM2(ModelMap model,HttpServletRequest req,@ModelAttribute("EM2Form")EM2 em2)	{
 			String uId=modelInitializer.getId(req);
 			if(uId==null)
 				return "error";

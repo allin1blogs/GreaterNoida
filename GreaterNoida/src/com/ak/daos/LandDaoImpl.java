@@ -9,17 +9,18 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ak.modals.Land;
 import com.ak.modals.Marketing;
 
-@Repository("marketingDao")
-public class MarketingDaoImpl implements MarketingDao {
+@Repository("LandDao")
+public class LandDaoImpl implements LandDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	private Session session;
 
 	@Override
-	public void insertOrUpdateMarketing(Marketing marketing) {
-		sessionFactory.getCurrentSession().saveOrUpdate(marketing);
+	public void insertOrUpdateLand(Land land) {
+		sessionFactory.getCurrentSession().saveOrUpdate(land);
 	}
 
 	@Override
@@ -58,16 +59,16 @@ public class MarketingDaoImpl implements MarketingDao {
 	}
 
 	@Override
-	public ArrayList<Marketing> retrieveMarketingRecords(ArrayList<String> params) {
-		System.out.println("Marketing Retrieve Records:1");
-		ArrayList<Marketing> records = new ArrayList<Marketing>();
-		System.out.println("Marketing Retrieve Records:2");
+	public ArrayList<Land> retrieveLandRecords(ArrayList<String> params) {
+		System.out.println("Land Retrieve Records:1");
+		ArrayList<Land> records = new ArrayList<Land>();
+		System.out.println("Land Retrieve Records:2");
 		String q = null;
 
 		if (!params.isEmpty()) {
 			for (String param : params) {
 				if (q == null)
-					q = "From Marketing m where (m." + param.substring(param.indexOf("@") + 1) + " like '"
+					q = "From Land m where (m." + param.substring(param.indexOf("@") + 1) + " like '"
 							+ param.substring(0, param.indexOf("@")) + "%' or m."
 							+ param.substring(param.indexOf("@") + 1) + " like '%"
 							+ param.substring(0, param.indexOf("@")) + "' or m."
@@ -82,10 +83,10 @@ public class MarketingDaoImpl implements MarketingDao {
 							+ param.substring(0, param.indexOf("@")) + "%')";
 			}
 		} else
-			q = "From Marketing m";
+			q = "From Land m";
 		List list = sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
 		for (Iterator it = list.iterator(); it.hasNext();)
-			records.add((Marketing) it.next());
+			records.add((Land) it.next());
 		return records;
 	}
 

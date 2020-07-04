@@ -32,6 +32,7 @@ public interface EMLawService
 	
 	public String getLocation(int sno,String department);//Location
 	
+	
 	public EM getEMRecord(int sno);
 	public EM3 getEM3Record(int sno);
 	public Law getLawRecord(int sno);
@@ -53,6 +54,7 @@ public interface EMLawService
     
     
     public EM2 retrieveEM2Records(int snos);//1
+    public EM3 retrieveEM3Records(int snos);//1
     public ArrayList<EM2> retrieveEM2Records(ArrayList<String> params);	//2
     public ArrayList<EM2> retrieveEM2Records(String[] snos);//3
     

@@ -42,13 +42,13 @@
 	}
 	function deleteFile()
 	{
-		window.location="delView?department=EM";
+		window.location="delView?department=EM3";
 	}
 	function viewFile(opa_Fts,sno,right,contractorName)
 	{
 		if(right==1)
 		{
-			var url="viewFile?id="+opa_Fts+"&sno="+sno+"&department=Law&prFlage=null&name="+contractorName;
+			var url="viewFile?id="+opa_Fts+"&sno="+sno+"&department=EM3&prFlage=null&name="+contractorName;
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
 			else if(window.ActiveXObject)  
@@ -142,7 +142,7 @@
 	function downloadFile(opa_Fts,sno,right)
 	{
 		if(right==1)
-			window.location="downloadFile?id="+opa_Fts+"&sno="+sno+"&department=EM";
+			window.location="downloadFile?id="+opa_Fts+"&sno="+sno+"&department=EM3";
 	}
 	function updateFile(sno,right)
 	{
@@ -151,6 +151,7 @@
 	}
 	function report(sno,right,flage)
 	{
+		alert("==="+sno);
 		if(right==1)
 			document.getElementById('reportForm').submit();
 	}
@@ -158,7 +159,7 @@
 	{
 		if(right==1)
 		{
-			var url="viewFile?id="+opa_Fts+"&sno="+sno+"&department=EM&prFlage=print&name="+contractorName;
+			var url="viewFile?id="+opa_Fts+"&sno="+sno+"&department=EM3&prFlage=print&name="+contractorName;
 			setContent('Processing...');
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
@@ -278,15 +279,15 @@
 </c:if>
 
 <p class="h1" style="font-family: cambria; text-align: center; color: #387403;">${department}</p>
-<div style="margin-bottom: 0px; padding-bottom: 0px; margin-left: 1%;">
+<div style="align: center;margin-bottom: 0px; padding-bottom: 0px; margin-left: 1%;">
     <em3Form:form action="retrieveEM3" id="em3Form" method="get" modelAttribute="em3Form">
-        <table style="border-spacing: 20px; border-top:0px; border-collapse: separate;">
+        <table style="align: center;border-spacing: 20px; border-top:0px; border-collapse: separate;">
             <tr>
-            	<%-- <td>
+            	<%--  <td>
                 	<label style="font-family: cambria;" for="Department"><h4><b>Department:</b></h4></label><br>
-                	<em3Form:input style="width: 230px; height: 35px;" id="department" path="department" list="departmentHelp" onkeyup="getHelp('department');"/>
+                	<em3Form:hidden style="width: 230px; height: 35px;" id="department" path="department" list="departmentHelp" onkeyup="getHelp('department');"/>
                 	<datalist id="departmentHelp"></datalist>
-                </td> --%>
+                </td>  --%>
             	<td>
             		<label style="font-family: cambria;" for="Contractor Name"><h4><b>Contractor Name:</b></h4></label><br>
             		<em3Form:input style="width: 230px; height: 35px;" id="contractorName" path="contractorName" list="contractorNameHelp" onkeyup="getHelp('contractorName');"/>
@@ -315,7 +316,9 @@
             </tr>
             <tr>
 				<td><br><br><input class="btn btn-primary" style="background-color: #1B3AD1; color: #ffffff; font-size: 14px;" type="button" value="Retrieve Files" onclick="retrieveFiles();"></td>
+			
 			</tr>
+			<tr><td><em3Form:hidden path="department"/></td></tr>
         </table>
     </em3Form:form>
 </div><br>
@@ -326,6 +329,7 @@
 			<thead>
 				<tr>
 					<th></th>
+					 <th>SNo.</th>
 					<th>OPA/FTS No.</th>
 					<th>Contractor Name</th>
 					<th>Department</th>
@@ -339,6 +343,7 @@
 				<c:forEach items="${records}" var="record">
 					<tr>
 						<td><input type="checkbox" name="snos" value="${record.sno}"></td>
+						<td>${record.sno}</td> 		
 						<td><a href="#" onclick="updateFile('${record.sno}','${update}')" style="text-decoration: none;">${record.opa_Fts}</a></td>
 						<td>${record.contractorName}</td>
 						<td>${record.department}</td>

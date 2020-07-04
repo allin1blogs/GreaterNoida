@@ -34,7 +34,8 @@
 		var branchName=document.getElementById('branchName').value;
 		var sector=document.getElementById('sector').value;
 		var registerName=document.getElementById('registerName').value;
-		if(statement=='' && bankName=='' && branchName=='' && sector=='' && registerName=='')
+		var subdepartment=document.getElementById('subdepartment').value;
+		if(statement=='' && bankName=='' && branchName=='' && sector=='' && registerName=='' && subdepartment=='')
 			setContent('Empty Parameters!');
 		else
 			document.getElementById('financeForm').submit();
@@ -248,6 +249,15 @@
                 	<label style="font-family: cambria;" for="Sector"><h4><b>Sector:</b></h4></label><br>
                 	<financeForm:input style="width: 230px; height: 35px;" path="sector" id="sector" list="sectorHelp" onkeyup="getHelp('sector');"/>
                 	<datalist id="sectorHelp"></datalist>
+                </td>
+            </tr>
+            <tr>
+             <td>
+                	<label style="font-family: cambria;" for="subdepartment"><h4><b>Sub-Department:</b></h4></label><br>
+                	<financeForm:select style="height: 35px; width: 200px;" path="subdepartment" id="subdepartment">
+                		<financeForm:option value="Select" label="Select"/>
+                  		<financeForm:options items="${sectors}"/>
+                   	</financeForm:select>
                 </td>
             </tr>
             <tr><td><input class="btn btn-primary" style="background-color: #1B3AD1; color: #ffffff; font-size: 14px;" type="button" value="Retrieve Files" onclick="retrieveFiles();"></td></tr>

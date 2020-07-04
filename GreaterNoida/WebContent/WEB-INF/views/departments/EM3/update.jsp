@@ -1,7 +1,7 @@
 <%-- 
-    Document   : Update Records
-    Created on : 03 Dec, 2017, 05:00:32 PM
-    Author     : Swapril Tyagi
+    Document   : Preeti Rani
+    Created on : 30/6/2020, 05:00:32 PM
+    Author     : Preeti Rani
 --%>
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="em3Form"%>
@@ -27,9 +27,9 @@
 	</div>
 </c:if>
 
-<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">EM</p>
+<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">${em3Form.department}</p>
 <div class="container">
-	<em3Form:form action="updateEM3" id="updateem3Form" enctype="multipart/form-data" method="post" modelAttribute="em3Form">
+	<em3Form:form action="updateEM3" id="updateem3Form" enctype="multipart/form-data" method="get" modelAttribute="em3Form">
         <table class="table">
             <tr>
             	<td>

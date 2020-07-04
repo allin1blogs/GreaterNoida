@@ -1,6 +1,7 @@
 
 package com.ak.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +12,20 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.ak.modals.HR;
+import com.ak.modals.Marketing;
+import com.ak.services.CommonService;
 import com.ak.services.HRService;
 import com.ak.utils.Utils;
+
+/*
+ *	@Author
+ *  Updated By:Preeti Rani
+ *  Started 20-Jun-2020 to till
+ *  
+*/
 
 @Controller
 public class HRController {
@@ -23,6 +35,8 @@ private ModelInitializer modelInitializer;
 private Utils utils;
 @Autowired
 private HRService hrs;
+@Autowired
+private CommonService commonService;
 
 
 @RequestMapping(value="/retrieveHR",method=RequestMethod.GET)
@@ -46,6 +60,20 @@ private HRService hrs;
 		}
 		return "departments/HR/retrieve";
 	}
+
+		@RequestMapping(value = "/updateHR", method = RequestMethod.POST)
+		public String updateHR(HttpServletRequest request, @ModelAttribute("HRForm")HR hr, RedirectAttributes flashAttributes)
+				throws IOException {
+			String uId = modelInitializer.getId(request);
+			if (uId == null)
+				return "error";
+			hrs.insertOrUpdateHRRecord(hr);
+			flashAttributes.addFlashAttribute("msg", "File has been updated successfully.");
+			commonService.insertLogs(uId,
+					"Updated File of " + hr.getSno() + " with Id:" + hr.getFileCode() + ".");
+			return "redirect:/updateFile?department=Hr&sno=" + hr.getSno();
+		}
+
 	
 	
 }

@@ -24,9 +24,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ak.daos.OracleData;
 import com.ak.modals.EM;
 import com.ak.modals.EM2;
+import com.ak.modals.EM3;
 import com.ak.modals.Finance;
 import com.ak.modals.General;
 import com.ak.modals.HR;
+import com.ak.modals.Land;
 import com.ak.modals.Law;
 import com.ak.modals.Marketing;
 import com.ak.modals.Planning;
@@ -39,6 +41,7 @@ import com.ak.services.CommonService;
 import com.ak.services.EMLawService;
 import com.ak.services.GenAgePlanService;
 import com.ak.services.HRService;
+import com.ak.services.LandService;
 import com.ak.services.MarketingService;
 import com.ak.services.ProFinService;
 import com.ak.utils.FileUtils;
@@ -73,6 +76,10 @@ public class FileController
 	private MarketingService marketingService;
 	@Autowired
 	private HRService hrs;
+	@Autowired
+	private LandService landService;
+	
+	
 	
 	@RequestMapping(value="/uploadBulk",method=RequestMethod.POST)
 	public String uploadBulk(HttpServletRequest request,@RequestParam("csv")MultipartFile csv,@RequestParam("department")String department,@RequestParam("pdfLocation")String pdfLocation,RedirectAttributes flashAttributes)throws IOException
@@ -255,10 +262,21 @@ public class FileController
 	        							uploadPlanningFiles("Industry",data,pdfLocation);
 	        					}
 	        				}
-	        				if(department.equals("EM") || department.equals("EM3"))
+	        				if(department.equals("EM") )
 	        				{
 	        					if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" R.pdf").exists())
 	        						uploadEMFiles(data,pdfLocation);
+	        				}
+	        				if(department.equals("Land") )
+	        				{
+	        					if(new File(pdfLocation+"/"+data[8].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[8].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[8].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[8].trim()+" R.pdf").exists())
+	        						uploadLandFiles(data,pdfLocation);
+	        				}
+	        				
+	        				if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
+	        				{
+	        					if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" R.pdf").exists())
+	        						uploadEM3Files(data,pdfLocation,department);
 	        				}
 	        				if(department.equals("Law"))
 	        				{
@@ -270,6 +288,8 @@ public class FileController
 	        				if(department.equals("Systems"))
 	        				{
 	        					System.out.println("file path :  "+pdfLocation+"/"+data[4].trim()+".pdf");
+	        					if(new File(pdfLocation+"/"+data[4].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[4].trim()+"R"+".pdf").exists())
+	        						uploadSystemFiles(data,pdfLocation);
 	        					if(new File(pdfLocation+"/"+data[4].trim()+".pdf").exists())
 	        						uploadSystemFiles(data,pdfLocation);
 	        				} 
@@ -285,11 +305,19 @@ public class FileController
 	        				
 	        				if(department.equals("HR"))
 	        				{
-	        					if(new File(pdfLocation+"/"+data[3].trim()+".pdf").exists())
+	        					System.out.println("file path :  "+pdfLocation+"/"+data[4].trim()+".pdf");
+	        					if(new File(pdfLocation+"/"+data[4].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[4].trim()+"R"+".pdf").exists())
+	        						uploadHRFiles(data,pdfLocation);
+	        					
+	        					if(new File(pdfLocation+"/"+data[4].trim()+".pdf").exists())
 	        						uploadHRFiles(data,pdfLocation);
 	        				} 
 	        				if(department.equals("UE"))
 	        				{
+	        					System.out.println("file path :  "+pdfLocation+"/"+data[6].trim()+".pdf");
+	        					if(new File(pdfLocation+"/"+data[6].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[6].trim()+"R"+".pdf").exists())
+	        						uploadUEFiles(data,pdfLocation);
+	        					
 	        					if(new File(pdfLocation+"/"+data[4].trim()+".pdf").exists())
 	        						uploadUEFiles(data,pdfLocation);
 	        				} 
@@ -380,6 +408,7 @@ public class FileController
 		fc.setClerkName(data[6]);
 		fc.setRegisterName(data[7]);
 		fc.setSector(data[8]);
+		fc.setSubdepartment(data[9]);
 		fc.setLocation(utils.generateFilePath());
 		new File(pdfLocation+"/"+data[5].trim()+".pdf").renameTo(new File(fc.getLocation()+data[5].trim()+".pdf"));
 		proFinService.insertOrUpdateFin(fc);
@@ -451,6 +480,57 @@ public class FileController
 		em.setYear(data[8]);
 		em.setLocation(utils.generateFilePath());
 		emlService.insertOrUpdateEMRecord(em);
+		new File(pdfLocation+"/"+data[3].trim()+"L.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+" L.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+"R.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+" R.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"R.pdf"));
+	}
+	
+	
+	private void uploadLandFiles(String[] data,String pdfLocation)
+	{
+		Land em=new Land();
+		em.setDate(data[1]);
+		em.setLine(data[2]);
+		em.setFileType(data[3]);
+		em.setFileNo(data[4]);
+		em.setAccountNo(data[5]);
+		em.setFilesub(data[6]);
+		em.setVillage(data[7]);
+		em.setOpaFts(data[8].trim());
+		em.setYear(data[9]);
+		em.setNo_of_notsheet(data[10]);
+		em.setNo_of_cos(data[11]);
+		em.setNo_of_a3(data[12]);
+		em.setNo_of_a2(data[13]);
+		em.setNo_of_a1(data[14]);
+		em.setNo_of_a0(data[15]);
+		em.setTotal_pages(data[16]);
+		em.setServey_letter(data[17]);
+		em.setNotifection(data[18]);
+		em.setMorgeg_letter(data[19]);
+		em.setMap_11(data[20]);
+		em.setLocation(utils.generateFilePath());
+		landService.insertOrUpdateLand(em);
+		new File(pdfLocation+"/"+data[8].trim()+"L.pdf").renameTo(new File(em.getLocation()+data[8].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[8].trim()+" L.pdf").renameTo(new File(em.getLocation()+data[8].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[8].trim()+"R.pdf").renameTo(new File(em.getLocation()+data[8].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[8].trim()+" R.pdf").renameTo(new File(em.getLocation()+data[8].trim()+"R.pdf"));
+	}
+	
+	private void uploadEM3Files(String[] data,String pdfLocation,String department)
+	{
+		EM3 em=new EM3();
+		em.setSector(data[1]);
+		em.setCategory(data[2]);
+		em.setOpa_Fts(data[3].trim());
+		em.setWorkName(data[4]);
+		em.setContractorName(data[5]);
+		em.setDepartment(department);
+		em.setFileNo(data[7]);
+		em.setYear(data[8]);
+		em.setLocation(utils.generateFilePath());
+		emlService.insertOrUpdateEM3Record(em);
 		new File(pdfLocation+"/"+data[3].trim()+"L.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"L.pdf"));
 		new File(pdfLocation+"/"+data[3].trim()+" L.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"L.pdf"));
 		new File(pdfLocation+"/"+data[3].trim()+"R.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"R.pdf"));
@@ -541,12 +621,12 @@ public class FileController
 		sy.setLocation(utils.generateFilePath());
 		emlService.insertOrUpdateSystemRecord(sy);
 		System.out.println("uploadSystemFiles:7");
-		new File(pdfLocation+"/"+data[4].trim()+".pdf").renameTo(new File(sy.getLocation()+data[4].trim()+".pdf"));
+		//new File(pdfLocation+"/"+data[4].trim()+".pdf").renameTo(new File(sy.getLocation()+data[4].trim()+".pdf"));
 		
-		/*new File(pdfLocation+"/"+data[4].trim()+"L.pdf").renameTo(new File(sy.getLocation()+data[3].trim()+"L.pdf"));
-		new File(pdfLocation+"/"+data[4].trim()+"R.pdf").renameTo(new File(sy.getLocation()+data[3].trim()+"R.pdf"));
-		new File(pdfLocation+"/"+data[4].trim()+" L.pdf").renameTo(new File(sy.getLocation()+data[3].trim()+"L.pdf"));
-		new File(pdfLocation+"/"+data[4].trim()+" R.pdf").renameTo(new File(sy.getLocation()+data[3].trim()+"R.pdf"));*/
+		new File(pdfLocation+"/"+data[4].trim()+"L.pdf").renameTo(new File(sy.getLocation()+data[4].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[4].trim()+"R.pdf").renameTo(new File(sy.getLocation()+data[4].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[4].trim()+" L.pdf").renameTo(new File(sy.getLocation()+data[4].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[4].trim()+" R.pdf").renameTo(new File(sy.getLocation()+data[4].trim()+"R.pdf"));
 	}
 	
 	private void uploadMarketingFiles(String[] data,String pdfLocation)
@@ -582,8 +662,8 @@ public class FileController
 		HR hr=new HR();
 		hr.setLine_No(data[1]);
 		hr.setDate(data[2]);
-		hr.setFileNo(data[3].trim());
-		hr.setFileCode(data[4]);
+		hr.setFileNo(data[3]);
+		hr.setFileCode(data[4].trim());
 		hr.setYear(data[5]);
 		hr.setFile_Subject(data[6]);
 		hr.setOpaFts(data[7]);
@@ -592,7 +672,10 @@ public class FileController
 		hr.setTotal_No_Of_Pages(data[10]);
 		hr.setLocation(utils.generateFilePath());
 		hrs.insertOrUpdateHRRecord(hr);
-		new File(pdfLocation+"/"+data[3].trim()+".pdf").renameTo(new File(hr.getLocation()+data[3].trim()+".pdf"));	
+		new File(pdfLocation+"/"+data[4].trim()+"L.pdf").renameTo(new File(hr.getLocation()+data[4].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[4].trim()+"R.pdf").renameTo(new File(hr.getLocation()+data[4].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[4].trim()+" L.pdf").renameTo(new File(hr.getLocation()+data[4].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[4].trim()+" R.pdf").renameTo(new File(hr.getLocation()+data[4].trim()+"R.pdf"));
 		
 	}
 	
@@ -667,8 +750,10 @@ public class FileController
 		PrintWriter out=response.getWriter();
 		String count=null;
 		System.out.println("Name:Passed:"+alloteeName);
-		String location=null,webLocation=request.getServletContext().getRealPath("/")+"staticResources/pdfs/";
-		System.out.println("webLocation:"+request.getServletContext().getRealPath("/")+"staticResources/pdfs/");
+		String location=null;
+		System.out.println("REal Path : "+request.getServletContext().getRealPath("/"));
+		String webLocation=request.getServletContext().getRealPath("/")+"staticResources/pdfs/";
+		System.out.println("webLocation:"+"E://New Folder/"+"staticResources/pdfs/");
 		if(prFlage!=null && prFlage.equals("null"))
 		{
 			if(department.equals("General")||department.equals("Planning"))
@@ -703,13 +788,28 @@ public class FileController
 				}
 			}
 			
+			if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
+			{
+				location=emlService.getLocation(Integer.parseInt(sno),department);
+				System.out.println("view:1:"+location);
+				if(department.equals("Law")) {
+					
+					count=FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+				System.out.println("path:"+count);}
+				else
+				{
+					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+				}
+			}
+			
 			if(department.equals("Systems") || department.equals("UE"))
 			{
 				location=emlService.getLocation(Integer.parseInt(sno),department);
 				System.out.println("view:1:systems:"+location);
 				System.out.println("view:systems");
 				if(department.equals("Systems")) {
-					count=FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 						
 					
 					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
@@ -741,13 +841,32 @@ public class FileController
 				}
 			}
 			
+			if(department.equals("Land"))
+			{
+				location=landService.getLocation(Integer.parseInt(sno),department);
+				System.out.println("view:1:Land:"+location);
+				System.out.println("Land");
+				if(department.equals("Land")) {
+					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+						
+					
+					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+				}
+				else
+				{
+					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+				}
+			}
+			
 			if(department.equals("HR"))
 			{
 				location=emlService.getLocation(Integer.parseInt(sno),department);
 				System.out.println("view:1:HR:"+location);
 				System.out.println("view:HR");
 				if(department.equals("HR")) {
-					count=FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 						
 					
 					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
@@ -787,6 +906,14 @@ public class FileController
 				else
 					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
 			}
+			if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
+			{
+				location=emlService.getLocation(Integer.parseInt(sno),department);
+				if(department.equals("Law"))
+					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
+				else
+					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+			}
 			
 			if(department.equals("Systems") || department.equals("UE"))
 			{    System.out.println("view:systems");
@@ -798,8 +925,9 @@ public class FileController
 			}
 			
 			if(department.equals("Marketing") )
-			{    System.out.println("Marketing");
-			location=marketingService.getLocation(Integer.parseInt(sno),department);
+			{    
+				System.out.println("Marketing");
+				location=marketingService.getLocation(Integer.parseInt(sno),department);
 				if(department.equals("Marketing"))
 					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
 				else
@@ -862,7 +990,7 @@ public class FileController
 			return "error";
 		String location=null;
 		//System.out.println("------"+request.getServletContext().getRealPath("/")+"staticResources/pdfs/");
-		//commonService.insertLogs(uId,"Downloaded File of "+department+" with Id:"+id+".");
+		commonService.insertLogs(uId,"Downloaded File of "+department+" with Id:"+id+".");
 		if(department.equals("General") || department.equals("Planning"))
 		{
 			location=genAgePlanService.getLocation(department,Integer.parseInt(sno));
@@ -877,6 +1005,14 @@ public class FileController
 				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 		}
 		if(department.equals("EM") || department.equals("Law"))
+		{
+			location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
+			if(department.equals("Law"))
+				FileUtils.downloadFile(response,id+".pdf",location,false,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+			else
+				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+		}
+		if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
 		{
 			location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
 			if(department.equals("Law"))
@@ -903,6 +1039,15 @@ public class FileController
 				FileUtils.newDownloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 		}
 		
+		if(department.equals("Land"))
+		{
+			location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
+			if(department.equals("Land"))
+				FileUtils.newDownloadFile(response,id+".pdf",location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+			else
+				FileUtils.newDownloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+		}
+		
 		
 		if(department.equals("UE"))
 		{
@@ -912,6 +1057,15 @@ public class FileController
 			else
 				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 		}
+		
+		if(department.equals("HR"))
+		{
+			location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
+			if(department.equals("Marketing"))
+				FileUtils.newDownloadFile(response,id+".pdf",location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+			else
+				FileUtils.newDownloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+	}
 		
 		System.out.println("======location"+location);
 		return null;
@@ -933,12 +1087,14 @@ public class FileController
 			model.addAttribute("planningForm",genAgePlanService.retrievePlanRecord(Integer.parseInt(sno)));
 		if(department.equals("EM"))
 			model.addAttribute("emForm",emlService.getEMRecord(Integer.parseInt(sno)));
-		if(department.equals("EM3"))
+		if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
 			model.addAttribute("em3Form",emlService.getEM3Record(Integer.parseInt(sno)));
 		if(department.equals("Law"))
 			model.addAttribute("lawForm",emlService.getLawRecord(Integer.parseInt(sno)));
 		if(department.equals("Marketing"))
 			model.addAttribute("marketingForm",marketingService.getMarketingRecord(Integer.parseInt(sno)));
+		if(department.equals("HR"))
+			model.addAttribute("HRForm",hrs.getHRRecord(Integer.parseInt(sno)));
 		/*if(department.equals("Systems"))
 			model.addAttribute("SystemForm",emlService.getSystemRecord(Integer.parseInt(sno)));*/
 		
@@ -1022,6 +1178,7 @@ public class FileController
 			FileUtils.generateLawReport(record,location,response);
 		}
 		
+		
 		if(department.equals("UE"))
 		{  System.out.println("UEReport:1:fileController");
 			ArrayList<UE> record=new ArrayList<UE>();
@@ -1045,6 +1202,13 @@ public class FileController
 			record.add(emlService.retrieveEM2Records(Integer.parseInt(sno)));
 			System.out.println("EM2Report:3");
 			FileUtils.generateEM2Report(record,location,response);
+		}
+		if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
+		{
+			ArrayList<EM3> record=new ArrayList<EM3>();
+			record.add(emlService.retrieveEM3Records(Integer.parseInt(sno)));
+			System.out.println("EM3Report:3");
+			FileUtils.generateEM3Report(department,record,location,response);
 		}
 		
 		if(department.equals("ProjectTech"))

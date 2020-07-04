@@ -421,6 +421,14 @@ public class EMLawDaoImpl implements EMLawDao
 			return (EM2)it.next();
 		return null;
 	}
+	
+	@Override
+	public EM3 retrieveEM3Records(int snos) {
+		System.out.println("retrieveEM3Records(int sno):1");
+		for(Iterator it=sessionFactory.getCurrentSession().createQuery("From EM3 law where law.sno="+snos+"").list().iterator();it.hasNext();)
+			return (EM3)it.next();
+		return null;
+	}
 
 
 

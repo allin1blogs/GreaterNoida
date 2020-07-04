@@ -171,6 +171,11 @@
         <put-attribute name="title" value="Search HR Record"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/departments/HR/retrieve.jsp"></put-attribute>
     </definition>
+    
+     <definition name="departments/HR/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/HR/update.jsp"></put-attribute>
+    </definition>
       
      <definition name="departments/Systems/retrieve" extends="base.definition">
         <put-attribute name="title" value="Search System Record"></put-attribute>
@@ -197,6 +202,16 @@
     <definition name="departments/Law/update" extends="base.definition">
         <put-attribute name="title" value="Update Record"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/departments/Law/update.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Land/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Land/retrieve.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Land/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Land/update.jsp"></put-attribute>
     </definition>
     
     <definition name="departments/constr" extends="base.definition">

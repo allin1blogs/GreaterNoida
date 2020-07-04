@@ -10,6 +10,7 @@ import javax.persistence.Table;
 /*
  *	@Author
  *	Swapril Tyagi 
+ * @Updated by : Preeti Rani
 */
 
 @Entity
@@ -44,6 +45,9 @@ public class Finance
 	
 	@Column(name="Sector")
 	private String sector;
+	
+	@Column(name="Subdepartment")
+	private String subdepartment;
 	
 	@Column(name="Location")
 	private String location;
@@ -127,6 +131,13 @@ public class Finance
 	public void setSector(String sector)
 	{
 		this.sector=sector;
+	}
+	
+	public String getSubdepartment() {
+		return subdepartment;
+	}
+	public void setSubdepartment(String subdepartment) {
+		this.subdepartment = subdepartment;
 	}
 	
 	public String getLocation()
