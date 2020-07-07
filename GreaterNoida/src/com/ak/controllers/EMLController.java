@@ -85,6 +85,7 @@ public class EMLController
 			return "error";
 		model=modelInitializer.initializeModel(model,request);
 		model.addAttribute("department",em.getDepartment());
+		System.out.println("----------depart--------"+em.getDepartment());
 		ArrayList<String> params=utils.generateEM3Params(em);
 		
 		for(String p:params) {
@@ -208,7 +209,51 @@ public class EMLController
 		return "redirect:/updateFile?department=EM&sno="+em.getSno();
 	}
 	
-	@RequestMapping(value="/updateEM3",method=RequestMethod.GET)
+	
+	
+	@RequestMapping(value="/updateSys",method=RequestMethod.POST)
+	public String updateSys(HttpServletRequest request,@ModelAttribute("SystemForm")Systems em,@RequestParam("noteSheet")MultipartFile noteSheet,@RequestParam("correspondence")MultipartFile correspondence,RedirectAttributes flashAttributes)throws IOException
+	{
+		String uId=modelInitializer.getId(request);
+		if(uId==null)
+			return "error";
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			if(!noteSheet.getOriginalFilename().equals(em.getFile_No()+"L.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Notesheet name should be as FileL.pdf");
+				return "redirect:/updateFile?department=Systems&sno="+em.getSno();
+			}
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
+		{
+			if(!correspondence.getOriginalFilename().equals(em.getFile_No()+"R.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Correspondence name should be as FileL/FTSNoR.pdf");
+				return "redirect:/updateFile?department=Systems&sno="+em.getSno();
+			}
+		}
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			new File(em.getLocation()+em.getFile_No()+"L.pdf").renameTo(new File("C:/Resources/"+em.getFile_No()+"L.pdf"));
+			Files.write(Paths.get(keys.getRepository()+em.getFile_No()+"L.pdf"),noteSheet.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+em.getFile_No()+"L.pdf",keys.getRepository()+em.getFile_No()+"L.pdf",em.getLocation()+em.getFile_No()+"L.pdf");
+			new File("C:/Resources/"+em.getFile_No()+"L.pdf").delete();new File(keys.getRepository()+em.getFile_No()+"L.pdf").delete();
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
+		{
+			new File(em.getLocation()+em.getFile_No()+"R.pdf").renameTo(new File("C:/Resources/"+em.getFile_No()+"R.pdf"));
+			Files.write(Paths.get(keys.getRepository()+em.getFile_No()+"R.pdf"),noteSheet.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+em.getFile_No()+"R.pdf",keys.getRepository()+em.getFile_No()+"R.pdf",em.getLocation()+em.getFile_No()+"R.pdf");
+			new File("C:/Resources/"+em.getFile_No()+"R.pdf").delete();new File(keys.getRepository()+em.getFile_No()+"R.pdf").delete();
+		}
+		emlService.insertOrUpdateSystemRecord(em);
+		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");
+		commonService.insertLogs(uId,"Updated File of EM with Id:"+em.getFile_No()+".");
+		return "redirect:/updateFile?department=Systems&sno="+em.getSno();
+	}
+	
+	@RequestMapping(value="/updateEM3",method=RequestMethod.POST)
 	public String updateEM3(HttpServletRequest request,@ModelAttribute("em3Form")EM3 em,@RequestParam("noteSheet")MultipartFile noteSheet,@RequestParam("correspondence")MultipartFile correspondence,RedirectAttributes flashAttributes)throws IOException
 	{
 		String uId=modelInitializer.getId(request);
@@ -219,7 +264,7 @@ public class EMLController
 			if(!noteSheet.getOriginalFilename().equals(em.getOpa_Fts()+"L.pdf"))
 			{
 				flashAttributes.addFlashAttribute("msg","Notesheet name should be as OPA/FTSNoL.pdf");
-				return "redirect:/updateFile?department=Project&sno="+em.getSno();
+				return "redirect:/updateFile?department=EM3&sno="+em.getSno();
 			}
 		}
 		if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
@@ -227,7 +272,7 @@ public class EMLController
 			if(!correspondence.getOriginalFilename().equals(em.getOpa_Fts()+"R.pdf"))
 			{
 				flashAttributes.addFlashAttribute("msg","Correspondence name should be as OPA/FTSNoR.pdf");
-				return "redirect:/updateFile?department=Project&sno="+em.getSno();
+				return "redirect:/updateFile?department=EM3&sno="+em.getSno();
 			}
 		}
 		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
@@ -246,7 +291,7 @@ public class EMLController
 		}
 		emlService.insertOrUpdateEM3Record(em);
 		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");
-		commonService.insertLogs(uId,"Updated File of EM with Id:"+em.getOpa_Fts	()+".");
+		commonService.insertLogs(uId,"Updated File of EM3 with Id:"+em.getOpa_Fts	()+".");
 		return "redirect:/updateFile?department=EM3&sno="+em.getSno();
 	}
 	

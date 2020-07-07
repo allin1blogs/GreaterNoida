@@ -56,9 +56,9 @@ public class LandServiceImpl implements LandService {
 	}
 	
 	@Override
-	public Marketing getMarketingRecord(int sno)
+	public Land getLandRecord(int sno)
 	{
-		return marketingDao.getMarketingRecord(sno);
+		return landDao.getLandRecord(sno);
 	}
 
 
@@ -75,8 +75,8 @@ public class LandServiceImpl implements LandService {
 	}
 
 	@Override
-	public ArrayList<Marketing> retrieveMarketingRecords(String[] snos) {
-		return marketingDao.retrieveMarketingRecords(snos);
+	public ArrayList<Land> retrieveLandRecords(String[] snos) {
+		return landDao.retrieveLandRecords(snos);
 	}
 	
 	

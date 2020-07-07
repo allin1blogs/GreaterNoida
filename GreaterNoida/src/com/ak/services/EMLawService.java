@@ -36,6 +36,7 @@ public interface EMLawService
 	public EM getEMRecord(int sno);
 	public EM3 getEM3Record(int sno);
 	public Law getLawRecord(int sno);
+	public Systems getSystemsRecord(int sno);
 	
 	public ArrayList<EM> retrieveEMRecords(String[] snos);
 	
@@ -65,6 +66,7 @@ public interface EMLawService
     
        public Systems retrieveSystemRecords(int snos);
        public ArrayList<Systems> retrieveSystemRecords(String[] snos);
+       public ArrayList<EM3> retrieveEM3Records(String[] snos);
        public ArrayList<Systems> retrieveSystemRecords(ArrayList<String> params);
        public void insertOrUpdateSystemRecord(Systems sy);	
         

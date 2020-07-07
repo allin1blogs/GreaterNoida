@@ -119,7 +119,7 @@ public class Utils
 	
 	public String[] getHeader(String department)
 	{
-		if(department.equals("Residential") || department.equals("Institutional") || department.equals("IT") || department.equals("Group Housing") || department.equals("Builder") || department.equals("Commercial") || department.equals("Industry"))
+		if(department.equals("Residential") || department.equals("Abadi 6%") || department.equals("Institutional") || department.equals("IT") || department.equals("Group Housing") || department.equals("Builder") || department.equals("Commercial") || department.equals("Industry"))
 			return keys.getGeneralHeader();
 		else if(department.equals("Finance"))
 			return keys.getFinanceHeader();

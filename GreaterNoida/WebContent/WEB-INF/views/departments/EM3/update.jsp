@@ -29,7 +29,7 @@
 
 <p class="h1" style="font-family: cambria; text-align: center; color: #387403;">${em3Form.department}</p>
 <div class="container">
-	<em3Form:form action="updateEM3" id="updateem3Form" enctype="multipart/form-data" method="get" modelAttribute="em3Form">
+	<em3Form:form action="updateEM3" id="updateem3Form" enctype="multipart/form-data" method="POST" modelAttribute="em3Form">
         <table class="table">
             <tr>
             	<td>
@@ -73,6 +73,12 @@
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
+             <tr>
+            	<td>
+                   	<label style="color: black; font-family: cambria;" for="category"><h4><b>Category:</b></h4></label><br>
+                   	<em3Form:input style="width: 235px; height: 35px;" path="category" required="true"/>
+                </td>
+                </tr>
             <tr><td colspan="3"><em3Form:hidden path="sno"/></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>

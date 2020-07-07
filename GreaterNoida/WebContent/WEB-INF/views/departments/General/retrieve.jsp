@@ -171,44 +171,46 @@
 		else
 			printOut();
 	}
-	function printOut()
+	function printOut(pos,sno,right,bankName)
 	{
-		document.getElementById('printConfModal').style.display='none';
-		var url="viewFile?id="+fileId+"&sno="+currentSno+"&department=General&prFlage=print&name="+currentAlloteeName+"&lr="+printLr;
-		setContent('Processing...');
-		if(window.XMLHttpRequest)
-			request=new XMLHttpRequest();  
-		else if(window.ActiveXObject)  
-			request=new ActiveXObject("Microsoft.XMLHTTP");
-		try
+		if(right==1)
 		{
-			request.onreadystatechange=setPrint;
-			request.open("GET",url,true);
-			request.send();
+			var url="viewFile?id="+pos+"&sno="+sno+"&department=General&prFlage=print&name="+bankName+"&lr="+right;
+			setContent('Processing...');
+			if(window.XMLHttpRequest)  
+				request=new XMLHttpRequest();  
+			else if(window.ActiveXObject)  
+				request=new ActiveXObject("Microsoft.XMLHTTP");
+			try
+			{
+				request.onreadystatechange=setPrint;
+				request.open("GET",url,true);  
+				request.send();
+			}
+			catch(e)
+			{}
 		}
-		catch(e)
-		{}
 	}
 	function setPrint()
 	{
 		if(request.readyState==4)
 		{
 			var id=request.responseText;
-			document.getElementById('printDiv').innerHTML='<iframe id="pdf" src="staticResources/pdfs/'+id+printLr+'.pdf"></iframe>';
+			document.getElementById('printDiv').innerHTML='<iframe id="pdf" src="staticResources/pdfs/'+id+'.pdf"></iframe>';
 			var ifr=document.getElementById('pdf');
 			document.getElementById('authModal').style.display='none';
 			ifr.contentWindow.print();
 		}
 	}
-	function singlePrint(type)
+	function singlePrint()
 	{
 		var contentDiv=document.getElementById('singlePrintDiv');
 		if(type=='note')
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'L@'+currentNote+'L@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+allotmentNo+'L@'+currentNote+'L@print.pdf"></iframe>';
 		else
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'R@'+currentCorr+'R@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+allotmentNo+'R@'+currentCorr+'R@print.pdf"></iframe>';
 		document.getElementById('singlePdf').contentWindow.print();
-	}
+		}
 	function firLas(type,page)
 	{
 		if(type=='noteDiv')
@@ -354,7 +356,7 @@
                 </td>
             </tr>
 	    	<tr><td><input class="btn btn-primary" style="background-color: #387403; color: #ffffff; font-size: 14px;" type="button" value="Retrieve Files" onclick="retrieveFiles();"></td></tr>
-            <tr><td><generalForm:hidden path="department"/></td></tr>
+            <tr><td><generalForm:hidden path="department" value="${param.department}"/></td></tr>
         </table>
     </generalForm:form>
 </div>
@@ -391,6 +393,7 @@
 						<td>
 							<a href="#" onclick="viewFile('${record.allotmentNo}','${record.sno}','${view}','${record.alloteeName}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
 							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.allotmentNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.allotmentNo}','${record.sno}','${print}','${record.alloteeName}');" style="text-decoration: none;">Print</a></c:if>
 						</td>
 					</tr>
 				</c:forEach>

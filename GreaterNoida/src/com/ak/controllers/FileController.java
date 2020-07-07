@@ -209,7 +209,7 @@ public class FileController
 	        				System.out.println("duplicateFlage:"+duplicateFlage);
 	        				System.out.println("2");
 	        				
-	        				if(department.equals("Residential") || department.equals("Institutional") || department.equals("IT") || department.equals("Group Housing") || department.equals("Builder") || department.equals("Commercial") || department.equals("Industry"))
+	        				if(department.equals("Residential") || department.equals("Abadi 6%") || department.equals("Institutional") || department.equals("IT") || department.equals("Group Housing") || department.equals("Builder") || department.equals("Commercial") || department.equals("Industry"))
 	        				{
 	        					if(genAgePlanService.isAllotmentNoExists(data[7].trim()))
 	        						duplicateFlage=true;
@@ -230,6 +230,9 @@ public class FileController
 	        						duplicateFlage=true;
 	        					else
 	        					{
+	        						Finance finance=new Finance();
+	        						String subd=finance.getSubdepartment();
+	        						if(subd.equals("Bank Loan")) {}
 	        						if(new File(pdfLocation+"/"+data[5].trim()+".pdf").exists())
 		        						uploadFinanceFiles(data,pdfLocation);
 	        						else
@@ -280,7 +283,7 @@ public class FileController
 	        				}
 	        				if(department.equals("Law"))
 	        				{
-	        					if(new File(pdfLocation+"/"+data[2].trim()+".pdf").exists())
+	        					if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+" R.pdf").exists())
 	        						uploadLawFiles(data,pdfLocation);
 	        				}
 	        			
@@ -314,11 +317,11 @@ public class FileController
 	        				} 
 	        				if(department.equals("UE"))
 	        				{
-	        					System.out.println("file path :  "+pdfLocation+"/"+data[6].trim()+".pdf");
-	        					if(new File(pdfLocation+"/"+data[6].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[6].trim()+"R"+".pdf").exists())
+	        					System.out.println("file path :  "+pdfLocation+"/"+data[3].trim()+".pdf");
+	        					if(new File(pdfLocation+"/"+data[3].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R"+".pdf").exists())
 	        						uploadUEFiles(data,pdfLocation);
 	        					
-	        					if(new File(pdfLocation+"/"+data[4].trim()+".pdf").exists())
+	        					if(new File(pdfLocation+"/"+data[3].trim()+".pdf").exists())
 	        						uploadUEFiles(data,pdfLocation);
 	        				} 
 	        				
@@ -561,7 +564,10 @@ public class FileController
 		emlService.insertOrUpdateLawRecord(law);
 		
 		System.out.println("10");
-		new File(pdfLocation+"/"+data[2].trim()+".pdf").renameTo(new File(law.getLocation()+data[2].trim()+".pdf"));
+		new File(pdfLocation+"/"+data[2].trim()+"L.pdf").renameTo(new File(law.getLocation()+data[2].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[2].trim()+" L.pdf").renameTo(new File(law.getLocation()+data[2].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[2].trim()+"R.pdf").renameTo(new File(law.getLocation()+data[2].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[2].trim()+" R.pdf").renameTo(new File(law.getLocation()+data[2].trim()+"R.pdf"));
 	}
 	
 	
@@ -779,7 +785,8 @@ public class FileController
 				System.out.println("view:1:"+location);
 				if(department.equals("Law")) {
 					
-					count=FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				System.out.println("path:"+count);}
 				else
 				{
@@ -1008,7 +1015,7 @@ public class FileController
 		{
 			location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
 			if(department.equals("Law"))
-				FileUtils.downloadFile(response,id+".pdf",location,false,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 			else
 				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 		}
@@ -1025,9 +1032,9 @@ public class FileController
 		{
 			location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
 			if(department.equals("Systems"))
-				FileUtils.downloadFile(response,id+".pdf",location,false,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+				FileUtils.newDownloadFile(response,id+".pdf",location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 			else
-				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+				FileUtils.newDownloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 		}
 		
 		if(department.equals("Marketing"))
@@ -1091,14 +1098,16 @@ public class FileController
 			model.addAttribute("em3Form",emlService.getEM3Record(Integer.parseInt(sno)));
 		if(department.equals("Law"))
 			model.addAttribute("lawForm",emlService.getLawRecord(Integer.parseInt(sno)));
+		if(department.equals("Land"))
+			model.addAttribute("LandForm",landService.getLandRecord(Integer.parseInt(sno)));
 		if(department.equals("Marketing"))
 			model.addAttribute("marketingForm",marketingService.getMarketingRecord(Integer.parseInt(sno)));
 		if(department.equals("HR"))
 			model.addAttribute("HRForm",hrs.getHRRecord(Integer.parseInt(sno)));
-		/*if(department.equals("Systems"))
-			model.addAttribute("SystemForm",emlService.getSystemRecord(Integer.parseInt(sno)));*/
+		if(department.equals("Systems"))
+			model.addAttribute("SystemForm",emlService.getSystemsRecord(Integer.parseInt(sno)));
 		
-		
+		System.out.println("departments/"+department+"/update");
 		
 		return "departments/"+department+"/update";
 	}
@@ -1342,10 +1351,22 @@ public class FileController
 			    FileUtils.generateSystemReport(emlService.retrieveSystemRecords(snos),location,response);
 			}
 			
+			if(department.equals("EM3"))
+			{ 
+				System.out.println("EM3Report:1:post method");				
+			    FileUtils.generateEM3Report(emlService.retrieveEM3Records(snos),location,response);
+			}
+			
 			if(department.equals("Marketing"))
 			{ 
 				System.out.println("MarketingReport:1:post method");				
 			    FileUtils.generateMarketingReport(marketingService.retrieveMarketingRecords(snos),location,response);
+			}
+			
+			if(department.equals("Land"))
+			{ 
+				System.out.println("LandReport:1:post method");				
+			    FileUtils.generateLandReport(landService.retrieveLandRecords(snos),location,response);
 			}
 		
 		}

@@ -29,7 +29,7 @@
 	});
 	function retrieveFiles()
 	{
-		//var department=document.getElementById('department').value;
+		var department=document.getElementById('department').value;
 		var workName=document.getElementById('workName').value;
 		var contractorName=document.getElementById('contractorName').value;
 		var opa_Fts=document.getElementById('opa_Fts').value;
@@ -151,7 +151,7 @@
 	}
 	function report(sno,right,flage)
 	{
-		alert("==="+sno);
+		//alert("==="+sno);
 		if(right==1)
 			document.getElementById('reportForm').submit();
 	}
@@ -283,11 +283,11 @@
     <em3Form:form action="retrieveEM3" id="em3Form" method="get" modelAttribute="em3Form">
         <table style="align: center;border-spacing: 20px; border-top:0px; border-collapse: separate;">
             <tr>
-            	<%--  <td>
+            	  <%-- <td>
                 	<label style="font-family: cambria;" for="Department"><h4><b>Department:</b></h4></label><br>
                 	<em3Form:hidden style="width: 230px; height: 35px;" id="department" path="department" list="departmentHelp" onkeyup="getHelp('department');"/>
                 	<datalist id="departmentHelp"></datalist>
-                </td>  --%>
+                </td>   --%>
             	<td>
             		<label style="font-family: cambria;" for="Contractor Name"><h4><b>Contractor Name:</b></h4></label><br>
             		<em3Form:input style="width: 230px; height: 35px;" id="contractorName" path="contractorName" list="contractorNameHelp" onkeyup="getHelp('contractorName');"/>
@@ -318,7 +318,7 @@
 				<td><br><br><input class="btn btn-primary" style="background-color: #1B3AD1; color: #ffffff; font-size: 14px;" type="button" value="Retrieve Files" onclick="retrieveFiles();"></td>
 			
 			</tr>
-			<tr><td><em3Form:hidden path="department"/></td></tr>
+			<tr><td><em3Form:hidden path="department" value="${param.department}"/></td></tr>
         </table>
     </em3Form:form>
 </div><br>

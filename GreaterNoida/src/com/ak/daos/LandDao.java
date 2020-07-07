@@ -23,13 +23,13 @@ public interface LandDao
 	  
 	  public ArrayList<Land> retrieveLandRecords(ArrayList<String> params);
 	 	
-	public Marketing getMarketingRecord(int sno);
+	public Land getLandRecord(int sno);
 	
 	public String getMarketingLocation(String department,int sno);
 	
 	public String getLocation(int sno,String department);
 	
-	public ArrayList<Marketing> retrieveMarketingRecords(String[] snos);
+	public ArrayList<Land> retrieveLandRecords(String[] snos);
 
 	
 	

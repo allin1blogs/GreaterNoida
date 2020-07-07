@@ -176,6 +176,11 @@
         <put-attribute name="title" value="Update Record"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/departments/HR/update.jsp"></put-attribute>
     </definition>
+    
+    <definition name="departments/Systems/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Systems/update.jsp"></put-attribute>
+    </definition>
       
      <definition name="departments/Systems/retrieve" extends="base.definition">
         <put-attribute name="title" value="Search System Record"></put-attribute>

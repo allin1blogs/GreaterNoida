@@ -4,14 +4,14 @@
     Author     : Swapril Tyagi
 --%>
 
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="financeForm"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="SystemForm"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script type="text/javascript">
 	function update()
 	{
 		mscConfirm("Have checked all details before updating record?",function(){
-		  	document.getElementById('updateFinanceForm').submit();
+		  	document.getElementById('updateSystemForm').submit();
 		});
 	}
 </script>
@@ -27,50 +27,60 @@
 	</div>
 </c:if>
 
-<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Finance</p>
+<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Systems</p>
 <div class="container">
-	<financeForm:form action="updateFin" id="updateFinanceForm" enctype="multipart/form-data" method="post" modelAttribute="financeForm">
+	<SystemForm:form action="updateSys" id="updateSystemForm" enctype="multipart/form-data" method="post" modelAttribute="SystemForm">
         <table class="table">
             <tr>
             	<td>
-                   	<label style="color: black; font-family: cambria;" for="Pos"><h4><b>Period of Statement:</b></h4></label><br>
-                   	<financeForm:input style="width: 235px; height: 35px;" path="statement" readonly="true"/>
+                   	<label style="color: black; font-family: cambria;" for="lotNo"><h4><b>LOT NO:</b></h4></label><br>
+                   	<SystemForm:input style="width: 235px; height: 35px;" path="lotNo" required="true"/>
                 </td>
                 <td>
-                    <label style="color: black; font-family: cambria;" for="Sector"><h4><b>Sector:</b></h4></label><br>
-                    <financeForm:input style="width: 235px; height: 35px;" path="sector" required="true"/>
+                    <label style="color: black; font-family: cambria;" for="Sector"><h4><b>Clerk Name:</b></h4></label><br>
+                    <SystemForm:input style="width: 235px; height: 35px;" path="clerk_Name" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="Bank Name"><h4><b>Bank Name:</b></h4></label><br>
-                   	<financeForm:input style="width: 235px; height: 35px;" path="bankName" required="true"/>
+                   	<label style="color: black; font-family: cambria;" for="file_No"><h4><b>file No:</b></h4></label><br>
+                   	<SystemForm:input style="width: 235px; height: 35px;" path="file_No" required="true"/>
                 </td>
             </tr>
-            <tr>
-                <td>
-                   	<label style="color: black; font-family: cambria;" for="Branch Name"><h4><b>Branch Name:</b></h4></label><br>
-                   	<financeForm:input style="width: 235px; height: 35px;" path="branchName" required="true"/>
-                </td>
-                <td>
-                  	<label style="color: black; font-family: cambria;" for="Account No."><h4><b>Account No.:</b></h4></label><br>
-                   	<financeForm:input style="width: 235px; height: 35px;" path="accountNo" required="true"/>
-                </td>
-                <td>
-                   	<label style="color: black; font-family: cambria;" for="Register Name"><h4><b>Register Name:</b></h4></label><br>
-                   	<financeForm:input style="width: 235px; height: 35px;" path="registerName" required="true"/>
-                </td>
-            </tr>
-            <tr>
+              <tr>
             	<td>
-                   	<label style="color: black; font-family: cambria;" for="Category"><h4><b>Category:</b></h4></label><br>
-                   	<financeForm:input style="width: 235px; height: 35px;" path="category" required="true"/>
+                   	<label style="color: black; font-family: cambria;" for="lotNo"><h4><b>Year:</b></h4></label><br>
+                   	<SystemForm:input style="width: 235px; height: 35px;" path="Year" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose File Pages:</b></h4></label><br>
-                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="file"/>
+                    <label style="color: black; font-family: cambria;" for="Opt_Name"><h4><b>Opt Name:</b></h4></label><br>
+                    <SystemForm:input style="width: 235px; height: 35px;" path="Opt_Name" required="true"/>
+                </td>
+                <td>
+                   	<label style="color: black; font-family: cambria;" for="Total_No_Of_Pages"><h4><b>Total No Of Pages:</b></h4></label><br>
+                   	<SystemForm:input style="width: 235px; height: 35px;" path="Total_No_Of_Pages" required="true"/>
                 </td>
             </tr>
-            <tr><td><financeForm:hidden path="sno"/></td><td colspan="2"><financeForm:hidden path="location"/></td></tr>
+            <tr>
+                <td>
+                   	<label style="color: black; font-family: cambria;" for="optFts"><h4><b>Opt/Fts No.:</b></h4></label><br>
+                   	<SystemForm:input style="width: 235px; height: 35px;" path="optFts" required="true"/>
+                </td>
+                <td>
+                  	<label style="color: black; font-family: cambria;" for="subjectName."><h4><b>Subject Name:</b></h4></label><br>
+                   	<SystemForm:input style="width: 235px; height: 35px;" path="subjectName" required="true"/>
+                </td>
+                <td>
+                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose NoteSheet Pages:</b></h4></label><br>
+                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="noteSheet"/>
+                </td>
+                </tr>
+                <tr>
+                <td>
+                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose Correspondence Page:</b></h4></label><br>
+                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
+                </td>
+            </tr>
+            <tr><td><SystemForm:hidden path="sno"/></td><td colspan="2"><SystemForm:hidden path="location"/></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
-    </financeForm:form>
+    </SystemForm:form>
 </div>

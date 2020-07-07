@@ -33,10 +33,6 @@ public class Land {
 	@Column(name = "Line")
 	private String line;
 
-	/*
-	 * @Column(name="Department") private String department;
-	 */
-
 	@Column(name = "Location")
 	private String location;
 

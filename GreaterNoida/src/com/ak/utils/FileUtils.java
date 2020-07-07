@@ -36,6 +36,7 @@ import com.ak.modals.EM3;
 import com.ak.modals.Finance;
 import com.ak.modals.General;
 import com.ak.modals.HR;
+import com.ak.modals.Land;
 import com.ak.modals.Law;
 import com.ak.modals.Marketing;
 import com.ak.modals.Planning;
@@ -1097,13 +1098,13 @@ public class FileUtils
             row.createCell(r).setCellValue(records.get(j).getYear());
             r++;
             row.createCell(r).setCellValue(records.get(j).getNo_Of_NoteSheet());
-            i++;
+            r++;
             
             row.createCell(r).setCellValue(records.get(j).getNo_Of_Cros());
             r++;    
             
             row.createCell(r).setCellValue(records.get(j).getNo_Of_A0_Pages());
-            i++;            
+            r++;            
             row.createCell(r).setCellValue(records.get(j).getNo_Of_A1_Pages());
             r++;
             row.createCell(r).setCellValue(records.get(j).getNo_Of_A2_Pages());
@@ -1111,7 +1112,7 @@ public class FileUtils
             row.createCell(r).setCellValue(records.get(j).getNo_Of_A3_Pages());
             r++;
             row.createCell(r).setCellValue(records.get(j).getOpt_Name());
-            i++;
+            r++;
             row.createCell(r).setCellValue(records.get(j).getTotal_No_Of_Pages());
             i++;      
            
@@ -1130,7 +1131,307 @@ public class FileUtils
         {e.printStackTrace();}
 	}
 	
+	
+	/*------------------------EM3------------------------------------*/
+	public static void generateEM3Report(ArrayList<EM3> records,String location,HttpServletResponse response)
+	{  
+		System.out.println("generateEM3 Report:1");
+		HSSFWorkbook workBook=new HSSFWorkbook();
+		System.out.println("generateEM3 Report:2");
+        HSSFSheet sheet=workBook.createSheet("Records Report");
+        System.out.println("generateEM3 Report:3");
+        HSSFFont titleFont=workBook.createFont();
+        titleFont.setBold(true);
+        titleFont.setFontHeightInPoints((short)16);
+        HSSFFont font=workBook.createFont();
+        font.setBold(true);
+        HSSFCellStyle titleStyle=workBook.createCellStyle();
+        titleStyle.setFont(titleFont);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+        HSSFCellStyle style=workBook.createCellStyle();
+        style.setFont(font);
+        style.setLocked(true);
+        HSSFRow titleRow=sheet.createRow(0);
+        sheet.addMergedRegion(new CellRangeAddress(0,0,3,11));
+        sheet.addMergedRegion(new CellRangeAddress(1,1,4,10));
+        HSSFCell titleCell=titleRow.createCell(3);
+        titleCell.setCellStyle(titleStyle);
+        titleCell.setCellValue("Greater Noida Industrial Development Authority");
+        titleRow=sheet.createRow(1);
+        titleCell=titleRow.createCell(4);
+        titleFont.setFontHeightInPoints((short)13);
+        titleStyle.setFont(titleFont);
+        titleCell.setCellStyle(titleStyle);
+        titleCell.setCellValue("Software generated report of "+records.get(0).getDepartment());
+        HSSFRow rowHead=sheet.createRow(2);
+        HSSFCell cell=rowHead.createCell(0);
+        cell.setCellValue("S.No");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(1);         
+        cell.setCellValue("SECTOR NAME");//1
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(2);        
+        cell.setCellValue("CATEGORY");//1
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(3);
+        cell.setCellValue("OPA/FTS");//2
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(4);
+        cell.setCellValue("NAME OF WORK");//3
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(5);
+        cell.setCellValue("CONTRACTOR NAME");//4
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(6);
+        cell.setCellValue("DEPARTMENT");//5
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(7);
+        cell.setCellValue("FILE NUMBER");//6
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(8);
+        cell.setCellValue("YEAR");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(9);
+        cell.setCellValue("NO. OF NOTSHEET");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(10);
+        cell.setCellValue("NO. OF CROS.");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(11);
+        cell.setCellValue("NO. OF A3 PAGES");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(12);
+        cell.setCellValue("NO. OF A2 PAGES");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(13);
+        cell.setCellValue("NO. OF A1 PAGES");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(14);
+        cell.setCellValue("NO. OF A0 PAGES");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(15);
+        cell.setCellValue("TOTAL NO. OF PAGES");
+        cell.setCellStyle(style);  
+        
+        int r=0,i=3;
+        for(int j=0;j<records.size();j++)
+        {
+        	r=0;
+            HSSFRow row=sheet.createRow(i);
+            row.createCell(r).setCellValue(i-2);
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getSector());
+            r++; 
+            row.createCell(r).setCellValue(records.get(j).getCategory());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getOpa_Fts());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getWorkName());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getContractorName());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getDepartment());
+            r++;
+            
+            row.createCell(r).setCellValue(records.get(j).getFileNo());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getYear());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getNoOfNoteSheet());
+            r++;
+            
+            row.createCell(r).setCellValue(records.get(j).getNoOfCros());
+            r++;    
+            
+            row.createCell(r).setCellValue(records.get(j).getNoOfA0Pages());
+            r++;            
+            row.createCell(r).setCellValue(records.get(j).getNoOfA1Pages());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getNoOfA2Pages());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getNoOfA3Pages());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getTotalNoOfPages());
+            i++;
+                
+           
+            
+            
+        }
+        try
+        {
+        	FileOutputStream out=new FileOutputStream(location+"Report.xls");
+        	workBook.write(out);
+        	out.close();
+        	workBook.close();
+        	downloadFile(response,"Report.xls",location,false,"","");
+        }
+        catch(Exception e)
+        {e.printStackTrace();}
+	}
+	
 
+	/*----------------------Land -----------------------------------*/
+	public static void generateLandReport(ArrayList<Land> records,String location,HttpServletResponse response)
+	{  
+		System.out.println("generateLand Report:1");
+		HSSFWorkbook workBook=new HSSFWorkbook();
+		System.out.println("generateLand Report:2");
+        HSSFSheet sheet=workBook.createSheet("Records Report");
+        System.out.println("generateLand Report:3");
+        HSSFFont titleFont=workBook.createFont();
+        titleFont.setBold(true);
+        titleFont.setFontHeightInPoints((short)16);
+        HSSFFont font=workBook.createFont();
+        font.setBold(true);
+        HSSFCellStyle titleStyle=workBook.createCellStyle();
+        titleStyle.setFont(titleFont);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+        HSSFCellStyle style=workBook.createCellStyle();
+        style.setFont(font);
+        style.setLocked(true);
+        HSSFRow titleRow=sheet.createRow(0);
+        sheet.addMergedRegion(new CellRangeAddress(0,0,3,11));
+        sheet.addMergedRegion(new CellRangeAddress(1,1,4,10));
+        HSSFCell titleCell=titleRow.createCell(3);
+        titleCell.setCellStyle(titleStyle);
+        titleCell.setCellValue("Greater Noida Industrial Development Authority");
+        titleRow=sheet.createRow(1);
+        titleCell=titleRow.createCell(4);
+        titleFont.setFontHeightInPoints((short)13);
+        titleStyle.setFont(titleFont);
+        titleCell.setCellStyle(titleStyle);
+        titleCell.setCellValue("Software generated report of Land Department");
+        HSSFRow rowHead=sheet.createRow(2);
+        HSSFCell cell=rowHead.createCell(0);
+        cell.setCellValue("S.No");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(1);         
+        cell.setCellValue("Date");//1
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(2);        
+        cell.setCellValue("Account No");//1
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(3);
+        cell.setCellValue("File No");//2
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(4);
+        cell.setCellValue("File Subject");//3
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(5);
+        cell.setCellValue("File Type");//4
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(6);
+        cell.setCellValue("Line");//5
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(7);
+        cell.setCellValue("Opa/Fts No");//6
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(8);
+        cell.setCellValue("Village");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(9);
+        cell.setCellValue("Year");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(10);
+        cell.setCellValue("No_Of_Notsheet");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(11);
+        cell.setCellValue("No_Of_Cos");
+        cell.setCellStyle(style);  
+        cell=rowHead.createCell(12);
+        cell.setCellValue("No_Of_A3");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(13);
+        cell.setCellValue("No_Of_A2");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(14);
+        cell.setCellValue("No_Of_A1");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(15);
+        cell.setCellValue("No_Of_A0");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(16);
+        cell.setCellValue("Total_Pages");
+        cell.setCellStyle(style);  
+        cell=rowHead.createCell(17);
+        cell.setCellValue("Servey_Letter");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(18);
+        cell.setCellValue("Notifection");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(19);
+        cell.setCellValue("Morgeg_Letter");
+        cell.setCellStyle(style);  
+        cell=rowHead.createCell(20);
+        cell.setCellValue("Map_11");
+        cell.setCellStyle(style);
+      
+        int r=0,i=3;
+        for(int j=0;j<records.size();j++)
+        {
+        	r=0;
+            HSSFRow row=sheet.createRow(i);
+            row.createCell(r).setCellValue(i-2);
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getDate());
+            r++; 
+            row.createCell(r).setCellValue(records.get(j).getAccountNo());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getFileNo());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getFilesub());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getFileType());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getLine());
+            r++;
+            
+            row.createCell(r).setCellValue(records.get(j).getOpaFts());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getVillage());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getYear());
+            r++;
+            
+            row.createCell(r).setCellValue(records.get(j).getNo_of_notsheet());
+            r++;    
+            row.createCell(r).setCellValue(records.get(j).getNo_of_cos());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getNo_of_a3());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getNo_of_a2());
+            r++;    
+            row.createCell(r).setCellValue(records.get(j).getNo_of_a1());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getNo_of_a0());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getTotal_pages());
+            r++;    
+            row.createCell(r).setCellValue(records.get(j).getServey_letter());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getNotifection());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getMorgeg_letter());
+            r++;    
+            row.createCell(r).setCellValue(records.get(j).getMap_11());
+            i++;      
+           
+            
+            
+        }
+        try
+        {
+        	FileOutputStream out=new FileOutputStream(location+"Report.xls");
+        	workBook.write(out);
+        	out.close();
+        	workBook.close();
+        	downloadFile(response,"Report.xls",location,false,"","");
+        }
+        catch(Exception e)
+        {e.printStackTrace();}
+	}
+	
 	/*----------------------Marketing -----------------------------------*/
 	public static void generateMarketingReport(ArrayList<Marketing> records,String location,HttpServletResponse response)
 	{  
@@ -1161,7 +1462,7 @@ public class FileUtils
         titleFont.setFontHeightInPoints((short)13);
         titleStyle.setFont(titleFont);
         titleCell.setCellStyle(titleStyle);
-        titleCell.setCellValue("Software generated report of System Department");
+        titleCell.setCellValue("Software generated report of Marketing Department");
         HSSFRow rowHead=sheet.createRow(2);
         HSSFCell cell=rowHead.createCell(0);
         cell.setCellValue("S.No");
@@ -1228,12 +1529,13 @@ public class FileUtils
             row.createCell(r).setCellValue(records.get(j).getYear());
             r++;
             row.createCell(r).setCellValue(records.get(j).getNo_Of_NoteSheet());
-            i++;
+            r++;
             
             row.createCell(r).setCellValue(records.get(j).getNo_Of_Cros());
             r++;    
             row.createCell(r).setCellValue(records.get(j).getOpt_Name());
-            i++;
+            r++;
+            
             row.createCell(r).setCellValue(records.get(j).getTotal_No_Of_Pages());
             i++;      
            

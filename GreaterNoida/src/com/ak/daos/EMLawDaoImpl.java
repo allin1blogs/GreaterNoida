@@ -280,6 +280,14 @@ public class EMLawDaoImpl implements EMLawDao
 			return (Law)it.next();
 		return null;
 	}
+	
+	@Override
+	public Systems getSystemsRecord(int sno)
+	{    System.out.println("getSystemsRecord(int sno):1");
+		for(Iterator it=sessionFactory.getCurrentSession().createQuery("From Systems law where law.sno="+sno+"").list().iterator();it.hasNext();)
+			return (Systems)it.next();
+		return null;
+	}
 
 	@Override
 	public ProjectTech retrieveProjectTechRecords(int snos) {
@@ -350,6 +358,18 @@ public class EMLawDaoImpl implements EMLawDao
 		for(String sno:snos)
 			for(Iterator it=session.createQuery("From Systems law where law.sno="+Integer.parseInt(sno)+"").list().iterator();it.hasNext();)
 				records.add((Systems)it.next());
+		return records;
+	}
+	
+	@Override
+	public ArrayList<EM3> retrieveEM3Records(String[] snos) {
+		System.out.println("post method:1");
+		ArrayList<EM3> records=new ArrayList<EM3>();
+		System.out.println("2");
+		session=sessionFactory.getCurrentSession();
+		for(String sno:snos)
+			for(Iterator it=session.createQuery("From EM3 law where law.sno="+Integer.parseInt(sno)+"").list().iterator();it.hasNext();)
+				records.add((EM3)it.next());
 		return records;
 	}
 	

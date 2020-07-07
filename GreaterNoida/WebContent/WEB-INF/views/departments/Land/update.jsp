@@ -4,14 +4,14 @@
     Author     : Preeti Rani
 --%>
 
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="marketingForm"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="LandForm"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script type="text/javascript">
 	function update()
 	{
 		mscConfirm("Have checked all details before updating record?",function(){
-		  	document.getElementById('updateMarketingForm').submit();
+		  	document.getElementById('updateLandForm').submit();
 		});
 	}
 </script>
@@ -27,80 +27,90 @@
 	</div>
 </c:if>
 
-<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Marketing</p>
+<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Land</p>
 <div class="container">
-	<marketingForm:form action="updateMarketing" id="updateMarketingForm" enctype="multipart/form-data" method="post" modelAttribute="marketingForm">
+	<LandForm:form action="updateLand" id="updateLandForm" enctype="multipart/form-data" method="POST" modelAttribute="LandForm">
         <table class="table">
             <tr>
             	<td>
-                   	<label style="color: black; font-family: cambria;" for="Lot No"><h4><b>LOT NO:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="lot_No" readonly="true"/>
+                   	<label style="color: black; font-family: cambria;" for="Lot No"><h4><b>Account No:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="accountNo" required="true"/>
                 </td>
                 <td>
-                    <label style="color: black; font-family: cambria;" for="FTS NO OPA NO"><h4><b>FTS NO OPA NO:</b></h4></label><br>
-                    <marketingForm:input style="width: 235px; height: 35px;" path="fts_No_Opa_No" required="true"/>
+                    <label style="color: black; font-family: cambria;" for="fileNo"><h4><b>File No:</b></h4></label><br>
+                    <LandForm:input style="width: 235px; height: 35px;" path="fileNo" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="File No"><h4><b>File No:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="file_No" required="true"/>
+                   	<label style="color: black; font-family: cambria;" for=filesub><h4><b>File Subject:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="filesub" required="true"/>
                 </td>
             </tr>
             <tr>
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="Applicant_Name"><h4><b>Applicant Name:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="applicant_Name" required="true"/>
+                   	<label style="color: black; font-family: cambria;" for="fileType"><h4><b>File Type:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="fileType" required="true"/>
                 </td>
-               <%--  <td>
-                  	<label style="color: black; font-family: cambria;" for="No Of NoteSheet"><h4><b>No Of NoteSheet:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="no_Of_NoteSheet" required="true"/>
-                </td> --%>
+               <td>
+                  	<label style="color: black; font-family: cambria;" for="line"><h4><b>Line:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="line" required="true"/>
+                </td> 
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="Total No Of Pages"><h4><b>Total No Of Pages:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="Total_No_Of_Pages" required="true"/>
+                   	<label style="color: black; font-family: cambria;" for="opaFts"><h4><b>Opa/Fts No.:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="opaFts" required="true"/>
                 </td>
             </tr>
              
             <tr>
                 
-                <%-- <td>
-                  	<label style="color: black; font-family: cambria;" for="No Of Cros"><h4><b>No Of Cros:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="No_Of_Cros" required="true"/>
-                </td> --%>
+                 <td>
+                  	<label style="color: black; font-family: cambria;" for="no_of_cos"><h4><b>No Of Cros:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="no_of_cos" required="true"/>
+                </td> 
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="Opt Name"><h4><b>Opt Name:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="Opt_Name" required="true"/>
+                   	<label style="color: black; font-family: cambria;" for="village"><h4><b>Village:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="village" required="true"/>
+                </td>
+                <td>
+                   	<label style="color: black; font-family: cambria;" for="department"><h4><b>Department:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="department" required="true"/>
                 </td>
             </tr>
             <tr>
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="Year"><h4><b>Year:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="Year" required="true"/>
+                   	<label style="color: black; font-family: cambria;" for="year"><h4><b>Year:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="year" required="true"/>
                 </td>
                 <td>
-                  	<label style="color: black; font-family: cambria;" for="Date"><h4><b>Date:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="date" required="true"/>
+                  	<label style="color: black; font-family: cambria;" for="no_of_notsheet"><h4><b>No Of Notsheet:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="no_of_notsheet" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="Department"><h4><b>Department:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="department" required="true"/>
+                   	<label style="color: black; font-family: cambria;" for="servey_letter"><h4><b>Servey Letter:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="servey_letter" required="true"/>
                 </td>
             </tr>
             <tr>
             	<td>
-                   	<label style="color: black; font-family: cambria;" for="Clerk Name"><h4><b>Clerk Name:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="clerk_Name" required="true"/>
+                   	<label style="color: black; font-family: cambria;" for="notifection"><h4><b>Notification:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="notifection" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="Location"><h4><b>Location:</b></h4></label><br>
-                   	<marketingForm:input style="width: 235px; height: 35px;" path="Location" required="true"/>
+                   	<label style="color: black; font-family: cambria;" for="morgeg_letter"><h4><b>Morgeg letter:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="morgeg_letter" required="true"/>
                 </td>
                 <td>
+                   	<label style="color: black; font-family: cambria;" for="date"><h4><b>Date:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="date" required="true"/>
+                </td>
+            </tr>
+            <tr>
+             <td>
                    	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose File Pages:</b></h4></label><br>
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="file"/>
                 </td>
             </tr>
-            <tr><td><marketingForm:hidden path="sno"/></td><td colspan="2"><marketingForm:hidden path="location"/></td></tr>
+            <tr><td><LandForm:hidden path="sno"/></td><td colspan="2"><LandForm:hidden path="location"/></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
-    </marketingForm:form>
+    </LandForm:form>
 </div>

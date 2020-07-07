@@ -91,12 +91,12 @@ public class LandDaoImpl implements LandDao {
 	}
 
 	@Override
-	public Marketing getMarketingRecord(int sno) {
-		System.out.println("getMarketingRecord(int sno):1");
+	public Land getLandRecord(int sno) {
+		System.out.println("getLawRecord(int sno):1");
 		for (Iterator it = sessionFactory.getCurrentSession()
-				.createQuery("From Marketing marketing where marketing.sno=" + sno + "").list().iterator(); it
+				.createQuery("From Land marketing where marketing.sno=" + sno + "").list().iterator(); it
 						.hasNext();)
-			return (Marketing) it.next();
+			return (Land) it.next();
 		return null;
 	}
 
@@ -121,15 +121,15 @@ public class LandDaoImpl implements LandDao {
 	}
 
 	@Override
-	public ArrayList<Marketing> retrieveMarketingRecords(String[] snos) {
+	public ArrayList<Land> retrieveLandRecords(String[] snos) {
 		System.out.println("post method:1");
-		ArrayList<Marketing> records = new ArrayList<Marketing>();
+		ArrayList<Land> records = new ArrayList<Land>();
 		System.out.println("2");
 		session = sessionFactory.getCurrentSession();
 		for (String sno : snos)
-			for (Iterator it = session.createQuery("From Marketing law where law.sno=" + Integer.parseInt(sno) + "")
+			for (Iterator it = session.createQuery("From Land law where law.sno=" + Integer.parseInt(sno) + "")
 					.list().iterator(); it.hasNext();)
-				records.add((Marketing) it.next());
+				records.add((Land) it.next());
 		return records;
 	}
 
