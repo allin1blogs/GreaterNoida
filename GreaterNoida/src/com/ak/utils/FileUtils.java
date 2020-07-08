@@ -36,6 +36,7 @@ import com.ak.modals.EM3;
 import com.ak.modals.Finance;
 import com.ak.modals.General;
 import com.ak.modals.HR;
+import com.ak.modals.Health;
 import com.ak.modals.Land;
 import com.ak.modals.Law;
 import com.ak.modals.Marketing;
@@ -1538,6 +1539,132 @@ public class FileUtils
             
             row.createCell(r).setCellValue(records.get(j).getTotal_No_Of_Pages());
             i++;      
+           
+            
+            
+        }
+        try
+        {
+        	FileOutputStream out=new FileOutputStream(location+"Report.xls");
+        	workBook.write(out);
+        	out.close();
+        	workBook.close();
+        	downloadFile(response,"Report.xls",location,false,"","");
+        }
+        catch(Exception e)
+        {e.printStackTrace();}
+	}
+	
+	/*----------------------Health -----------------------------------*/
+	public static void generateHealthReport(ArrayList<Health> records,String location,HttpServletResponse response)
+	{  
+		System.out.println("generateHealth Report:1");
+		HSSFWorkbook workBook=new HSSFWorkbook();
+		System.out.println("generateHealth Report:2");
+        HSSFSheet sheet=workBook.createSheet("Records Report");
+        System.out.println("generateHealth Report:3");
+        HSSFFont titleFont=workBook.createFont();
+        titleFont.setBold(true);
+        titleFont.setFontHeightInPoints((short)16);
+        HSSFFont font=workBook.createFont();
+        font.setBold(true);
+        HSSFCellStyle titleStyle=workBook.createCellStyle();
+        titleStyle.setFont(titleFont);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+        HSSFCellStyle style=workBook.createCellStyle();
+        style.setFont(font);
+        style.setLocked(true);
+        HSSFRow titleRow=sheet.createRow(0);
+        sheet.addMergedRegion(new CellRangeAddress(0,0,3,11));
+        sheet.addMergedRegion(new CellRangeAddress(1,1,4,10));
+        HSSFCell titleCell=titleRow.createCell(3);
+        titleCell.setCellStyle(titleStyle);
+        titleCell.setCellValue("Greater Noida Industrial Development Authority");
+        titleRow=sheet.createRow(1);
+        titleCell=titleRow.createCell(4);
+        titleFont.setFontHeightInPoints((short)13);
+        titleStyle.setFont(titleFont);
+        titleCell.setCellStyle(titleStyle);
+        titleCell.setCellValue("Software generated report of Health Department");
+        HSSFRow rowHead=sheet.createRow(2);
+        HSSFCell cell=rowHead.createCell(0);
+        cell.setCellValue("Sno");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(1);         
+        cell.setCellValue("Category");//1
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(2);        
+        cell.setCellValue("ContractorName");//1
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(3);
+        cell.setCellValue("Department");//2
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(4);
+        cell.setCellValue("FileNo");//3
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(5);
+        cell.setCellValue("Location");//4
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(6);
+        cell.setCellValue("Opa_Fts");//5
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(7);
+        cell.setCellValue("Sector");//6
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(8);
+        cell.setCellValue("WorkName");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(9);
+        cell.setCellValue("Year");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(10);
+        cell.setCellValue("No_Of_Cros");
+        cell.setCellStyle(style);        
+        cell=rowHead.createCell(11);
+        cell.setCellValue("ContrName");
+        cell.setCellStyle(style);  
+        cell=rowHead.createCell(12);
+        cell.setCellValue("OpaFts");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(13);
+        cell.setCellValue("Scheme");
+        cell.setCellStyle(style);
+        int r=0,i=3;
+        for(int j=0;j<records.size();j++)
+        {
+        	r=0;
+            HSSFRow row=sheet.createRow(i);
+            row.createCell(r).setCellValue(i-2);
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getCategory());
+            i++; 
+            row.createCell(r).setCellValue(records.get(j).getContractorName());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getDepartment());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getFileNo());
+            r++;
+            
+            row.createCell(r).setCellValue(records.get(j).getLocation());
+            r++;
+            
+            row.createCell(r).setCellValue(records.get(j).getOpa_fts());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getSector());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getWorkName());
+            r++;
+            
+            row.createCell(r).setCellValue(records.get(j).getYear());
+            r++;    
+            row.createCell(r).setCellValue(records.get(j).getContrName());
+            r++;
+            
+            row.createCell(r).setCellValue(records.get(j).getOpafts());
+            i++;  
+            
+            row.createCell(r).setCellValue(records.get(j).getScheme());
+            i++;
            
             
             

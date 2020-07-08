@@ -20,9 +20,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ak.beans.Keys;
 import com.ak.modals.EM;
 import com.ak.modals.General;
+import com.ak.modals.Health;
 import com.ak.modals.Marketing;
 import com.ak.modals.Systems;
 import com.ak.services.CommonService;
+import com.ak.services.HealthService;
 import com.ak.services.MarketingService;
 import com.ak.utils.FileUtils;
 import com.ak.utils.Utils;
@@ -42,6 +44,10 @@ public class MarketingController {
 	private MarketingService marketingService;
 	@Autowired
 	private CommonService commonService;
+	
+	@Autowired
+	private HealthService healthService;
+	
 	@Autowired
 	private Keys keys;
 
@@ -69,6 +75,30 @@ public class MarketingController {
 		}
 		return "departments/Marketing/retrieve";
 		}
+		@RequestMapping(value = "/retrieveHealth", method = RequestMethod.GET)
+	public String retrieveHealth(ModelMap model, HttpServletRequest request,
+			@ModelAttribute("HealthForm") Health health) {
+		String uId = modelInitializer.getId(request);
+		if (uId == null)
+			return "error";
+		model = modelInitializer.initializeModel(model, request);
+		model.addAttribute("department", health.getDepartment());
+		if (modelInitializer.getIdModule(request).equals("Super Administrator")
+				|| modelInitializer.getIdModule(request).equals("Administrator"))
+			model.addAttribute("sectors", commonService.getAllSectors(health.getDepartment()));
+		else
+			model.addAttribute("sectors", commonService.getAllSectors(health.getDepartment(), uId));
+		ArrayList<String> params = utils.generateHealthParams(health);
+		ArrayList<Health> records = healthService.retrieveHealthRecords(params);
+		if (records.isEmpty())
+			model.addAttribute("msg", "No Record Found");
+		else {
+			request.getSession(false).setAttribute("params", params);
+			model.addAttribute("records", records);
+			model = modelInitializer.getRights(model, request);
+		}
+		return "departments/Health/retrieve";
+	}
 
 	@RequestMapping(value = "/updateMarketing", method = RequestMethod.POST)
 	public String updateMarketing(HttpServletRequest request, @ModelAttribute("MarketingForm") Marketing marketing, RedirectAttributes flashAttributes)
@@ -84,6 +114,21 @@ public class MarketingController {
 		commonService.insertLogs(uId,
 				"Updated File of " + marketing.getDepartment() + " with Id:" + marketing.getFts_No_Opa_No() + ".");
 		return "redirect:/updateFile?department=Marketing&sno=" + marketing.getSno();
+	}
+	@RequestMapping(value = "/updateHealth", method = RequestMethod.POST)
+	public String updateHealth(HttpServletRequest request, @ModelAttribute("HealthForm") Health health, RedirectAttributes flashAttributes)
+			throws IOException {
+		String uId = modelInitializer.getId(request);
+		if (uId == null)
+			return "error";
+		
+		
+		
+		healthService.insertOrUpdateHealth(health);
+		flashAttributes.addFlashAttribute("msg", "File has been updated successfully.");
+		commonService.insertLogs(uId,
+				"Updated File of " + health.getDepartment() + " with Id:" + health.getOpa_fts() + ".");
+		return "redirect:/updateFile?department=Health&sno=" + health.getSno();
 	}
 
 }

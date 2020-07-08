@@ -63,6 +63,9 @@ public class Keys
 	
 	@Value("#{'${LandHeader}'.split(',')}")
 	private String[] LandHeader;
+	
+	@Value("#{'${HealthHeader}'.split(',')}")
+	private String[] HealthHeader;
 	/*----------------------------------------*/
 	
 	
@@ -221,6 +224,12 @@ public class Keys
 	}
 	public void setLandHeader(String[] landHeader) {
 		LandHeader = landHeader;
+	}
+	public String[] getHealthHeader() {
+		return HealthHeader;
+	}
+	public void setHealthHeader(String[] healthHeader) {
+		HealthHeader = healthHeader;
 	}
 	
 	

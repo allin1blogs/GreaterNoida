@@ -13,6 +13,7 @@ import com.ak.modals.EM3;
 import com.ak.modals.Finance;
 import com.ak.modals.General;
 import com.ak.modals.HR;
+import com.ak.modals.Health;
 import com.ak.modals.Land;
 import com.ak.modals.Law;
 import com.ak.modals.Marketing;
@@ -136,10 +137,9 @@ public class Utils
 			return keys.getPlnResHeader();
 		else if(department.equals("Planning(Industry)"))
 			return keys.getPlnIndHeader();
-		/*
-		 * else if(department.equals("Health")) return keys.
-		 */
-		
+		 else 
+			 if(department.equals("Health")) 
+			return keys.getHealthHeader();
 		else if(department.equals("HR"))
 			return keys.getHRHeader();		
 		else if(department.equals("UE"))
@@ -441,6 +441,48 @@ public class Utils
 		return params;
 	}
 	
+	public ArrayList<String> generateHealthParams(Health health)
+	{
+		ArrayList<String> params=new ArrayList<String>();
+		if(health.getCategory()!=null && health.getCategory().trim().length()>0)
+			params.add(health.getCategory()+"@category");
+		
+		if(health.getContractorName()!=null && health.getContractorName().trim().length()>0)
+			params.add(health.getContractorName()+"@contractorName");
+		
+		if(health.getDepartment()!=null && health.getDepartment().trim().length()>0)
+			params.add(health.getDepartment()+"@department");
+		
+		if(health.getFileNo()!=null && health.getFileNo().trim().length()>0)
+			params.add(health.getFileNo()+"@fileNo");
+		
+		if(health.getLocation()!=null && health.getLocation().trim().length()>0)
+			params.add(health.getLocation()+"@location");
+		
+		if(health.getOpa_fts()!=null && health.getOpa_fts().trim().length()>0)
+			params.add(health.getOpa_fts()+"@opa_fts");
+		
+		if(health.getSector()!=null && health.getSector().trim().length()>0)
+			params.add(health.getSector()+"@sector");
+		
+		if(health.getWorkName()!=null && health.getWorkName().trim().length()>0)
+			params.add(health.getWorkName()+"@workName");
+		
+		if(health.getYear()!=null && health.getYear().trim().length()>0)
+			params.add(health.getYear()+"@year");
+		
+		if(health.getContrName()!=null && health.getContrName().trim().length()>0)
+			params.add(health.getContrName()+"@contrName");
+		
+		if(health.getOpafts()!=null && health.getOpafts().trim().length()>0)
+			params.add(health.getOpafts()+"@opaFts");
+		
+		if(health.getScheme()!=null && health.getScheme().trim().length()>0)
+			params.add(health.getScheme()+"@scheme");
+		
+		
+		return params;
+	}
 	public ArrayList<String> generateLandParams(Land mk)
 	{
 		ArrayList<String> params=new ArrayList<String>();

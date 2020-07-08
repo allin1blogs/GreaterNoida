@@ -28,6 +28,7 @@ import com.ak.modals.EM3;
 import com.ak.modals.Finance;
 import com.ak.modals.General;
 import com.ak.modals.HR;
+import com.ak.modals.Health;
 import com.ak.modals.Land;
 import com.ak.modals.Law;
 import com.ak.modals.Marketing;
@@ -41,6 +42,7 @@ import com.ak.services.CommonService;
 import com.ak.services.EMLawService;
 import com.ak.services.GenAgePlanService;
 import com.ak.services.HRService;
+import com.ak.services.HealthService;
 import com.ak.services.LandService;
 import com.ak.services.MarketingService;
 import com.ak.services.ProFinService;
@@ -74,6 +76,10 @@ public class FileController
 	private CommonService commonService;
 	@Autowired
 	private MarketingService marketingService;
+	
+	@Autowired
+	private HealthService healthService;
+	
 	@Autowired
 	private HRService hrs;
 	@Autowired
@@ -304,7 +310,17 @@ public class FileController
 	        					
 	        					if(new File(pdfLocation+"/"+data[6].trim()+".pdf").exists())
 	        						uploadMarketingFiles(data,pdfLocation);
-	        				} 
+	        				}
+	        				
+	        				if(department.equals("Health"))
+	        				{
+	        					System.out.println("file path :  "+pdfLocation+"/"+data[6].trim()+".pdf");
+	        					if(new File(pdfLocation+"/"+data[3].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R"+".pdf").exists())
+	        						uploadHealthFiles(data,pdfLocation);
+	        					
+	        					if(new File(pdfLocation+"/"+data[3].trim()+".pdf").exists())
+	        						uploadHealthFiles(data,pdfLocation);
+	        				}
 	        				
 	        				if(department.equals("HR"))
 	        				{
@@ -662,6 +678,29 @@ public class FileController
 		new File(pdfLocation+"/"+data[6].trim()+" R.pdf").renameTo(new File(makt.getLocation()+data[6].trim()+"R.pdf"));
 	}
 	
+	private void uploadHealthFiles(String[] data,String pdfLocation)
+	{
+		Health health=new Health();
+		
+		health.setSector(data[1]);
+		health.setCategory(data[2]);
+		health.setOpa_fts(data[3].trim());
+		health.setWorkName(data[4]);
+		health.setContractorName(data[5]);
+		health.setDepartment(data[6]);
+		health.setFileNo(data[7]);
+		health.setYear(data[8]);
+		health.setLocation(utils.generateFilePath());
+		healthService.insertOrUpdateHealth(health);
+		System.out.println(pdfLocation+"/"+data[3].trim()+"L.pdf");
+		System.out.println(health.getLocation()+data[3].trim()+".pdf");
+		//new File(pdfLocation+"/"+data[3].trim()+"L.pdf").renameTo(new File(makt.getLocation()+data[3].trim()+"L.pdf"));
+		
+		new File(pdfLocation+"/"+data[3].trim()+"L.pdf").renameTo(new File(health.getLocation()+data[3].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+"R.pdf").renameTo(new File(health.getLocation()+data[3].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+" L.pdf").renameTo(new File(health.getLocation()+data[3].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+" R.pdf").renameTo(new File(health.getLocation()+data[3].trim()+"R.pdf"));
+	}
 	/*----------------------------------------------------------------*/
 	private void uploadHRFiles(String[] data,String pdfLocation)
 	{
@@ -857,6 +896,29 @@ public class FileController
 				}
 			}
 			
+			if(department.equals("Health"))
+			{
+				location=healthService.getLocation(Integer.parseInt(sno),department);
+				System.out.println("view:1:Health:"+location);
+				System.out.println("Health");
+				if(department.equals("Health")) {
+					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+						
+					
+					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+				}
+				else
+				{
+					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+				}
+			}
+			
+			
+			
+			
+			
 			if(department.equals("Land"))
 			{
 				location=landService.getLocation(Integer.parseInt(sno),department);
@@ -950,6 +1012,15 @@ public class FileController
 					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
 			}
 			
+			if(department.equals("Health") )
+			{    
+				System.out.println("Health");
+				location=healthService.getLocation(Integer.parseInt(sno),department);
+				if(department.equals("Health"))
+					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
+				else
+					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+			}
 			
 			if(department.equals("HR"))
 			{    System.out.println("view:HR");
@@ -1055,6 +1126,15 @@ public class FileController
 				FileUtils.newDownloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 		}
 		
+		if(department.equals("Health"))
+		{
+			location=healthService.getHealthLocation(department,Integer.parseInt(sno));
+			if(department.equals("Health"))
+				FileUtils.newDownloadFile(response,id+".pdf",location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+			else
+				FileUtils.newDownloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+		}
+		
 		if(department.equals("Land"))
 		{
 			location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
@@ -1113,6 +1193,8 @@ public class FileController
 			model.addAttribute("marketingForm",marketingService.getMarketingRecord(Integer.parseInt(sno)));
 		if(department.equals("HR"))
 			model.addAttribute("HRForm",hrs.getHRRecord(Integer.parseInt(sno)));
+		if(department.equals("Health"))
+			model.addAttribute("HealthForm",healthService.getHealthRecord(Integer.parseInt(sno)));
 		if(department.equals("Systems"))
 			model.addAttribute("SystemForm",emlService.getSystemsRecord(Integer.parseInt(sno)));
 		if(department.equals("UE"))
@@ -1254,6 +1336,22 @@ public class FileController
 			System.out.println("MarketingReport:3");
 			FileUtils.generateMarketingReport(record,location,response);
 		}
+		
+		if(department.equals("Health"))
+		{
+			ArrayList<Health> record=new ArrayList<Health>();
+			record.add(healthService.retrieveHealth(Integer.parseInt(sno)));
+			System.out.println("HealthReport:3");
+			FileUtils.generateHealthReport(record,location,response);
+		}
+		
+		if(department.equals("Health"))
+		{
+			ArrayList<Health> record=new ArrayList<Health>();
+			record.add(healthService.retrieveHealth(Integer.parseInt(sno)));
+			System.out.println("HealthReport:3");
+			FileUtils.generateHealthReport(record,location,response);
+		}
 	/*------------------------------------------------------*/	
 		if(department.equals("UE"))
 		{
@@ -1371,6 +1469,12 @@ public class FileController
 			{ 
 				System.out.println("MarketingReport:1:post method");				
 			    FileUtils.generateMarketingReport(marketingService.retrieveMarketingRecords(snos),location,response);
+			}
+			
+			if(department.equals("Health"))
+			{ 
+				System.out.println("HealthReport:1:post method");				
+			    FileUtils.generateHealthReport(healthService.retrieveHealthRecords(snos),location,response);
 			}
 			
 			if(department.equals("Land"))

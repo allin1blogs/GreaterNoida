@@ -238,4 +238,15 @@
         <put-attribute name="body" value="/WEB-INF/views/tracking/logs.jsp"></put-attribute>
     </definition>
     
+     <definition name="departments/Health/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Health/retrieve.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="departments/Health/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/Health/update.jsp"></put-attribute>
+    </definition>
+    
+    
 </tiles-definitions>

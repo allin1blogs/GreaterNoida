@@ -15,6 +15,7 @@ import com.ak.modals.EM3;
 import com.ak.modals.Finance;
 import com.ak.modals.General;
 import com.ak.modals.HR;
+import com.ak.modals.Health;
 import com.ak.modals.Land;
 import com.ak.modals.Law;
 import com.ak.modals.Marketing;
@@ -171,6 +172,9 @@ public class ModelInitializer
 		if(department.equals("ProjectTech"))
 			model.addAttribute("ProjectTechForm",new ProjectTech());
 		
+		if(department.equals("Health"))
+			model.addAttribute("HealthForm",new Health());
+		
 		return model;
 	}
 	
@@ -205,7 +209,8 @@ public class ModelInitializer
 			return "Planning2";
 		else if (department.equals("UE"))
 			return "UE";
-		
+		else if (department.equals("Health"))
+			return "Health";
 		
 		else if (department.equals("ProjectTech"))
 			return "ProjectTech";
