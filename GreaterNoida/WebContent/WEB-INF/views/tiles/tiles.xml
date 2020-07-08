@@ -164,6 +164,10 @@
         <put-attribute name="body" value="/WEB-INF/views/departments/UE/retrieve.jsp"></put-attribute>
     </definition>
     
+     <definition name="departments/UE/update" extends="base.definition">
+        <put-attribute name="title" value="Search UE Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/UE/update.jsp"></put-attribute>
+    </definition>
     
     
     

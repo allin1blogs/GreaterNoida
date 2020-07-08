@@ -58,6 +58,7 @@ public interface EMLawDao
 	public EM3 getEM3Record(int sno);
 	public Law getLawRecord(int sno);
 	public Systems getSystemsRecord(int sno);
+	public UE getUERecord(int sno);
 	public ArrayList<EM> retrieveEMRecords(String[] snos);
 	
 	public Law retrieveLawRecords(int snos);//1

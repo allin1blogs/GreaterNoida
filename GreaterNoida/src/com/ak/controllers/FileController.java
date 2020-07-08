@@ -707,16 +707,22 @@ public class FileController
 	private void uploadUEFiles(String[] data,String pdfLocation)
 	{
 		UE ue=new UE();
-		ue.setName_Of_Work(data[1]);
-		ue.setContractor_Name(data[2].trim());
-		
-		ue.setDepartment(data[3]);
-		ue.setFile_Number(data[4]);
-		ue.setNo_Of_Cros(data[5]);
+		ue.setSector(data[1]);
+		ue.setCategory(data[2]);
+		ue.setOpa_fts(data[3].trim());
+		ue.setName_Of_Work(data[4]);
+		ue.setContractor_Name(data[5]);
+		ue.setDepartment(data[6]);
+		ue.setFile_Number(data[7]);
+		ue.setYear(data[8]);
+		ue.setLocation(utils.generateFilePath());
 		
 		
 		emlService.insertOrUpdateUERecord(ue);
-		new File(pdfLocation+"/"+data[4].trim()+".pdf").renameTo(new File(ue.getLocation()+data[4].trim()+".pdf"));	
+		new File(pdfLocation+"/"+data[3].trim()+"L.pdf").renameTo(new File(ue.getLocation()+data[3].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+"R.pdf").renameTo(new File(ue.getLocation()+data[3].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+" L.pdf").renameTo(new File(ue.getLocation()+data[3].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+" R.pdf").renameTo(new File(ue.getLocation()+data[3].trim()+"R.pdf"));
 		
 	}
 	
@@ -824,7 +830,10 @@ public class FileController
 				}
 				else
 				{
-					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+                     count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+						
+					
+					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				}
 			}
@@ -1106,7 +1115,8 @@ public class FileController
 			model.addAttribute("HRForm",hrs.getHRRecord(Integer.parseInt(sno)));
 		if(department.equals("Systems"))
 			model.addAttribute("SystemForm",emlService.getSystemsRecord(Integer.parseInt(sno)));
-		
+		if(department.equals("UE"))
+			model.addAttribute("UEForm",emlService.getUERecord(Integer.parseInt(sno)));
 		System.out.println("departments/"+department+"/update");
 		
 		return "departments/"+department+"/update";

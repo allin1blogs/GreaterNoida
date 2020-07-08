@@ -36,6 +36,9 @@ import com.ak.utils.Utils;
 /*
  *	@Author
  *	Swapril Tyagi 
+ *
+ *  @Update
+ *	Preeti Rani 
 */
 
 @Controller
@@ -251,6 +254,48 @@ public class EMLController
 		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");
 		commonService.insertLogs(uId,"Updated File of EM with Id:"+em.getFile_No()+".");
 		return "redirect:/updateFile?department=Systems&sno="+em.getSno();
+	}
+	
+	@RequestMapping(value="/updateUE",method=RequestMethod.POST)
+	public String updateUE(HttpServletRequest request,@ModelAttribute("UEForm")UE em,@RequestParam("noteSheet")MultipartFile noteSheet,@RequestParam("correspondence")MultipartFile correspondence,RedirectAttributes flashAttributes)throws IOException
+	{
+		String uId=modelInitializer.getId(request);
+		if(uId==null)
+			return "error";
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			if(!noteSheet.getOriginalFilename().equals(em.getOpa_fts()+"L.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Notesheet name should be as FileL.pdf");
+				return "redirect:/updateFile?department=UE&sno="+em.getOpa_fts();
+			}
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
+		{
+			if(!correspondence.getOriginalFilename().equals(em.getOpa_fts()+"R.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Correspondence name should be as FileL/FTSNoR.pdf");
+				return "redirect:/updateFile?department=UE&sno="+em.getOpa_fts();
+			}
+		}
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			new File(em.getLocation()+em.getOpa_fts()+"L.pdf").renameTo(new File("C:/Resources/"+em.getOpa_fts()+"L.pdf"));
+			Files.write(Paths.get(keys.getRepository()+em.getOpa_fts()+"L.pdf"),noteSheet.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+em.getOpa_fts()+"L.pdf",keys.getRepository()+em.getOpa_fts()+"L.pdf",em.getLocation()+em.getOpa_fts()+"L.pdf");
+			new File("C:/Resources/"+em.getOpa_fts()+"L.pdf").delete();new File(keys.getRepository()+em.getOpa_fts()+"L.pdf").delete();
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
+		{
+			new File(em.getLocation()+em.getOpa_fts()+"R.pdf").renameTo(new File("C:/Resources/"+em.getOpa_fts()+"R.pdf"));
+			Files.write(Paths.get(keys.getRepository()+em.getOpa_fts()+"R.pdf"),noteSheet.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+em.getOpa_fts()+"R.pdf",keys.getRepository()+em.getOpa_fts()+"R.pdf",em.getLocation()+em.getOpa_fts()+"R.pdf");
+			new File("C:/Resources/"+em.getOpa_fts()+"R.pdf").delete();new File(keys.getRepository()+em.getOpa_fts()+"R.pdf").delete();
+		}
+		emlService.insertOrUpdateUERecord(em);
+		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");
+		commonService.insertLogs(uId,"Updated File of EM with Id:"+em.getOpa_fts()+".");
+		return "redirect:/updateFile?department=UE&sno="+em.getSno();
 	}
 	
 	@RequestMapping(value="/updateEM3",method=RequestMethod.POST)

@@ -16,9 +16,25 @@ public class UE {
 	 @Column(name="Sno")
 	 private int sno;
 	 
+	 @Column(name="Sector")
+	 private String  sector;
+	 
 	 @Column(name="NameOfWork")
 	 private String  name_Of_Work;
 	 
+	 
+	 @Column(name="Opa_Fts")
+	 private String opa_fts;
+	 
+	 @Column(name="category")
+	 private String  category;
+	 
+	 @Column(name="date")
+	 private String  date;
+	 
+	 
+	 @Column(name="line_no")
+	 private String line_no;
 	 
 	 @Column(name="Contractor_Name")
 	 private String contractor_Name;
@@ -31,9 +47,6 @@ public class UE {
 	 
 	 @Column(name="Year")
 	 private String	 year;
-	 
-	 @Column(name="NoteSheet")
-	 private String NoteSheet;
 	 
 	 @Column(name=" No_Of_Cros")
 	 private String no_Of_Cros;
@@ -56,14 +69,6 @@ public class UE {
 	 @Column(name="Location")
 	 private String Location;
 	 
-	
-	public String getNoteSheet() {
-		return NoteSheet;
-	}
-	public void setNoteSheet(String noteSheet) {
-		NoteSheet = noteSheet;
-	}
-	
 	public String getNo_Of_Cros() {
 		return no_Of_Cros;
 	}
@@ -143,6 +148,36 @@ public class UE {
 	}
 	public String getLocation() {
 		return Location;
+	}
+	public String getSector() {
+		return sector;
+	}
+	public String getOpa_fts() {
+		return opa_fts;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public String getDate() {
+		return date;
+	}
+	public String getLine_no() {
+		return line_no;
+	}
+	public void setSector(String sector) {
+		this.sector = sector;
+	}
+	public void setOpa_fts(String opa_fts) {
+		this.opa_fts = opa_fts;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public void setLine_no(String line_no) {
+		this.line_no = line_no;
 	}
 	 
 	 

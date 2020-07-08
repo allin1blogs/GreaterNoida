@@ -336,26 +336,22 @@ public class Utils
 	public ArrayList<String> generateUEParams(UE ue)
 	{    System.out.println("generateUEParams:1");
 		ArrayList<String> params=new ArrayList<String>();
-		 System.out.println("2");
 		if(ue.getName_Of_Work()!=null && ue.getName_Of_Work().trim().length()>0)
-			 System.out.println("3");
 			params.add(ue.getName_Of_Work()+"@name_Of_Work");	
-			 System.out.println("4");
 		if(ue.getContractor_Name()!=null && ue.getContractor_Name().trim().length()>0)
-			 System.out.println("5");
 			params.add(ue.getContractor_Name()+"@contractor_Name");		
-			 System.out.println("6");
 		if(ue.getDepartment()!=null && ue.getDepartment().trim().length()>0)
-			 System.out.println("7");
 			params.add(ue.getDepartment()+"@department");	
-			 System.out.println("8");
 		if(ue.getFile_Number()!=null && ue.getFile_Number().trim().length()>0)
-			 System.out.println("9");
 			params.add(ue.getFile_Number()+"@file_Number");		
-			 System.out.println("10");
 		if(ue.getNo_Of_Cros()!=null && ue.getNo_Of_Cros().trim().length()>0)
-			 System.out.println("2");
-			params.add(ue.getNo_Of_Cros()+"@no_Of_Cros");		
+			params.add(ue.getNo_Of_Cros()+"@no_Of_Cros");	
+			if(ue.getCategory()!=null && ue.getCategory().trim().length()>0)
+				params.add(ue.getCategory()+"@category");	
+			if(ue.getOpa_fts()!=null && ue.getOpa_fts().trim().length()>0)
+				params.add(ue.getOpa_fts()+"@opa_fts");		
+			if(ue.getSector()!=null && ue.getSector().trim().length()>0)
+				params.add(ue.getSector()+"@sector");	
 		
 		
 		return params;

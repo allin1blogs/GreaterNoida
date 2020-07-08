@@ -1,6 +1,10 @@
+<%-- 
+    Document   : Create Records
+    Created on : 22 June, 2020, 01:00:32 PM
+    Author     : Preeti Rani
+--%>
 
-
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="lawForm"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="UEForm"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <link rel="stylesheet" href="<c:url value='staticResources/styleSheets/tableManager.css'/>"/>
@@ -8,6 +12,7 @@
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.min.js'/>"></script>
 
+<div id="ftsNo" style="display:none">${param.opa_fts}</div>
 <script type="text/javascript">
 	var request,fileId,count,currentCount;
 	$(document).ready(function() 
@@ -25,13 +30,15 @@
 	});
 	function retrieveFiles()
 	{
-		var Name_Of_Work=document.getElementById('name_Of_Work').value;
-		var Contractor_Name=document.getElementById('contractor_Name').value;
+		var name_Of_Work=document.getElementById('name_Of_Work').value;
+		var contractor_Name=document.getElementById('contractor_Name').value;
 		var Department=document.getElementById('department').value;
 		var file_Number=document.getElementById('file_Number').value;
-		var no_Of_Cros=document.getElementById('no_Of_Cros').value;
+		var category=document.getElementById('category').value;
+		var opa_fts=document.getElementById('opa_fts').value;
+		var sector=document.getElementById('sector').value;
 		
-		if(Name_Of_Work=='' && Contractor_Name=='' && Department=='' && file_Number=='' && no_Of_Cros=='')
+		if(name_Of_Work=='' && contractor_Name=='' && Department=='' && file_Number==''  && category=='' && opa_fts=='' && sector=='')
 			setContent('Empty Parameters!');
 		else
 			document.getElementById('UEForm').submit();
@@ -50,7 +57,8 @@
 			else if(window.ActiveXObject)  
 				request=new ActiveXObject("Microsoft.XMLHTTP");
 			document.getElementById('id01').style.display='block';
-			document.getElementById('div').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Opening File...</p>';
+			document.getElementById('noteDiv').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Opening Notesheet...</p>';
+			document.getElementById('corrDiv').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Opening Correspondence...</p>';
 			try
 			{
 				request.onreadystatechange=setFile;
@@ -66,39 +74,88 @@
 		if(request.readyState==4)
 		{
 			var data=request.responseText.split('<@>');
-			fileId=data[0];count=data[1];
-			setPageList();
+			fileId=data[0];noteCount=data[1];corrCount=data[2];
+			var notePage=document.getElementById('notePage');
+			var corrPage=document.getElementById('corrPage');
+			for(var i=0;i<noteCount;i++)
+			{
+				if(i==0)
+					notePage.innerHTML='<option value="Select">Select</option>';
+				else
+					notePage.innerHTML=notePage.innerHTML+'<option value="'+i+'">'+i+'</option>'
+			}
+			for(var i=0;i<corrCount;i++)
+			{
+				if(i==0)
+					corrPage.innerHTML='<option value="Select">Select</option>';
+				else
+					corrPage.innerHTML=corrPage.innerHTML+'<option value="'+i+'">'+i+'</option>'
+			}
 			var pages='<p style="text-align: center; font-family: cambria; font-size: 14px; color: #ffffff;">Go To Page:</p><select style="width: 50px; height: 15px;" name="notePage"><option value="Select">Select</option></select>';
-			currentCount=1;
-			getPage(1);
+			currentNote=1;currentCorr=1;
+			getPage('noteDiv',1);getPage('corrDiv',1);
 		}
 	}
-	function nexPre(opr)
+	function nexPre(type,opr)
 	{
-		if(opr=='pre' && currentCount!=1)
-			currentCount=currentCount-1;
-		if(opr=='nex' && currentCount<(count-1))
-			currentCount=currentCount+1;
-		getPage(currentCount);
+		if(type=='noteDiv')
+		{
+			if(opr=='pre' && currentNote!=1)
+				currentNote=currentNote-1;
+			if(opr=='nex' && currentNote<(noteCount-1))
+				currentNote=currentNote+1;
+			getPage(type,currentNote);
+		}
+		else
+		{
+			if(opr=='pre' && currentCorr!=1)
+				currentCorr=currentCorr-1;
+			if(opr=='nex' && currentCorr<(corrCount-1))
+				currentCorr=currentCorr+1;
+			getPage(type,currentCorr);
+		}
 		setPageList();
 	}
-	function getPage(page)
+	function getPage(type,page)
 	{
-		var div=document.getElementById('div');
+		var div=document.getElementById(type);
 		if(page=='self')
-			page=parseInt(document.getElementById('page').value);
-		currentCount=page;
-		div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'@'+page+'.pdf#toolbar=0"></object>';
-	}
+		{
+			page=parseInt(document.getElementById(type).value);
+			if(type=='notePage')
+				div=document.getElementById('noteDiv');
+			else
+				div=document.getElementById('corrDiv');
+		}
+		var ftsNumber =document.getElementById('ftsNo').innerHTML;
+		if(type=='noteDiv' || type=='notePage')
+		{
+			currentNote=page;
+			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+ftsNumber+'L@'+page+'L.pdf#toolbar=0"></object>';
+		}
+		else
+		{
+			currentCorr=page;
+			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+ftsNumber+'R@'+page+'R.pdf#toolbar=0"></object>';
+		}
+		}
 	function setPageList()
 	{
-		var page=document.getElementById('page');
-		for(var i=0;i<count;i++)
+		var notePage=document.getElementById('notePage');
+		var corrPage=document.getElementById('corrPage');
+		for(var i=0;i<noteCount;i++)
 		{
 			if(i==0)
-				page.innerHTML='<option value="Select">Select</option>';
+				notePage.innerHTML='<option value="Select">Select</option>';
 			else
-				page.innerHTML=page.innerHTML+'<option value="'+i+'">'+i+'</option>'
+				notePage.innerHTML=notePage.innerHTML+'<option value="'+i+'">'+i+'</option>'
+		}
+		for(var i=0;i<corrCount;i++)
+		{
+			if(i==0)
+				corrPage.innerHTML='<option value="Select">Select</option>';
+			else
+				corrPage.innerHTML=corrPage.innerHTML+'<option value="'+i+'">'+i+'</option>'
 		}
 	}
 	function downloadFile(pos,sno,right)
@@ -150,15 +207,28 @@
 	function singlePrint()
 	{
 		var contentDiv=document.getElementById('singlePrintDiv');
-		contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'@print.pdf"></iframe>';
-		document.getElementById('singlePdf').contentWindow.print();
-	}
-	function firLas(page)
-	{
-		if(page=='fir')
-			getPage(1);
+		if(type=='note')
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fts_No_Opa_No+'L@'+currentNote+'L@print.pdf"></iframe>';
 		else
-			getPage(count-1);
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fts_No_Opa_No+'R@'+currentCorr+'R@print.pdf"></iframe>';
+		document.getElementById('singlePdf').contentWindow.print();
+		}
+	function firLas(type,page)
+	{
+		if(type=='noteDiv')
+		{
+			if(page=='fir')
+				getPage(type,1);
+			else
+				getPage(type,noteCount-1);
+		}
+		else
+		{
+			if(page=='fir')
+				getPage(type,1);
+			else
+				getPage(type,corrCount-1);
+		}
 	}
 	function setContent(content)
 	{
@@ -173,20 +243,31 @@
 		<tr>
 			<td>
 				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
-				<button style="margin-left: 33%;" class="btn btn-primary" id="preButNote" onclick="firLas('fir');">First</button>
-				<button class="btn btn-primary" onclick="nexPre('pre');">Previous</button>
-				<select style="width: 70px; height: 25px;" id="page" onchange="getPage('self');"></select>
-				<button class="btn btn-primary" onclick="nexPre('nex');">Next</button>
-				<button class="btn btn-primary" id="preButNote" onclick="firLas('las');">Last</button>
-				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 35%;" onclick="singlePrint();">Print It</button></c:if>
+				<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','fir');">First</button>
+				<button class="btn btn-primary" id="preButNote" onclick="nexPre('noteDiv','pre');">Previous</button>
+				<select style="width: 70px; height: 25px;" id="notePage" onchange="getPage('notePage','self');"></select>
+				<button class="btn btn-primary" id="nexButNote" onclick="nexPre('noteDiv','nex');">Next</button>
+				<button class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','las');">Last</button>
+				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('L');">Print It</button></c:if>
+			</td>
+			<td>
+				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
+				<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','fir');">First</button>
+				<button class="btn btn-primary" id="preButCorr" onclick="nexPre('corrDiv','pre')">Previous</button>
+				<select style="width: 70px; height: 25px;" id="corrPage" onchange="getPage('corrPage','self');"></select>
+				<button class="btn btn-primary" onclick="nexPre('corrDiv','nex')" id="nexButCorr">Next</button>
+				<button class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','las');">Last</button>
+				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('R');">Print It</button></c:if>
 			</td>
 		</tr>
 	</table>
-    <div id="div" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:100%; height:90%;"></div>
+    <div id="noteDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height:90%;"></div>
+    <div id="corrDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height: 90%;"></div>
 </div>
 
 <div id="printModel" class="base-modal" style="display: none; z-index:99999;">
-    <a href="#" style="text-decoration: none; color: red; font-family: cambria; font-size: 20px;"><span onclick="deleteFile();" class="base-closebtn base-hover-red base-display-topright">X</span></a>
+    <a href="#" style="text-decoration: none; color: red; font-family: cambria; font-size: 20px;"><span onclick="deleteFile();" class="base-closebtn base-hover-red base-display-topright">Close
+    </span></a>
     <div id="printDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height:99%;"></div>
 </div>
 
@@ -218,42 +299,50 @@
 
 <p class="h1" style="font-family: cambria; text-align: center; color: #387403;">UE</p>
 <div style="margin-bottom: 0px; padding-bottom: 0px; margin-left: 1%;">
-    <lawForm:form action="retrieveUE" id="UEForm" method="get" modelAttribute="UEForm">
+    <UEForm:form action="retrieveUE" id="UEForm" method="get" modelAttribute="UEForm">
         <table style="border-spacing: 20px; border-top:0px; border-collapse: separate;">
             <tr>
             	<td>
                 	<label style="font-family: cambria;" for="Court Name"><h4><b>Name Of Work:</b></h4></label><br>
-                	<lawForm:input style="width: 230px; height: 35px;" path="name_Of_Work" id="name_Of_Work" list="courtNameHelp" onkeyup="getHelp('courtName');"/>
+                	<UEForm:input style="width: 230px; height: 35px;" path="name_Of_Work" id="name_Of_Work" list="courtNameHelp" onkeyup="getHelp('courtName');"/>
                 	<datalist id="courtNameHelp"></datalist>
                 </td>
             	<td>
             		<label style="font-family: cambria;" for="PetitionNo"><h4><b>Contractor Name:</b></h4></label><br>
-            		<lawForm:input style="width: 230px; height: 35px;" id="contractor_Name" path="contractor_Name" list="petitionNoHelp" onkeyup="getHelp('petitionNo');"/>
+            		<UEForm:input style="width: 230px; height: 35px;" id="contractor_Name" path="contractor_Name" list="petitionNoHelp" onkeyup="getHelp('petitionNo');"/>
             		<datalist id="petitionNoHelp"></datalist>
             	</td>
                 <td>
                 	<label style="font-family: cambria;" for="Party Name"><h4><b>Department:</b></h4></label><br>
-                	<lawForm:input style="width: 230px; height: 35px;" id="department" path="department" list="partyNameHelp" onkeyup="getHelp('partyName');"/>
+                	<UEForm:input style="width: 230px; height: 35px;" id="department" path="department" list="partyNameHelp" onkeyup="getHelp('partyName');"/>
                 	<datalist id="partyNameHelp"></datalist>
                 </td>
                 <td>
                 	<label style="font-family: cambria;" for="Petitioner's Advocate"><h4><b>File_Number</b></h4></label><br>
-                	<lawForm:input style="width: 230px; height: 35px;" path="file_Number" id="file_Number" list="petitionerAdvocateHelp" onkeyup="getHelp('petitionerAdvocate');"/>
+                	<UEForm:input style="width: 230px; height: 35px;" path="file_Number" id="file_Number" list="petitionerAdvocateHelp" onkeyup="getHelp('petitionerAdvocate');"/>
                 	<datalist id="petitionerAdvocateHelp"></datalist>
                 </td>
-                
             </tr>
             <tr>
             	<td>
-            		<label style="font-family: cambria;" for="Year"><h4><b>No_Of_Cros:</b></h4></label><br>
-            		<lawForm:input style="width: 230px; height: 35px;" id="no_Of_Cros" path="no_Of_Cros" list="yearHelp" onkeyup="getHelp('year');"/>
+            		<label style="font-family: cambria;" for="category"><h4><b>CATEGORY:</b></h4></label><br>
+            		<UEForm:input style="width: 230px; height: 35px;" id="category" path="category" list="yearHelp" onkeyup="getHelp('year');"/>
             		<datalist id="yearHelp"></datalist>
             	</td>
-            	
+            	<td>
+                	<label style="font-family: cambria;" for="opa_fts"><h4><b>OPA_FTS:</b></h4></label><br>
+                	<UEForm:input style="width: 230px; height: 35px;" id="opa_fts" path="opa_fts" list="partyNameHelp" onkeyup="getHelp('partyName');"/>
+                	<datalist id="partyNameHelp"></datalist>
+                </td>
+                <td>
+                	<label style="font-family: cambria;" for="sector"><h4><b>SECTOR</b></h4></label><br>
+                	<UEForm:input style="width: 230px; height: 35px;" path="sector" id="sector" list="petitionerAdvocateHelp" onkeyup="getHelp('petitionerAdvocate');"/>
+                	<datalist id="petitionerAdvocateHelp"></datalist>
+                </td>
             	<td><br><br><input class="btn btn-primary" style="background-color: #1B3AD1; color: #ffffff; font-size: 14px;" type="button" value="Retrieve Files" onclick="retrieveFiles();"></td>
             </tr>
         </table>
-    </lawForm:form>
+    </UEForm:form>
 </div><br>
 <c:if test="${not empty records}">
 	<form action="generateReport" id="reportForm" method="post">
@@ -269,7 +358,7 @@
 					<th>Contractor_Name.</th>
 					
 					<th>Department</th>					
-					<th>No_Of_Cros</th>
+					<th>Opa_fts</th>
 					<th>Action</th>
 					
 				</tr>
@@ -286,12 +375,12 @@
 						<td>${record.contractor_Name}</td>
 						<td>${record.department}</td>
 						
-						<td>${record.no_Of_Cros}</td>
+						<td>${record.opa_fts}</td>
 						
 						<td>
-							<a href="#" onclick="viewFile('${record.file_Number}','${record.sno}','${view}','${record.name_Of_Work}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
-							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.file_Number}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
-							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.file_Number}','${record.sno}','${print}','${record.contractor_Name}');" style="text-decoration: none;">Print</a></c:if>
+							<a href="#" onclick="viewFile('${record.opa_fts}','${record.sno}','${view}','${record.name_Of_Work}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
+							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.opa_fts}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.opa_fts}','${record.sno}','${print}','${record.contractor_Name}');" style="text-decoration: none;">Print</a></c:if>
 						</td>
 					</tr>
 				</c:forEach>

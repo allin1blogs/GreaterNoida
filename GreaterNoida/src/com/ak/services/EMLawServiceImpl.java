@@ -130,6 +130,12 @@ public class EMLawServiceImpl implements EMLawService
 	{
 		return emlDao.getSystemsRecord(sno);
 	}
+	
+	@Override
+	public UE getUERecord(int sno)
+	{
+		return emlDao.getUERecord(sno);
+	}
 
 	@Override
 	public ArrayList<EM> retrieveEMRecords(String[] snos)
