@@ -114,6 +114,12 @@ public class EMLawServiceImpl implements EMLawService
 	}
 	
 	@Override
+	public EM2 getEM2Record(int sno)
+	{
+		return emlDao.getEM2Record(sno);
+	}
+	
+	@Override
 	public EM3 getEM3Record(int sno)
 	{
 		return emlDao.getEM3Record(sno);
@@ -180,6 +186,12 @@ public class EMLawServiceImpl implements EMLawService
 	public Law retrieveLawRecords(int snos)
 	{
 		return emlDao.retrieveLawRecords(snos);
+	}
+	
+	@Override
+	public EM retrieveEMRecords(int snos)
+	{
+		return emlDao.retrieveEMRecords(snos);
 	}
 
 	

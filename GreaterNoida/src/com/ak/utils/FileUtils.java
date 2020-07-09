@@ -790,91 +790,7 @@ public class FileUtils
         {e.printStackTrace();}
 	}
 	
-	public static void generateEMReport(ArrayList<EM> records,String location,HttpServletResponse response)
-	{
-		HSSFWorkbook workBook=new HSSFWorkbook();
-        HSSFSheet sheet=workBook.createSheet("Records Report");
-        HSSFFont titleFont=workBook.createFont();
-        titleFont.setBold(true);
-        titleFont.setFontHeightInPoints((short)16);
-        HSSFFont font=workBook.createFont();
-        font.setBold(true);
-        HSSFCellStyle titleStyle=workBook.createCellStyle();
-        titleStyle.setFont(titleFont);
-        titleStyle.setAlignment(HorizontalAlignment.CENTER);
-        HSSFCellStyle style=workBook.createCellStyle();
-        style.setFont(font);
-        style.setLocked(true);
-        HSSFRow titleRow=sheet.createRow(0);
-        sheet.addMergedRegion(new CellRangeAddress(0,0,3,11));
-        sheet.addMergedRegion(new CellRangeAddress(1,1,4,10));
-        HSSFCell titleCell=titleRow.createCell(3);
-        titleCell.setCellStyle(titleStyle);
-        titleCell.setCellValue("Greater Noida Industrial Development Authority");
-        titleRow=sheet.createRow(1);
-        titleCell=titleRow.createCell(4);
-        titleFont.setFontHeightInPoints((short)13);
-        titleStyle.setFont(titleFont);
-        titleCell.setCellStyle(titleStyle);
-        titleCell.setCellValue("Software generated report of EM Department");
-        HSSFRow rowHead=sheet.createRow(2);
-        HSSFCell cell=rowHead.createCell(0);
-        cell.setCellValue("S.No");
-        cell.setCellStyle(style);
-        cell=rowHead.createCell(1);
-        cell.setCellValue("Department");
-        cell.setCellStyle(style);
-        cell=rowHead.createCell(2);
-        cell.setCellValue("Name of Work");
-        cell.setCellStyle(style);
-        cell=rowHead.createCell(3);
-        cell.setCellValue("Contractor Name");
-        cell.setCellStyle(style);
-        cell=rowHead.createCell(4);
-        cell.setCellValue("Year");
-        cell.setCellStyle(style);
-        cell=rowHead.createCell(5);
-        cell.setCellValue("Category");
-        cell.setCellStyle(style);
-        cell=rowHead.createCell(6);
-        cell.setCellValue("OPA/FTS No.");
-        cell.setCellStyle(style);
-        cell=rowHead.createCell(7);
-        cell.setCellValue("Sector");
-        cell.setCellStyle(style);
-        int r=0,i=3;
-        for(int j=0;j<records.size();j++)
-        {
-        	r=0;
-            HSSFRow row=sheet.createRow(i);
-            row.createCell(r).setCellValue(i-2);
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getDepartment());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getWorkName());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getContractorName());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getYear());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getCategory());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getOpaFts());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getSector());
-            i++;
-        }
-        try
-        {
-        	FileOutputStream out=new FileOutputStream(location+"Report.xls");
-        	workBook.write(out);
-        	out.close();
-        	workBook.close();
-        	downloadFile(response,"Report.xls",location,false,"","");
-        }
-        catch(Exception e)
-        {e.printStackTrace();}
-	}
+	
 	public static void generateLawReport(ArrayList<Law> records,String location,HttpServletResponse response)
 	{    System.out.println("generateLawReport:1");
 		HSSFWorkbook workBook=new HSSFWorkbook();
@@ -977,6 +893,123 @@ public class FileUtils
             row.createCell(r).setCellValue(records.get(j).getRespondentAdvocate());
             r++;
             row.createCell(r).setCellValue(records.get(j).getRelatedDepartment());
+            i++;
+        }
+        try
+        {
+        	FileOutputStream out=new FileOutputStream(location+"Report.xls");
+        	workBook.write(out);
+        	out.close();
+        	workBook.close();
+        	downloadFile(response,"Report.xls",location,false,"","");
+        }
+        catch(Exception e)
+        {e.printStackTrace();}
+	}
+	
+	
+	public static void generateEMReport(ArrayList<EM> records,String location,HttpServletResponse response)
+	{    System.out.println("generateLawReport:1");
+		HSSFWorkbook workBook=new HSSFWorkbook();
+		System.out.println("2");
+        HSSFSheet sheet=workBook.createSheet("Records Report");
+        System.out.println("3");
+        HSSFFont titleFont=workBook.createFont();
+        System.out.println("4");
+        titleFont.setBold(true);
+        System.out.println("5");
+        titleFont.setFontHeightInPoints((short)16);
+        System.out.println("6");
+        HSSFFont font=workBook.createFont();
+        System.out.println("7");
+        font.setBold(true);
+        System.out.println("8");
+        HSSFCellStyle titleStyle=workBook.createCellStyle();
+        System.out.println("9");
+        titleStyle.setFont(titleFont);
+        System.out.println("10");
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+        System.out.println("11");
+        HSSFCellStyle style=workBook.createCellStyle();
+        System.out.println("12");
+        style.setFont(font);
+        System.out.println("13");
+        style.setLocked(true);
+        System.out.println("14");
+        HSSFRow titleRow=sheet.createRow(0);
+        System.out.println("15");
+        sheet.addMergedRegion(new CellRangeAddress(0,0,3,11));
+        System.out.println("16");
+        sheet.addMergedRegion(new CellRangeAddress(1,1,4,10));
+        System.out.println("17");
+        HSSFCell titleCell=titleRow.createCell(3);
+        System.out.println("18");
+        titleCell.setCellStyle(titleStyle);
+        System.out.println("19");
+        titleCell.setCellValue("Greater Noida Industrial Development Authority");
+        System.out.println("20");
+        titleRow=sheet.createRow(1);
+        System.out.println("21");
+        titleCell=titleRow.createCell(4);
+        System.out.println("22");
+        titleFont.setFontHeightInPoints((short)13);
+        System.out.println("23");
+        titleStyle.setFont(titleFont);
+        System.out.println("24");
+        titleCell.setCellStyle(titleStyle);
+        System.out.println("25");
+        titleCell.setCellValue("Software generated report of EM Department");
+        System.out.println("26");
+        HSSFRow rowHead=sheet.createRow(2);
+        System.out.println("27");
+        HSSFCell cell=rowHead.createCell(0);
+        System.out.println("28");
+        cell.setCellValue("S.No");
+        System.out.println("29");
+        cell.setCellStyle(style);
+        System.out.println("30");
+        cell=rowHead.createCell(1);
+        System.out.println("31");
+        cell.setCellValue("Sector");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(2);
+        cell.setCellValue("Category");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(3);
+        cell.setCellValue("Opa/Fts");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(4);
+        cell.setCellValue("Work Name");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(5);
+        cell.setCellValue("Department");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(6);
+        cell.setCellValue("File No");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(7);
+        cell.setCellValue("Year");
+        cell.setCellStyle(style);
+        int r=0,i=3;
+        for(int j=0;j<records.size();j++)
+        {
+        	r=0;
+            HSSFRow row=sheet.createRow(i);
+            row.createCell(r).setCellValue(i-2);
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getSector());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getCategory());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getOpaFts());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getWorkName());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getDepartment());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getFileNo());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getYear());
             i++;
         }
         try
@@ -2035,8 +2068,6 @@ public class FileUtils
         	r=0;
             HSSFRow row=sheet.createRow(i);
             row.createCell(r).setCellValue(i-2);
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getDATE());
             r++;
             row.createCell(r).setCellValue(records.get(j).getSector());
             r++;

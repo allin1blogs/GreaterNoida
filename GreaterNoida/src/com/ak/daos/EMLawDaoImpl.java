@@ -266,6 +266,14 @@ public class EMLawDaoImpl implements EMLawDao
 	}
 	
 	@Override
+	public EM2 getEM2Record(int sno)
+	{
+		for(Iterator it=sessionFactory.getCurrentSession().createQuery("From EM2 em where em.sno="+sno+"").list().iterator();it.hasNext();)
+			return (EM2)it.next();
+		return null;
+	}
+	
+	@Override
 	public EM3 getEM3Record(int sno)
 	{
 		for(Iterator it=sessionFactory.getCurrentSession().createQuery("From EM3 em where em.sno="+sno+"").list().iterator();it.hasNext();)
@@ -386,6 +394,14 @@ public class EMLawDaoImpl implements EMLawDao
 		System.out.println("retrieveLawRecords(int sno):1");
 		for(Iterator it=sessionFactory.getCurrentSession().createQuery("From Law law where law.sno="+sno+"").list().iterator();it.hasNext();)
 			return (Law)it.next();
+		return null;	
+	}
+	
+	@Override
+	public EM retrieveEMRecords(int sno) {
+		System.out.println("retrieveEMRecords(int sno):1");
+		for(Iterator it=sessionFactory.getCurrentSession().createQuery("From EM law where law.sno="+sno+"").list().iterator();it.hasNext();)
+			return (EM)it.next();
 		return null;	
 	}
 

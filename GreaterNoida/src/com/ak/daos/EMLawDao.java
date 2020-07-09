@@ -55,6 +55,7 @@ public interface EMLawDao
 	
 	public String getLocation(int sno,String department);
 	public EM getEMRecord(int sno);
+	public EM2 getEM2Record(int sno);
 	public EM3 getEM3Record(int sno);
 	public Law getLawRecord(int sno);
 	public Systems getSystemsRecord(int sno);
@@ -62,6 +63,7 @@ public interface EMLawDao
 	public ArrayList<EM> retrieveEMRecords(String[] snos);
 	
 	public Law retrieveLawRecords(int snos);//1
+	public EM retrieveEMRecords(int snos);//1
 	public ArrayList<Law> retrieveLawRecords(String[] snos);//2	
 	public ArrayList<Law> retrieveLawRecords(ArrayList<String> params);//3
 	public Systems retrieveSystemRecords(int snos);

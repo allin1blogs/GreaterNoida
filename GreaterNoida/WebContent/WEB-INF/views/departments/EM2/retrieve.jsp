@@ -360,7 +360,7 @@
 						
 						
 						<td>
-							<a href="#" onclick="viewFile('${record.file_number}','${record.sno}','${view}','${record.contractor_Name}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
+							<a href="#" onclick="viewFile('${record.opaFts}','${record.sno}','${view}','${record.contractor_Name}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
 							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.opaFts}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
 							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.opaFts}','${record.sno}','${print}','${record.contractor_Name}');" style="text-decoration: none;">Print</a></c:if>
 						</td>

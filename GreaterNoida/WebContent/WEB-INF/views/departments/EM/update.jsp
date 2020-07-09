@@ -2,6 +2,7 @@
     Document   : Update Records
     Created on : 03 Dec, 2017, 05:00:32 PM
     Author     : Swapril Tyagi
+    Update By  : Preeti RAni 7/9/2020
 --%>
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="emForm"%>
@@ -64,6 +65,12 @@
                    	<label style="color: black; font-family: cambria;" for="Year"><h4><b>Year:</b></h4></label><br>
                    	<emForm:input style="width: 235px; height: 35px;" path="year" required="true"/>
                 </td>
+                <td>
+                   	<label style="color: black; font-family: cambria;" for="Category"><h4><b>Category:</b></h4></label><br>
+                   	<emForm:input style="width: 235px; height: 35px;" path="category" required="true"/>
+                </td>
+                 </tr>
+            <tr>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose NoteSheet Pages:</b></h4></label><br>
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="noteSheet"/>

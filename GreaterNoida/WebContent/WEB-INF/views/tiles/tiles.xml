@@ -139,7 +139,10 @@
         <put-attribute name="title" value="Search Record"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/departments/EM/retrieve.jsp"></put-attribute>
     </definition>
-    
+     <definition name="departments/EM/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/EM/update.jsp"></put-attribute>
+    </definition>
      <definition name="departments/EM2/retrieve" extends="base.definition">
         <put-attribute name="title" value="Search EM2 Record"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/departments/EM2/retrieve.jsp"></put-attribute>

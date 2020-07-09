@@ -212,6 +212,48 @@ public class EMLController
 		return "redirect:/updateFile?department=EM&sno="+em.getSno();
 	}
 	
+	@RequestMapping(value="/updateEM2",method=RequestMethod.POST)
+	public String updateEM2(HttpServletRequest request,@ModelAttribute("emForm")EM2 em,@RequestParam("noteSheet")MultipartFile noteSheet,@RequestParam("correspondence")MultipartFile correspondence,RedirectAttributes flashAttributes)throws IOException
+	{
+		String uId=modelInitializer.getId(request);
+		if(uId==null)
+			return "error";
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			if(!noteSheet.getOriginalFilename().equals(em.getOpaFts()+"L.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Notesheet name should be as OPA/FTSNoL.pdf");
+				return "redirect:/updateFile?department=EM2&sno="+em.getSno();
+			}
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
+		{
+			if(!correspondence.getOriginalFilename().equals(em.getOpaFts()+"R.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Correspondence name should be as OPA/FTSNoR.pdf");
+				return "redirect:/updateFile?department=EM2&sno="+em.getSno();
+			}
+		}
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			new File(em.getLocation()+em.getOpaFts()+"L.pdf").renameTo(new File("C:/Resources/"+em.getOpaFts()+"L.pdf"));
+			Files.write(Paths.get(keys.getRepository()+em.getOpaFts()+"L.pdf"),noteSheet.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+em.getOpaFts()+"L.pdf",keys.getRepository()+em.getOpaFts()+"L.pdf",em.getLocation()+em.getOpaFts()+"L.pdf");
+			new File("C:/Resources/"+em.getOpaFts()+"L.pdf").delete();new File(keys.getRepository()+em.getOpaFts()+"L.pdf").delete();
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
+		{
+			new File(em.getLocation()+em.getOpaFts()+"R.pdf").renameTo(new File("C:/Resources/"+em.getOpaFts()+"R.pdf"));
+			Files.write(Paths.get(keys.getRepository()+em.getOpaFts()+"R.pdf"),noteSheet.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+em.getOpaFts()+"R.pdf",keys.getRepository()+em.getOpaFts()+"R.pdf",em.getLocation()+em.getOpaFts()+"R.pdf");
+			new File("C:/Resources/"+em.getOpaFts()+"R.pdf").delete();new File(keys.getRepository()+em.getOpaFts()+"R.pdf").delete();
+		}
+		emlService.insertOrUpdateEM2Record(em);
+		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");
+		commonService.insertLogs(uId,"Updated File of EM2 with Id:"+em.getOpaFts()+".");
+		return "redirect:/updateFile?department=EM2&sno="+em.getSno();
+	}
+	
 	
 	
 	@RequestMapping(value="/updateSys",method=RequestMethod.POST)

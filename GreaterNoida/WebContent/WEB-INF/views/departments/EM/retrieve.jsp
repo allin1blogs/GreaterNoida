@@ -48,7 +48,7 @@
 	{
 		if(right==1)
 		{
-			var url="viewFile?id="+opaFts+"&sno="+sno+"&department=Law&prFlage=null&name="+contractorName;
+			var url="viewFile?id="+opaFts+"&sno="+sno+"&department=EM&prFlage=null&name="+contractorName;
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
 			else if(window.ActiveXObject)  
@@ -277,7 +277,7 @@
 	</div>
 </c:if>
 
-<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">${department}</p>
+<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">EM</p>
 <div style="margin-bottom: 0px; padding-bottom: 0px; margin-left: 1%;">
     <emForm:form action="retrieveEM" id="emForm" method="get" modelAttribute="emForm">
         <table style="border-spacing: 20px; border-top:0px; border-collapse: separate;">

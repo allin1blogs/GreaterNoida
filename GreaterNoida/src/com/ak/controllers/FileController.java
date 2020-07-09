@@ -343,7 +343,11 @@ public class FileController
 	        				
 	        				if(department.equals("EM2"))
 	        				{
-	        					if(new File(pdfLocation+"/"+data[4].trim()+".pdf").exists())
+	        					System.out.println("file path :  "+pdfLocation+"/"+data[3].trim()+".pdf");
+	        					if(new File(pdfLocation+"/"+data[3].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R"+".pdf").exists())
+	        						uploadEM2Files(data,pdfLocation);
+	        					
+	        					if(new File(pdfLocation+"/"+data[3].trim()+".pdf").exists())
 	        						uploadEM2Files(data,pdfLocation);
 	        				} 
 	        				
@@ -728,15 +732,21 @@ public class FileController
 	private void uploadEM2Files(String[] data,String pdfLocation)
 	{
 		EM2 em=new EM2();
-		em.setCategory(data[1]);
-		em.setOpaFts(data[2]);
-		em.setName_Of_Work(data[3]);
-		em.setContractor_Name(data[4]);
-		em.setDepartment(data[5]);
-		em.setFile_number(data[6]);
-		
+		em.setSector(data[1]);
+		em.setCategory(data[2]);
+		em.setOpaFts(data[3]);
+		em.setName_Of_Work(data[4]);
+		em.setContractor_Name(data[5]);
+		em.setDepartment(data[6]);
+		em.setFile_number(data[7]);
+		em.setYear(data[8]);
+		em.setLocation(utils.generateFilePath());
 	    emlService.insertOrUpdateEM2Record(em);
-		new File(pdfLocation+"/"+data[2].trim()+".pdf").renameTo(new File(em.getLocation()+data[2].trim()+".pdf"));	
+	   
+		new File(pdfLocation+"/"+data[3].trim()+"L.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+"R.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+" L.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[3].trim()+" R.pdf").renameTo(new File(em.getLocation()+data[3].trim()+"R.pdf"));
 	}
 	
 	
@@ -824,7 +834,7 @@ public class FileController
 					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				}
 			}
-			if(department.equals("EM") || department.equals("Law"))
+			if(department.equals("EM") || department.equals("Law") || department.equals("EM2"))
 			{
 				location=emlService.getLocation(Integer.parseInt(sno),department);
 				System.out.println("view:1:"+location);
@@ -1091,7 +1101,7 @@ public class FileController
 			else
 				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 		}
-		if(department.equals("EM") || department.equals("Law"))
+		if(department.equals("EM") || department.equals("Law") || department.equals("EM2"))
 		{
 			location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
 			if(department.equals("Law"))
@@ -1183,6 +1193,8 @@ public class FileController
 			model.addAttribute("planningForm",genAgePlanService.retrievePlanRecord(Integer.parseInt(sno)));
 		if(department.equals("EM"))
 			model.addAttribute("emForm",emlService.getEMRecord(Integer.parseInt(sno)));
+		if(department.equals("EM2"))
+			model.addAttribute("em2Form",emlService.getEM2Record(Integer.parseInt(sno)));
 		if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
 			model.addAttribute("em3Form",emlService.getEM3Record(Integer.parseInt(sno)));
 		if(department.equals("Law"))
@@ -1279,6 +1291,16 @@ public class FileController
 			FileUtils.generateLawReport(record,location,response);
 		}
 		
+		if(department.equals("EM"))
+		{  System.out.println("EMReport:1:fileController");
+			ArrayList<EM> record=new ArrayList<EM>();
+			System.out.println("EMReport:2");
+			
+			record.add(emlService.retrieveEMRecords(Integer.parseInt(sno)));
+			System.out.println("EMReport:3");
+			FileUtils.generateEMReport(record,location,response);
+		}
+		
 		
 		if(department.equals("UE"))
 		{  System.out.println("UEReport:1:fileController");
@@ -1297,7 +1319,7 @@ public class FileController
 			System.out.println("LawReport:3");
 			FileUtils.generateHRReport(record,location,response);
 		}
-		if(department.equals("EM2"))
+		if(department.equals("EM2") )
 		{
 			ArrayList<EM2> record=new ArrayList<EM2>();
 			record.add(emlService.retrieveEM2Records(Integer.parseInt(sno)));
@@ -1481,6 +1503,12 @@ public class FileController
 			{ 
 				System.out.println("LandReport:1:post method");				
 			    FileUtils.generateLandReport(landService.retrieveLandRecords(snos),location,response);
+			}
+			
+			if(department.equals("EM"))
+			{ 
+				System.out.println("LandReport:1:post method");				
+			    FileUtils.generateEMReport(emlService.retrieveEMRecords(snos),location,response);
 			}
 		
 		}
