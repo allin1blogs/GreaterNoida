@@ -6,6 +6,10 @@
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="financeForm"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
+<fmt:setLocale value = "en"/>
+<fmt:setBundle basename="resources.application" var="storeText" scope="request"/>
+<fmt:message bundle="${storeText}" var="financeSubdepartment" key="FINANCE_SUBDEPARTMENT" />
 
 <link rel="stylesheet" href="<c:url value='staticResources/styleSheets/tableManager.css'/>"/>
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/retrieval.js'/>"></script>
@@ -13,7 +17,7 @@
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.min.js'/>"></script>
 
 <script type="text/javascript">
-	var request,fileId,count,currentCount;
+	var request,fileId,corrCount,noteCount,currentNote,currentCorr;
 	$(document).ready(function() 
 	{
     	$('#fileTable').DataTable({
@@ -34,8 +38,10 @@
 		var branchName=document.getElementById('branchName').value;
 		var sector=document.getElementById('sector').value;
 		var registerName=document.getElementById('registerName').value;
+		var accountNo=document.getElementById('accountNo').value;
+		var codeNo=document.getElementById('codeNo').value;
 		var subdepartment=document.getElementById('subdepartment').value;
-		if(statement=='' && bankName=='' && branchName=='' && sector=='' && registerName=='' && subdepartment=='')
+		if(statement=='' && bankName=='' && branchName=='' && sector=='' && registerName=='' && subdepartment=='' && accountNo==''  && codeNo=='')
 			setContent('Empty Parameters!');
 		else
 			document.getElementById('financeForm').submit();
@@ -53,8 +59,10 @@
 				request=new XMLHttpRequest();  
 			else if(window.ActiveXObject)  
 				request=new ActiveXObject("Microsoft.XMLHTTP");
-			document.getElementById('id01').style.display='block';
-			document.getElementById('div').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Opening File...</p>';
+			document.getElementById('id01').style.display='block'; 
+			
+			document.getElementById('noteDiv').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Opening Notesheet...</p>';
+			document.getElementById('corrDiv').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Opening Correspondence...</p>';
 			try
 			{
 				request.onreadystatechange=setFile;
@@ -70,39 +78,72 @@
 		if(request.readyState==4)
 		{
 			var data=request.responseText.split('<@>');
-			fileId=data[0];count=data[1];
+			fileId=data[0];noteCount=data[1];corrCount=data[2];
 			setPageList();
 			var pages='<p style="text-align: center; font-family: cambria; font-size: 14px; color: #ffffff;">Go To Page:</p><select style="width: 50px; height: 15px;" name="notePage"><option value="Select">Select</option></select>';
-			currentCount=1;
-			getPage(1);
+			currentNote=1;currentCorr=1;
+			getPage('noteDiv',1);getPage('corrDiv',1);
 		}
 	}
-	function nexPre(opr)
+	function nexPre(type,opr)
 	{
-		if(opr=='pre' && currentCount!=1)
-			currentCount=currentCount-1;
-		if(opr=='nex' && currentCount<(count-1))
-			currentCount=currentCount+1;
-		getPage(currentCount);
+		if(type=='noteDiv')
+		{
+			if(opr=='pre' && currentNote!=1)
+				currentNote=currentNote-1;
+			if(opr=='nex' && currentNote<(noteCount-1))
+				currentNote=currentNote+1;
+			getPage(type,currentNote);
+		}
+		else
+		{
+			if(opr=='pre' && currentCorr!=1)
+				currentCorr=currentCorr-1;
+			if(opr=='nex' && currentCorr<(corrCount-1))
+				currentCorr=currentCorr+1;
+			getPage(type,currentCorr);
+		}
 		setPageList();
 	}
-	function getPage(page)
+	function getPage(type,page)
 	{
-		var div=document.getElementById('div');
+		var div=document.getElementById(type);
 		if(page=='self')
-			page=parseInt(document.getElementById('page').value);
-		currentCount=page;
-		div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'@'+page+'.pdf#toolbar=0"></object>';
+		{
+			page=parseInt(document.getElementById(type).value);
+			if(type=='notePage')
+				div=document.getElementById('noteDiv');
+			else
+				div=document.getElementById('corrDiv');
+		}
+		if(type=='noteDiv' || type=='notePage')
+		{
+			currentNote=page;
+			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'L@'+page+'L.pdf#toolbar=0"></object>';
+		}
+		else
+		{
+			currentCorr=page;
+			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'R@'+page+'R.pdf#toolbar=0"></object>';
+		}
 	}
 	function setPageList()
 	{
-		var page=document.getElementById('page');
-		for(var i=0;i<count;i++)
+		var notePage=document.getElementById('notePage');
+		var corrPage=document.getElementById('corrPage');
+		for(var i=0;i<noteCount;i++)
 		{
 			if(i==0)
-				page.innerHTML='<option value="Select">Select</option>';
+				notePage.innerHTML='<option value="Select">Select</option>';
 			else
-				page.innerHTML=page.innerHTML+'<option value="'+i+'">'+i+'</option>'
+				notePage.innerHTML=notePage.innerHTML+'<option value="'+i+'">'+i+'</option>'
+		}
+		for(var i=0;i<corrCount;i++)
+		{
+			if(i==0)
+				corrPage.innerHTML='<option value="Select">Select</option>';
+			else
+				corrPage.innerHTML=corrPage.innerHTML+'<option value="'+i+'">'+i+'</option>'
 		}
 	}
 	function downloadFile(pos,sno,right)
@@ -115,7 +156,7 @@
 		if(right==1)
 			window.location="updateFile?sno="+sno+"&department=Finance";
 	}
-	function report(sno,right,flage)
+	function report(sno,right,flage,subdepartment)
 	{
 		if(right==1)
 			document.getElementById('reportForm').submit();
@@ -151,18 +192,31 @@
 			ifr.contentWindow.print();
 		}
 	}
-	function singlePrint()
+	function singlePrint(type)
 	{
 		var contentDiv=document.getElementById('singlePrintDiv');
-		contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'@'+currentCount+'@print.pdf"></iframe>';
+		if(type=='note')
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'L@print.pdf"></iframe>';
+		else
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'R@print.pdf"></iframe>';
 		document.getElementById('singlePdf').contentWindow.print();
 	}
-	function firLas(page)
+	function firLas(type,page)
 	{
-		if(page=='fir')
-			getPage(1);
+		if(type=='noteDiv')
+		{
+			if(page=='fir')
+				getPage(type,1);
+			else
+				getPage(type,noteCount-1);
+		}
 		else
-			getPage(count-1);
+		{
+			if(page=='fir')
+				getPage(type,1);
+			else
+				getPage(type,corrCount-1);
+		}
 	}
 	function setContent(content)
 	{
@@ -177,16 +231,26 @@
 		<tr>
 			<td>
 				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
-				<button style="margin-left: 33%;" class="btn btn-primary" id="preButNote" onclick="firLas('fir');">First</button>
-				<button class="btn btn-primary" onclick="nexPre('pre');">Previous</button>
-				<select style="width: 70px; height: 25px;" id="page" onchange="getPage('self');"></select>
-				<button class="btn btn-primary" onclick="nexPre('nex');">Next</button>
-				<button class="btn btn-primary" id="preButNote" onclick="firLas('las');">Last</button>
-				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 35%;" onclick="singlePrint();">Print It</button></c:if>
+				<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','fir');">First</button>
+				<button class="btn btn-primary" onclick="nexPre('noteDiv','pre');">Previous</button>
+				<select style="width: 70px; height: 25px;" id="notePage" onchange="getPage('notePage','self');"></select>
+				<button class="btn btn-primary" onclick="nexPre('noteDiv','nex');">Next</button>
+				<button class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','las');">Last</button>
+				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 25%;" onclick="singlePrint('note');">Print It</button></c:if>
+			</td>
+			<td>
+				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
+				<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','fir');">First</button>
+				<button class="btn btn-primary" onclick="nexPre('corrDiv','pre')">Previous</button>
+				<select style="width: 70px; height: 25px;" id="corrPage" onchange="getPage('corrPage','self');"></select>
+				<button class="btn btn-primary" onclick="nexPre('corrDiv','nex')">Next</button>
+				<button class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','las');">Last</button>
+				<button class="btn btn-primary" style="margin-left: 25%;" onclick="singlePrint('corr');">Print It</button>
 			</td>
 		</tr>
 	</table>
-    <div id="div" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:100%; height:90%;"></div>
+    <div id="noteDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height:90%;"></div>
+    <div id="corrDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height: 90%;"></div>
 </div>
 
 <div id="printModel" class="base-modal" style="display: none; z-index:99999;">
@@ -252,11 +316,23 @@
                 </td>
             </tr>
             <tr>
+            <td>
+                	<label style="font-family: cambria;" for="Register Name"><h4><b>Account No:</b></h4></label><br>
+                	<financeForm:input style="width: 230px; height: 35px;" path="accountNo" id="accountNo" list="registerNameHelp" onkeyup="getHelp('registerName');"/>
+                	<datalist id="registerNameHelp"></datalist>
+                </td>
+                <td>
+                	<label style="font-family: cambria;" for="Sector"><h4><b>Code No:</b></h4></label><br>
+                	<financeForm:input style="width: 230px; height: 35px;" path="codeNo" id="codeNo" list="sectorHelp" onkeyup="getHelp('sector');"/>
+                	<datalist id="sectorHelp"></datalist>
+                </td>
              <td>
                 	<label style="font-family: cambria;" for="subdepartment"><h4><b>Sub-Department:</b></h4></label><br>
-                	<financeForm:select style="height: 35px; width: 200px;" path="subdepartment" id="subdepartment">
-                		<financeForm:option value="Select" label="Select"/>
-                  		<financeForm:options items="${sectors}"/>
+                	<financeForm:select style="height: 35px; width: 200px;"  path="subdepartment" id="subdepartment">
+                		<financeForm:option  value="" label="Select"/>
+                		 <c:forTokens items = "${financeSubdepartment}" delims = "," var = "subdepartment">
+					         <financeForm:option value="${subdepartment}" label="${subdepartment}"/>
+					      </c:forTokens>
                    	</financeForm:select>
                 </td>
             </tr>
@@ -265,6 +341,9 @@
     </financeForm:form>
 </div><br>
 <c:if test="${not empty records}">
+ <c:set var="subd" value="${param.subdepartment}"/>
+<c:choose>
+	<c:when test="${subd =='Bank Statement'  || subd=='Loan'}" >
 	<form action="generateReport" id="reportForm" method="post">
 		<input type="hidden" name="department" value="Finance">
 		<table id="fileTable" class="table display" style="margin-left: 1%; width: 99%;">
@@ -275,8 +354,8 @@
 					<th>Period of Statement</th>
 					<th>Bank Name</th>
 					<th>Branch Name</th>
-					<th>Sector</th>
-					<th>Register Name</th>
+					<th>Subject</th>
+					<th>Sub-Department</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -288,12 +367,12 @@
 						<td><a href="#" onclick="updateFile('${record.sno}','${update}')" style="text-decoration: none;">${record.statement}</a></td>
 						<td>${record.bankName}</td>
 						<td>${record.branchName}</td>
-						<td>${record.sector}</td>
-						<td>${record.registerName}</td>
+						<td>${record.subject}</td>
+						<td>${record.subdepartment}</td>
 						<td>
-							<a href="#" onclick="viewFile('${record.statement}','${record.sno}','${view}','${record.bankName}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
-							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.statement}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
-							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.statement}','${record.sno}','${print}','${record.bankName}');" style="text-decoration: none;">Print</a></c:if>
+							<a href="#" onclick="viewFile('${record.accountNo}','${record.sno}','${view}','${record.bankName}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
+							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.accountNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.accountNo}','${record.sno}','${print}','${record.bankName}');" style="text-decoration: none;">Print</a></c:if>
 						</td>
 					</tr>
 				</c:forEach>
@@ -301,5 +380,46 @@
 		</table>
 		<input class="btn btn-primary" style="margin-left: 45%; margin-top: 5px; background-color: #1B3AD1; color: #ffffff;" type="button" onclick="report('','${report}','1')" value="Generate Report">
 	</form>
-</c:if>
+	</c:when>
+	<c:otherwise>
+	<form action="generateReport" id="reportForm" method="post">
+		<input type="hidden" name="department" value="Finance">
+		<table id="fileTable" class="table display" style="margin-left: 1%; width: 99%;">
+			<thead>
+				<tr>
+					<th></th>
+					<th>File Number</th>
+					<th>Code Number</th>
+					<th>Subject</th>
+					<th>Designation</th>
+					<th>File Type</th>
+					<th>Sub-Department</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${records}" var="record">
+					<tr>
+						<td><input type="checkbox" name="snos" value="${record.sno}"></td>
+						<td>${record.fileNo}</td>
+						<td><a href="#" onclick="updateFile('${record.sno}','${update}')" style="text-decoration: none;">${record.codeNo}</a></td>
+						<td>${record.subject}</td>
+						<td>${record.designation}</td>
+						<td>${record.fileType}</td>
+						<td>${record.subdepartment}</td>
+						<td>
+							<a href="#" onclick="viewFile('${record.codeNo}','${record.sno}','${view}','${record.subdepartment}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
+							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.codeNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.codeNo}','${record.sno}','${print}');" style="text-decoration: none;">Print</a></c:if>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<input class="btn btn-primary" style="margin-left: 45%; margin-top: 5px; background-color: #1B3AD1; color: #ffffff;" type="button" onclick="report('','${report}','1',${record.subdepartment})" value="Generate Report">
+	</form>
+	</c:otherwise>
+</c:choose>
+	
+	</c:if>
 <br><br><br><br><br><br><br>

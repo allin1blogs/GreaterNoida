@@ -89,7 +89,6 @@
 	<bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
 	<mvc:annotation-driven></mvc:annotation-driven>
 	<mvc:resources location="/staticResources/" mapping="/staticResources/**"></mvc:resources>
 	<mvc:resources location="/WEB-INF/views/" mapping="/WEB-INF/views/*"></mvc:resources>

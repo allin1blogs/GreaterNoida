@@ -230,23 +230,39 @@ public class FileController
 	        						}
 	        					}
 	        				}
-	        				if(department.equals("Finance"))
-	        				{
-	        					if(proFinService.isFinExists(data[5].trim()))
-	        						duplicateFlage=true;
-	        					else
-	        					{
-	        						Finance finance=new Finance();
-	        						String subd=finance.getSubdepartment();
-	        						if(subd.equals("Bank Loan")) {}
-	        						if(new File(pdfLocation+"/"+data[5].trim()+".pdf").exists())
-		        						uploadFinanceFiles(data,pdfLocation);
-	        						else
-	        						{
-	        							flage="";
-	        							invalidLine=true;
-	        						}
+							/*
+							 * if(department.equals("Finance")) {
+							 * if(proFinService.isFinExists(data[5].trim())) duplicateFlage=true; else {
+							 * Finance finance=new Finance(); String subd=finance.getSubdepartment();
+							 * if(subd.equals("Bank Loan")) {} if(new
+							 * File(pdfLocation+"/"+data[5].trim()+".pdf").exists())
+							 * uploadFinanceFiles(data,pdfLocation); else { flage=""; invalidLine=true; } }
+							 * }
+							 */
+	        				String subDepartment = null;
+	        				if(department.contains("_")) {
+	        					String[] departmentArray = department.split("_");
+	        					//String departmentName = departmentArray[0];
+	        					if(departmentArray.length == 3) {
+	        						subDepartment = departmentArray[1]+" "+departmentArray[2];
+	        					}else {
+	        						subDepartment = departmentArray[1];
 	        					}
+	        					
+		        				if(subDepartment.equals("Bank Statement") || subDepartment.equals("Loan") || subDepartment.equals("Direct Salary") || subDepartment.equals("Deputation Salary")|| subDepartment.equals("TDS") || subDepartment.equals("Labor Cass") || subDepartment.equals("Costing") || subDepartment.equals("tax"))
+		        				{
+		        					if(subDepartment.equals("Bank Statement") || subDepartment.equals("Loan"))
+		        					{
+		        						System.out.println(pdfLocation+"/"+data[11].trim()+"L.pdf");
+		        						if(new File(pdfLocation+"/"+data[11].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[11].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[11].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[11].trim()+" R.pdf").exists())
+		        							uploadFinance1Files(subDepartment,data,pdfLocation);
+		        					}
+		        					else if(subDepartment.equals("Direct Salary") || subDepartment.equals("Deputation Salary")|| subDepartment.equals("TDS") || subDepartment.equals("Labor Cass") || subDepartment.equals("Costing") || subDepartment.equals("tax"))
+		        					{
+		        						if(new File(pdfLocation+"/"+data[2].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+" R.pdf").exists())
+		        							uploadFinance2Files(subDepartment,data,pdfLocation);
+		        					}
+		        				}
 	        				}
 	        				if(department.equals("Project") || department.equals("Sewage") || department.equals("Water"))
 	        				{
@@ -262,12 +278,12 @@ public class FileController
 	        				{
 	        					if(department.equals("Planning(Residential)"))
 	        					{
-	        						if(new File(pdfLocation+"/"+data[7].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[7].trim()+"R.pdf").exists())
+	        						if(new File(pdfLocation+"/"+data[7].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[7].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[7].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[7].trim()+" R.pdf").exists())
 	        							uploadPlanningFiles("Residential",data,pdfLocation);
 	        					}
 	        					else if(department.equals("Planning(Industry)") || department.equals("Planning(Group Housing)"))
 	        					{
-	        						if(new File(pdfLocation+"/"+data[6].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[6].trim()+"R.pdf").exists())
+	        						if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" R.pdf").exists())
 	        							uploadPlanningFiles("Industry",data,pdfLocation);
 	        					}
 	        				}
@@ -421,19 +437,43 @@ public class FileController
 		genAgePlanService.insertOrUpdateGen(general);
 	}
 	
-	private void uploadFinanceFiles(String[] data,String pdfLocation)
+	private void uploadFinance1Files(String subDepartment,String[] data,String pdfLocation)
 	{
 		Finance fc=new Finance();
-		fc.setBankName(data[2]);
-		fc.setBranchName(data[3]);
-		fc.setAccountNo(data[3]);
-		fc.setStatement(data[5].trim());
-		fc.setClerkName(data[6]);
-		fc.setRegisterName(data[7]);
-		fc.setSector(data[8]);
-		fc.setSubdepartment(data[9]);
+		fc.setBankName(data[1]);
+		fc.setBranchName(data[2]);
+		fc.setFileNo(data[3]);
+		fc.setStatement(data[4]);
+		fc.setPeriodOfYear(data[5]);
+		fc.setPatrawaliSankya(data[6]);
+		fc.setSubject(data[7]);
+		fc.setClerkName(data[8]);
+		fc.setRegisterName(data[9]);
+		fc.setSubdepartment(subDepartment);
+		fc.setAccountNo(data[11].trim());
 		fc.setLocation(utils.generateFilePath());
-		new File(pdfLocation+"/"+data[5].trim()+".pdf").renameTo(new File(fc.getLocation()+data[5].trim()+".pdf"));
+		new File(pdfLocation+"/"+data[11].trim()+"L.pdf").renameTo(new File(fc.getLocation()+data[11].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[11].trim()+"R.pdf").renameTo(new File(fc.getLocation()+data[11].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[11].trim()+" L.pdf").renameTo(new File(fc.getLocation()+data[11].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[11].trim()+" R.pdf").renameTo(new File(fc.getLocation()+data[11].trim()+"R.pdf"));
+		proFinService.insertOrUpdateFin(fc);
+	}
+	
+	private void uploadFinance2Files(String subDepartment,String[] data,String pdfLocation)
+	{
+		Finance fc=new Finance();
+		fc.setFileNo(data[1]);
+		fc.setCodeNo(data[2].trim());
+		fc.setYear(data[3]);
+		fc.setSubject(data[4]);
+		fc.setDesignation(data[5]);
+		fc.setFileType(data[6]);
+		fc.setSubdepartment(data[7]);
+		fc.setLocation(utils.generateFilePath());
+		new File(pdfLocation+"/"+data[2].trim()+"L.pdf").renameTo(new File(fc.getLocation()+data[2].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[2].trim()+"R.pdf").renameTo(new File(fc.getLocation()+data[2].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[2].trim()+" L.pdf").renameTo(new File(fc.getLocation()+data[2].trim()+"L.pdf"));
+		new File(pdfLocation+"/"+data[2].trim()+" R.pdf").renameTo(new File(fc.getLocation()+data[2].trim()+"R.pdf"));
 		proFinService.insertOrUpdateFin(fc);
 	}
 	
@@ -465,7 +505,7 @@ public class FileController
 		planning.setFileType(data[4]);
 		planning.setCategory(data[5]);
 		planning.setBpNo(data[6].trim());
-		planning.setAllotmentNo(data[7]);
+		planning.setAllotmentNo(data[7].trim());
 		planning.setApplicantName(data[8]);
 		planning.setPlotNo(data[9]);
 		planning.setPlotSize(data[10]);
@@ -477,16 +517,21 @@ public class FileController
 		{
 			planning.setDoa(data[14]);
 			planning.setDoc(data[15]);
-			new File(pdfLocation+"/"+data[6].trim()+"L.pdf").renameTo(new File(planning.getLocation()+"/"+data[6].trim()+"L.pdf"));
-			new File(pdfLocation+"/"+data[6].trim()+"R.pdf").renameTo(new File(planning.getLocation()+"/"+data[6].trim()+"R.pdf"));
+			new File(pdfLocation+"/"+data[6].trim()+"L.pdf").renameTo(new File(planning.getLocation()+data[6].trim()+"L.pdf"));
+			new File(pdfLocation+"/"+data[6].trim()+" L.pdf").renameTo(new File(planning.getLocation()+data[6].trim()+"L.pdf"));
+			new File(pdfLocation+"/"+data[6].trim()+"R.pdf").renameTo(new File(planning.getLocation()+data[6].trim()+"R.pdf"));
+			new File(pdfLocation+"/"+data[6].trim()+" R.pdf").renameTo(new File(planning.getLocation()+data[6].trim()+"R.pdf"));
 		}
-		else if(subDepartment.equals("Planning(Industry)") || subDepartment.equals("Planning(Group Housing)"))
+		else if(subDepartment.equals("Planning(Industry)") || subDepartment.equals("Residential") || subDepartment.equals("Planning(Group Housing)"))
 		{
 			planning.setDoa("NA");
 			planning.setDoc("NA");
-			new File(pdfLocation+"/"+data[7].trim()+"L.pdf").renameTo(new File(planning.getLocation()+"/"+data[7].trim()+"L.pdf"));
-			new File(pdfLocation+"/"+data[7].trim()+"R.pdf").renameTo(new File(planning.getLocation()+"/"+data[7].trim()+"R.pdf"));
+			new File(pdfLocation+"/"+data[7].trim()+"L.pdf").renameTo(new File(planning.getLocation()+data[7].trim()+"L.pdf"));
+			new File(pdfLocation+"/"+data[7].trim()+" L.pdf").renameTo(new File(planning.getLocation()+data[7].trim()+"L.pdf"));
+			new File(pdfLocation+"/"+data[7].trim()+"R.pdf").renameTo(new File(planning.getLocation()+data[7].trim()+"R.pdf"));
+			new File(pdfLocation+"/"+data[7].trim()+" R.pdf").renameTo(new File(planning.getLocation()+data[7].trim()+"R.pdf"));
 		}
+		
 		genAgePlanService.insertOrUpdatePlan(planning);
 	}
 	
@@ -826,8 +871,10 @@ public class FileController
 			if(department.equals("Finance") || department.equals("Project"))
 			{
 				location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
-				if(department.equals("Finance"))
-					count=FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+				if(department.equals("Finance")) {
+					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+				     count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+				}
 				else
 				{
 					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
@@ -1097,7 +1144,7 @@ public class FileController
 		{
 			location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
 			if(department.equals("Finance"))
-				FileUtils.downloadFile(response,id+".pdf",location,false,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 			else
 				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 		}
@@ -1185,8 +1232,9 @@ public class FileController
 			return "error";
 		if(department.equals("General"))
 			model.addAttribute("generalForm",genAgePlanService.retrieveGen(Integer.parseInt(sno)));
-		if(department.equals("Finance"))
+		if(department.equals("Finance")) {
 			model.addAttribute("financeForm",proFinService.retrieveFin(Integer.parseInt(sno)));
+		}
 		if(department.equals("Project"))
 			model.addAttribute("projectForm",proFinService.getPro(Integer.parseInt(sno)));
 		if(department.equals("Planning"))

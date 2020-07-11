@@ -546,28 +546,45 @@ public class FileUtils
         titleFont.setFontHeightInPoints((short)13);
         titleStyle.setFont(titleFont);
         titleCell.setCellStyle(titleStyle);
-        titleCell.setCellValue("Software generated report of Finance Department.");
+        titleCell.setCellValue("Software generated report of Finance("+records.get(0).getSubdepartment()+") Department.");
         HSSFRow rowHead=sheet.createRow(2);
+       String subd=records.get(0).getSubdepartment();
+        if(subd.equals("Bank Statement") || subd.equals("Loan")) {
         HSSFCell cell=rowHead.createCell(0);
         cell.setCellValue("S.No");
         cell.setCellStyle(style);
         cell=rowHead.createCell(1);
-        cell.setCellValue("Account No.");
-        cell.setCellStyle(style);
-        cell=rowHead.createCell(2);
         cell.setCellValue("Bank Name");
         cell.setCellStyle(style);
-        cell=rowHead.createCell(3);
+        cell=rowHead.createCell(2);
         cell.setCellValue("Branch Name");
         cell.setCellStyle(style);
+        cell=rowHead.createCell(3);
+        cell.setCellValue("FILE NAME");
+        cell.setCellStyle(style);
         cell=rowHead.createCell(4);
-        cell.setCellValue("Category");
+        cell.setCellValue("Period of Statement");
         cell.setCellStyle(style);
         cell=rowHead.createCell(5);
-        cell.setCellValue("Register Name");
+        cell.setCellValue("Period of Year");
         cell.setCellStyle(style);
         cell=rowHead.createCell(6);
-        cell.setCellValue("Sector");
+        cell.setCellValue("PATRAWALI SANKYA");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(7);
+        cell.setCellValue("SUBJECT");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(8);
+        cell.setCellValue("Clerk Name");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(9);
+        cell.setCellValue("Register Name");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(10);
+        cell.setCellValue("Sub Department");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(11);
+        cell.setCellValue("Account No.");
         cell.setCellStyle(style);
         int r=0,i=3;
         for(int j=0;j<records.size();j++)
@@ -576,18 +593,77 @@ public class FileUtils
             HSSFRow row=sheet.createRow(i);
             row.createCell(r).setCellValue(i-2);
             r++;
-            row.createCell(r).setCellValue(records.get(j).getAccountNo());
-            r++;
             row.createCell(r).setCellValue(records.get(j).getBankName());
             r++;
             row.createCell(r).setCellValue(records.get(j).getBranchName());
             r++;
-            row.createCell(r).setCellValue(records.get(j).getCategory());
+            row.createCell(r).setCellValue(records.get(j).getFileName());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getStatement());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getPeriodOfYear());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getPatrawaliSankya());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getSubject());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getClerkName());
             r++;
             row.createCell(r).setCellValue(records.get(j).getRegisterName());
             r++;
-            row.createCell(r).setCellValue(records.get(j).getSector());
+            row.createCell(r).setCellValue(records.get(j).getSubdepartment());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getAccountNo());
             i++;
+        }
+        }
+        else {
+        	HSSFCell cell=rowHead.createCell(0);
+            cell.setCellValue("S.No");
+            cell.setCellStyle(style);
+            cell=rowHead.createCell(1);
+            cell.setCellValue("FILE NO.");
+            cell.setCellStyle(style);
+            cell=rowHead.createCell(2);
+            cell.setCellValue("CODE NO");
+            cell.setCellStyle(style);
+            cell=rowHead.createCell(3);
+            cell.setCellValue("YEAR ");
+            cell.setCellStyle(style);
+            cell=rowHead.createCell(4);
+            cell.setCellValue("SUBJECT");
+            cell.setCellStyle(style);
+            cell=rowHead.createCell(5);
+            cell.setCellValue("DESIGNATION");
+            cell.setCellStyle(style);
+            cell=rowHead.createCell(6);
+            cell.setCellValue("TYPE OF FILE");
+            cell.setCellStyle(style);
+            cell=rowHead.createCell(7);
+            cell.setCellValue("Sub Department");
+            cell.setCellStyle(style);
+            int r=0,i=3;
+            for(int j=0;j<records.size();j++)
+            {
+            	r=0;
+                HSSFRow row=sheet.createRow(i);
+                row.createCell(r).setCellValue(i-2);
+                r++;
+                row.createCell(r).setCellValue(records.get(j).getFileNo());
+                r++;
+                row.createCell(r).setCellValue(records.get(j).getCodeNo());
+                r++;
+                row.createCell(r).setCellValue(records.get(j).getYear());
+                r++;
+                row.createCell(r).setCellValue(records.get(j).getSubject());
+                r++;
+                row.createCell(r).setCellValue(records.get(j).getDesignation());
+                r++;
+                row.createCell(r).setCellValue(records.get(j).getFileType());
+                r++;
+                row.createCell(r).setCellValue(records.get(j).getSubdepartment());
+                i++;
+            }
         }
         try
         {
@@ -600,6 +676,9 @@ public class FileUtils
         catch(Exception e)
         {e.printStackTrace();}
 	}
+	
+	
+	
 	
 	public static void generateProReport(ArrayList<Project> records,String location,HttpServletResponse response)
 	{

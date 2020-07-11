@@ -59,6 +59,17 @@
                         	<c:if test="${department=='Planning'}">
                         		<option class="form-control" value="Planning(Industry)">Planning(Industry)</option>
                         		<option class="form-control" value="Planning(Residential)">Planning(Residential)</option>
+                        		<option class="form-control" value="Planning(Institutional)">Planning(Institutional)</option>
+                        	</c:if>
+                        	<c:if test="${department=='Finance'}">
+                        		<option class="form-control" value="Finance_Bank_Statement">Finance(Bank Statement)</option>
+                        		<option class="form-control" value="Finance_Direct_Salary">Finance(Direct Salary)</option>
+                        		<option class="form-control" value="Finance_Deputation_Salary">Finance(Deputation Salary)</option>
+                        		<option class="form-control" value="Finance_Labor_Cass">Finance(Labor Cass)</option>
+                        		<option class="form-control" value="Finance_Costing">Finance(Costing)</option>
+                        		<option class="form-control" value="Finance_Loan">Finance(Loan)</option>
+                        		<option class="form-control" value="Finance_tax">Finance(tax)</option>
+                        		<option class="form-control" value="Finance_TDS">Finance(TDS)</option>
                         	</c:if>
                         </c:forEach>
         			</select>

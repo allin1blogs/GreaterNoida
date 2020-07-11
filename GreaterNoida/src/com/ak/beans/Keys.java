@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
  *	@Author
  *	Swapril Tyagi 
  *  Updated By:Ashok Khatri
+ *  Updated By:Preeti RAni
 */
 
 @Component("keys")
@@ -35,6 +36,12 @@ public class Keys
 	
 	@Value("#{'${Planning(Industry)Header}'.split(',')}")
 	private String[] plnIndHeader;
+	
+	@Value("#{'${Finance(DirectSalary)Header}'.split(',')}")
+	private String[] finDSHeader;
+	
+	@Value("#{'${Finance(BankStatement)Header}'.split(',')}")
+	private String[] finBSHeader;
 	
 	/*----------------------------------------*/
 	@Value("#{'${HRHeader}'.split(',')}")
@@ -230,6 +237,18 @@ public class Keys
 	}
 	public void setHealthHeader(String[] healthHeader) {
 		HealthHeader = healthHeader;
+	}
+	public String[] getFinDSHeader() {
+		return finDSHeader;
+	}
+	public String[] getFinBSHeader() {
+		return finBSHeader;
+	}
+	public void setFinDSHeader(String[] finDSHeader) {
+		this.finDSHeader = finDSHeader;
+	}
+	public void setFinBSHeader(String[] finBSHeader) {
+		this.finBSHeader = finBSHeader;
 	}
 	
 	

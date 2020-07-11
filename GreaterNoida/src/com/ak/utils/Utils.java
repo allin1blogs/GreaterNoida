@@ -126,7 +126,6 @@ public class Utils
 			return keys.getFinanceHeader();
 		else if(department.equals("Project") || department.equals("Sewage") || department.equals("Water"))
 			return keys.getProjectHeader();
-		
 		else if(department.equals("EM") || department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
 			return keys.getEmHeader();
 		else if(department.equals("Law"))
@@ -137,8 +136,11 @@ public class Utils
 			return keys.getPlnResHeader();
 		else if(department.equals("Planning(Industry)"))
 			return keys.getPlnIndHeader();
-		 else 
-			 if(department.equals("Health")) 
+		else if(department.equals("Finance_Bank_Statement") || department.equals("Finance_Loan"))
+			return keys.getFinBSHeader();
+		else if(department.equals("Finance_Direct_Salary") || department.equals("Finance_Deputation_Salary")|| department.equals("Finance_tax") || department.equals("Finance_Labor_Cass") || department.equals("Finance_Costing") || department.equals("Finance_tax"))
+			return keys.getFinDSHeader();
+		else if(department.equals("Health")) 
 			return keys.getHealthHeader();
 		else if(department.equals("HR"))
 			return keys.getHRHeader();		
@@ -205,18 +207,26 @@ public class Utils
 	public ArrayList<String> generateFinanceParams(Finance finance)
 	{
 		ArrayList<String> params=new ArrayList<String>();
-		if(finance.getBankName().trim().length()>0)
+		if(finance.getCategory()!=null && finance.getCategory().trim().length()>0)
+			params.add(finance.getCategory()+"@category");
+		if(finance.getBankName()!=null && finance.getBankName().trim().length()>0)
 			params.add(finance.getBankName()+"@bankName");
-		if(finance.getBranchName().trim().length()>0)
+		if(finance.getBranchName()!=null && finance.getBranchName().trim().length()>0)
 			params.add(finance.getBranchName()+"@branchName");
-		if(finance.getSector().trim().length()>0)
-			params.add(finance.getSector()+"@sector");
-		if(finance.getStatement().trim().length()>0)
+		if(finance.getAccountNo()!=null && finance.getAccountNo().trim().length()>0)
+			params.add(finance.getAccountNo()+"@accountNo");
+		if(finance.getStatement()!=null && finance.getStatement().trim().length()>0)
 			params.add(finance.getStatement()+"@statement");
-		if(finance.getRegisterName().trim().length()>0)
+		if(finance.getClerkName()!=null && finance.getClerkName().trim().length()>0)
+			params.add(finance.getClerkName()+"@clerkName");
+		if(finance.getRegisterName()!=null && finance.getRegisterName().trim().length()>0)
 			params.add(finance.getRegisterName()+"@registerName");
-		if(finance.getSubdepartment().trim().length()>0)
+		if(finance.getSector()!=null && finance.getSector().trim().length()>0)
+			params.add(finance.getSector()+"@sector");
+		if(finance.getSubdepartment()!=null && finance.getSubdepartment().trim().length()>0)
 			params.add(finance.getSubdepartment()+"@subdepartment");
+		if(finance.getCodeNo()!=null && finance.getCodeNo().trim().length()>0)
+			params.add(finance.getCodeNo()+"@codeNo");
 		return params;
 	}
 	
