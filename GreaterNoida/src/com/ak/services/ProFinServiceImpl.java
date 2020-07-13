@@ -22,9 +22,15 @@ public class ProFinServiceImpl implements ProFinService
 	private ProFinDao proFinDao;
 
 	@Override
-	public boolean isFinExists(String statement)
+	public boolean isFinExists(String statement,String param2)
 	{
-		return proFinDao.isFinExists(statement);
+		return proFinDao.isFinExists(statement,param2);
+	}
+	
+	@Override
+	public boolean isProExists(String statement)
+	{
+		return proFinDao.isProExists(statement);
 	}
 
 	@Override

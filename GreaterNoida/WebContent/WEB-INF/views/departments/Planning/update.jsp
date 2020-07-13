@@ -27,7 +27,7 @@
 	</div>
 </c:if>
 
-<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">${department}</p>
+<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Planning - ${planningForm.subDepartment}</p>
 <div class="container">
 	<planningForm:form action="updatePlan" id="updatePlanningForm" enctype="multipart/form-data" method="post" modelAttribute="planningForm">
         <table class="table">
@@ -55,8 +55,8 @@
                    	<planningForm:input style="width: 235px; height: 35px;" type="text" path="sector" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: #345c65;" class="lb" for="Block No"><h4>Block No.:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="block" required="true"/>
+                   	<label style="color: #345c65;" class="lb" for="blockNo"><h4>Block No.:</h4></label><br>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="blockNo" required="true"/>
                 </td>
                 <td>
                   	<label style="color: #345c65;" class="lb" for="Scheme Code"><h4>File Type:</h4></label><br>
@@ -86,6 +86,10 @@
                 </td>
             </tr>
             <tr>
+             <td>
+                   	<label style="color: #345c65;" class="lb" for="Category"><h4>Sub-Department:</h4></label><br>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="subDepartment" required="true"/>
+                </td>
             	<td>
                    	<label style="color: #345c65;" class="lb" for="File"><h4>Choose NoteSheet Pages:</h4></label><br>
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="noteSheet"/>

@@ -19,7 +19,14 @@ public interface EMLawService
 	public void insertOrUpdateEM2Record(EM2 em2);
 	public void insertOrUpdateEM3Record(EM3 em);
 	
+	public boolean isEMExists(String petitionNo);
+	public boolean isEHUExists(String petitionNo);
 	public boolean isPetitionNoexists(String petitionNo);
+	public boolean isSysexists(String petitionNo);
+	public boolean isUEExists(String petitionNo);
+	public boolean isEM2Exists(String petitionNo);
+	public boolean isPTExists(String petitionNo);
+	
 	public void insertOrUpdateLawRecord(Law law);
 	
 	public void insertOrUpdateProjectTechRecord(ProjectTech pt);//1

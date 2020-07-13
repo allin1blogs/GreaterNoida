@@ -84,7 +84,7 @@ public class LandDaoImpl implements LandDao {
 			}
 		} else
 			q = "From Land m";
-		List list = sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list = sessionFactory.getCurrentSession().createQuery(q).list();
 		for (Iterator it = list.iterator(); it.hasNext();)
 			records.add((Land) it.next());
 		return records;

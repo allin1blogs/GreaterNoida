@@ -39,7 +39,7 @@ public class HRDaoImp implements HRDao {
 		}
 		else
 			q="From HR hr";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((HR)it.next());
 		return records;

@@ -10,7 +10,7 @@ import com.ak.modals.Marketing;
 public interface HRService{
 	
 	public HR retrieveLawRecords(int snos);	
-   
+	public boolean isHRExists(String petitionNo);
     public ArrayList<HR> retrieveHRRecords(String[] snos);
     public void insertOrUpdateHRRecord(HR hr);
 	//public HR retrieveHRRecords(int snos);

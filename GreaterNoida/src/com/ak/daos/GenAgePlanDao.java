@@ -14,6 +14,10 @@ import com.ak.modals.Planning;
 public interface GenAgePlanDao
 {
 	public boolean isAllotmentNoExists(String allotmentNo);
+	public boolean isAllotmentNo1Exists(String allotmentNo);
+	public boolean isAllotmentNo2Exists(String allotmentNo);
+	public boolean isAllotmentNo3Exists(String allotmentNo);
+	public boolean isAllotmentNo4Exists(String allotmentNo);
 	public void insertOrUpdateGen(General general);
 	public ArrayList<General> retrieveGen(ArrayList<String> params,String userId);
 	public General retrieveGen(int sno);

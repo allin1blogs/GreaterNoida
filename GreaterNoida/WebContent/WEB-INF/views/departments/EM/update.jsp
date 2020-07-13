@@ -35,7 +35,7 @@
             <tr>
             	<td>
                    	<label style="color: black; font-family: cambria;" for="Department"><h4><b>Department:</b></h4></label><br>
-                   	<emForm:input style="width: 235px; height: 35px;" path="department" required="true"/>
+                   	<emForm:input style="width: 235px; height: 35px;" path="department" readonly="true" />
                 </td>
                 <td>
                     <label style="color: black; font-family: cambria;" for="Sector"><h4><b>Sector:</b></h4></label><br>

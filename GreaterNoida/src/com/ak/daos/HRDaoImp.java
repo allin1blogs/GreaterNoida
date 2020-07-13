@@ -49,7 +49,7 @@ public class HRDaoImp implements HRDao{
 		}
 		else
 			q="From HR hr";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((HR)it.next());
 		return records;
@@ -60,6 +60,14 @@ public class HRDaoImp implements HRDao{
 		for(Iterator it=sessionFactory.getCurrentSession().createQuery("From HR law where law.sno="+snos+"").list().iterator();it.hasNext();)
 			return (HR)it.next();
 		return null;	
+	}
+	
+	@Override
+	public boolean isHRExists(String petitionNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select file_code from HR where file_code='"+petitionNo+"'").list().isEmpty())
+			return true;
+		return false;
 	}
 
 	@Override

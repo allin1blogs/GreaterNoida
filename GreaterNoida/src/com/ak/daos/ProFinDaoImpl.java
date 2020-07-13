@@ -26,13 +26,21 @@ public class ProFinDaoImpl implements ProFinDao
 	private Session session;
 
 	@Override
-	public boolean isFinExists(String statement)
+	public boolean isFinExists(String statement,String param2)
 	{
-		if(!sessionFactory.getCurrentSession().createSQLQuery("Select sno from Finance where statement='"+statement+"'").list().isEmpty())
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select sno from Finance where "+param2+"='"+statement+"'").list().isEmpty())
 			return true;
 		return false;
 	}
-
+	
+	@Override
+	public boolean isProExists(String statement)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select Opa_Fts from Project where Opa_Fts='"+statement+"'").list().isEmpty())
+			return true;
+		return false;
+	}
+	
 	@Override
 	public void insertOrUpdateFin(Finance finance)
 	{
@@ -56,7 +64,7 @@ public class ProFinDaoImpl implements ProFinDao
 		}
 		else
 			q="From Finance finance";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((Finance)it.next());
 		return records;
@@ -126,7 +134,7 @@ public class ProFinDaoImpl implements ProFinDao
 			}
 			q=q+")";
 		}
-		List list=session.createQuery(q).setMaxResults(1000).list();
+		List list=session.createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((Project)it.next());
 		return records;

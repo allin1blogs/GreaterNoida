@@ -12,7 +12,8 @@ import com.ak.modals.Project;
 
 public interface ProFinService
 {
-	public boolean isFinExists(String statement);
+	public boolean isFinExists(String statement, String param2);
+	public boolean isProExists(String statement);
 	public void insertOrUpdateFin(Finance finance);
 	public ArrayList<Finance> retrieveFin(ArrayList<String> params);
 	public Finance retrieveFin(int sno);

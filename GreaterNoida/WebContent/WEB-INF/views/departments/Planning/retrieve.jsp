@@ -38,7 +38,8 @@
 		var plotNo=document.getElementById('plotNo').value;
 		var blockNo=document.getElementById('blockNo').value;
 		var plotSize=document.getElementById('plotSize').value;
-		if(subDepartment=='Select' && applicantName=='' && allotmentNo=='' && bpNo=='' && category=='' && sector=='' && plotNo=='' && blockNo=='' && plotSize=='')
+		var bn_no=document.getElementById('bn_no').value;
+		if(subDepartment=='Select' && applicantName=='' && allotmentNo=='' && bpNo=='' && category=='' && sector=='' && plotNo=='' && blockNo=='' && plotSize=='' && bn_no=='')
 			setContent('Empty Parameters!');
 		else
 			document.getElementById('planningForm').submit();
@@ -237,7 +238,7 @@
 	</div>
 </c:if>
 
-<c:if test="${empty pol}"><p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Planning</p></c:if>
+<c:if test="${empty pol}"><p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Planning </p></c:if>
 <c:if test="${not empty pol}"><p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Planning(Policies)</p></c:if>
 <div style="margin-bottom: 0px; padding-bottom: 0px; margin-left: 1%;">
 	<c:if test="${empty pol}">
@@ -250,7 +251,8 @@
                 		<planningForm:option value="Select" label="Select"/>
     					<planningForm:option value="Industry" label="Industry"/>
     					<planningForm:option value="Residential" label="Residential"/>
-    					<planningForm:option value="Bn" label="Bn"/>
+    					<planningForm:option value="Institutional" label="Institutional"/>
+    					<planningForm:option value="Building NOC" label="Building NOC"/>
                    	</planningForm:select>
                 </td>
             	<td>
@@ -293,6 +295,11 @@
                 <td>
                 	<label style="font-family: cambria;" for="Plot Size"><h4><b>Plot Size:</b></h4></label><br>
                 	<planningForm:input style="width: 230px; height: 35px;" path="plotSize" id="plotSize" list="plotSizeHelp" onkeyup="getHelp('plotSize');"/>
+                	<datalist id="plotSizeHelp"></datalist>
+                </td>
+                <td>
+                	<label style="font-family: cambria;" for="bn_no"><h4><b>Bn No.:</b></h4></label><br>
+                	<planningForm:input style="width: 230px; height: 35px;" path="bn_no" id="bn_no" list="plotSizeHelp" onkeyup="getHelp('plotSize');"/>
                 	<datalist id="plotSizeHelp"></datalist>
                 </td>
 	     	</tr>
@@ -347,13 +354,13 @@
 				<tr>
 					<th></th>
 					<th>BP No.</th>
+					<th>BN No.</th>
 					<th>Applicant Name</th>
 					<th>Sector</th>
 					<th>Allotment No.</th>
 					<th>Category</th>
 					<th>Plot No.</th>
-					<th>Block No.</th>
-					<th>Plot Size</th>
+					<th>Sub-Department</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -362,23 +369,26 @@
 					<tr>
 						<td><input type="checkbox" name="snos" value="${record.sno}"></td>
 						<td><a href="#" onclick="updateFile('${record.sno}','${update}')" style="text-decoration: none;">${record.bpNo}</a></td>
+						<td><a href="#" onclick="updateFile('${record.sno}','${update}')" style="text-decoration: none;">${record.bn_no}</a></td>
 						<td>${record.applicantName}</td>
 						<td>${record.sector}</td>
 						<td>${record.allotmentNo}</td>
 						<td>${record.category}</td>
 						<td>${record.plotNo}</td>
-						<td>${record.blockNo}</td>
-						<td>${record.plotSize}</td>
+						<td>${record.subDepartment}</td>
 						<td>
-							<c:if test="${record.subDepartment=='Industry'}"><a href="#" onclick="viewFile('${record.bpNo}','${record.sno}','${view}');" style="text-decoration: none;">View</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${record.subDepartment=='Industry' || record.subDepartment=='Institutional'}"><a href="#" onclick="viewFile('${record.bpNo}','${record.sno}','${view}');" style="text-decoration: none;">View</a>&nbsp;&nbsp;</c:if>
 							<c:if test="${record.subDepartment=='Residential'}"><a href="#" onclick="viewFile('${record.allotmentNo}','${record.sno}','${view}');" style="text-decoration: none;">View</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${record.subDepartment=='Building NOC'}"><a href="#" onclick="viewFile('${record.bn_no}','${record.sno}','${view}');" style="text-decoration: none;">View</a>&nbsp;&nbsp;</c:if>
 							<c:if test="${download=='1'}">
-							<c:if test="${record.subDepartment=='Industry'}"><a href="#" onclick="downloadFile('${record.bpNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${record.subDepartment=='Industry' || record.subDepartment=='Institutional'}"><a href="#" onclick="downloadFile('${record.bpNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
 							<c:if test="${record.subDepartment=='Residential'}"><a href="#" onclick="downloadFile('${record.allotmentNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${record.subDepartment=='Building NOC'}"><a href="#" onclick="downloadFile('${record.bn_no}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
 							</c:if>
 							<c:if test="${print=='1'}">
-							<c:if test="${record.subDepartment=='Industry'}"><a href="#" onclick="printOut('${record.bpNo}','${record.sno}','${print}','${record.applicantName}');" style="text-decoration: none;">Print</a></c:if>
+							<c:if test="${record.subDepartment=='Industry' || record.subDepartment=='Institutional'}"><a href="#" onclick="printOut('${record.bpNo}','${record.sno}','${print}','${record.applicantName}');" style="text-decoration: none;">Print</a></c:if>
 							<c:if test="${record.subDepartment=='Residential'}"><a href="#" onclick="printOut('${record.allotmentNo}','${record.sno}','${print}','${record.applicantName}');" style="text-decoration: none;">Print</a></c:if>
+							<c:if test="${record.subDepartment=='Building NOC'}"><a href="#" onclick="printOut('${record.bn_no}','${record.sno}','${print}','${record.applicantName}');" style="text-decoration: none;">Print</a></c:if>
 							</c:if>
 						</td>
 					</tr>

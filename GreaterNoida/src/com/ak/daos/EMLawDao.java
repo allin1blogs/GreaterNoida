@@ -44,6 +44,12 @@ public interface EMLawDao
 	public ProjectTech retrieveProjectTechRecords(int snos);//3
 	
 	public boolean isPetitionNoexists(String petitionNo);
+	public boolean isSysexists(String petitionNo);
+	public boolean isUEExists(String petitionNo);
+	public boolean isEM2Exists(String petitionNo);
+	public boolean isPTExists(String petitionNo);
+	public boolean isEMExists(String petitionNo);
+	public boolean isEHUExists(String petitionNo);
 	
 	public void insertOrUpdateLawRecord(Law law);
 	public void insertOrUpdateUERecord(UE ue);

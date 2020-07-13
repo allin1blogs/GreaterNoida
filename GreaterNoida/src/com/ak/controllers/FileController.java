@@ -253,19 +253,45 @@ public class FileController
 		        				{
 		        					if(subDepartment.equals("Bank Statement") || subDepartment.equals("Loan"))
 		        					{
+		        						if(proFinService.isFinExists(data[11].trim(),"AccountNo")) {
+		        							duplicateFlage=true;
+		        						}
+			        					else
+			        					{
 		        						System.out.println(pdfLocation+"/"+data[11].trim()+"L.pdf");
 		        						if(new File(pdfLocation+"/"+data[11].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[11].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[11].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[11].trim()+" R.pdf").exists())
 		        							uploadFinance1Files(subDepartment,data,pdfLocation);
+		        						else
+		        						{
+		        							flage="";
+		        							invalidLine=true;
+		        						}
+		        					}
 		        					}
 		        					else if(subDepartment.equals("Direct Salary") || subDepartment.equals("Deputation Salary")|| subDepartment.equals("TDS") || subDepartment.equals("Labor Cass") || subDepartment.equals("Costing") || subDepartment.equals("tax"))
 		        					{
+		        						if(proFinService.isFinExists(data[2].trim(),"CodeNo"))
+			        						duplicateFlage=true;
+			        					else
+			        					{
+		        						
 		        						if(new File(pdfLocation+"/"+data[2].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+" R.pdf").exists())
 		        							uploadFinance2Files(subDepartment,data,pdfLocation);
+		        						else
+		        						{
+		        							flage="";
+		        							invalidLine=true;
+		        						}
 		        					}
+		        				}
 		        				}
 	        				}
 	        				if(department.equals("Project") || department.equals("Sewage") || department.equals("Water"))
 	        				{
+	        					if(proFinService.isProExists(data[3].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
 	        					if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists()  || new File(pdfLocation+"/"+data[3].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" R.pdf").exists())
         							uploadProjectFiles(data,pdfLocation);
         						else
@@ -273,24 +299,85 @@ public class FileController
         							flage="";
         							invalidLine=true;
         						}
+	        					}
 	        				}
-	        				if(department.equals("Planning(Residential)") || department.equals("Planning(Industry)") || department.equals("Planning(BN)") || department.equals("Planning(Policies)"))
+	        				if(department.equals("Planning(Residential)") || department.equals("Planning(Industry)") || department.equals("Planning(Building NOC)") || department.equals("Planning(Policies)") || department.equals("Planning(Institutional)"))
 	        				{
 	        					if(department.equals("Planning(Residential)"))
 	        					{
+	        						if(genAgePlanService.isAllotmentNo1Exists(data[7].trim()))
+		        						duplicateFlage=true;
+		        					else
+		        					{
 	        						if(new File(pdfLocation+"/"+data[7].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[7].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[7].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[7].trim()+" R.pdf").exists())
 	        							uploadPlanningFiles("Residential",data,pdfLocation);
+	        						else
+	        						{
+	        							flage="";
+	        							invalidLine=true;
+	        						}
+	        					}
 	        					}
 	        					else if(department.equals("Planning(Industry)") || department.equals("Planning(Group Housing)"))
 	        					{
+	        						if(genAgePlanService.isAllotmentNo2Exists(data[3].trim()))
+		        						duplicateFlage=true;
+		        					else
+		        					{
 	        						if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" R.pdf").exists())
 	        							uploadPlanningFiles("Industry",data,pdfLocation);
+	        						else
+	        						{
+	        							flage="";
+	        							invalidLine=true;
+	        						}
+	        					}
+	        					}
+	        					else if(department.equals("Planning(Institutional)"))
+	        					{
+	        						if(genAgePlanService.isAllotmentNo3Exists(data[6].trim()))
+		        						duplicateFlage=true;
+		        					else
+		        					{
+	        						if(new File(pdfLocation+"/"+data[6].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[6].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[6].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[6].trim()+" R.pdf").exists())
+	        							uploadPlanningFiles("Institutional",data,pdfLocation);
+	        						else
+	        						{
+	        							flage="";
+	        							invalidLine=true;
+	        						}
+	        					}
+	        					}
+	        					else if(department.equals("Planning(Building NOC)"))
+	        					{
+	        						if(genAgePlanService.isAllotmentNo4Exists(data[5].trim()))
+		        						duplicateFlage=true;
+		        					else
+		        					{
+	        						if(new File(pdfLocation+"/"+data[5].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[5].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[5].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[5].trim()+" R.pdf").exists())
+	        							uploadPlanningFiles("Building NOC",data,pdfLocation);
+	        						else
+	        						{
+	        							flage="";
+	        							invalidLine=true;
+	        						}
+	        					}
 	        					}
 	        				}
 	        				if(department.equals("EM") )
 	        				{
+	        					if(emlService.isEMExists(data[3].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
 	        					if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" R.pdf").exists())
 	        						uploadEMFiles(data,pdfLocation);
+	        					else
+        						{
+        							flage="";
+        							invalidLine=true;
+        						}
+        					}
 	        				}
 	        				if(department.equals("Land") )
 	        				{
@@ -300,86 +387,153 @@ public class FileController
 	        				
 	        				if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
 	        				{
+	        					if(emlService.isEHUExists(data[3].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
 	        					if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" R.pdf").exists())
 	        						uploadEM3Files(data,pdfLocation,department);
+	        					else
+        						{
+        							flage="";
+        							invalidLine=true;
+        						}
+        					}
 	        				}
 	        				if(department.equals("Law"))
 	        				{
-	        					if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+" R.pdf").exists())
+	        					if(emlService.isPetitionNoexists(data[7].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
+	        					if(new File(pdfLocation+"/"+data[2].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[2].trim()+" R.pdf").exists())
 	        						uploadLawFiles(data,pdfLocation);
+	        					else
+        						{
+        							flage="";
+        							invalidLine=true;
+        						}
+        					}
 	        				}
 	        			
 	      /*--------------------------New Departments Added----------------------------*/  				
 	        				if(department.equals("Systems"))
 	        				{
+	        					if(emlService.isSysexists(data[4].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
 	        					System.out.println("file path :  "+pdfLocation+"/"+data[4].trim()+".pdf");
 	        					if(new File(pdfLocation+"/"+data[4].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[4].trim()+"R"+".pdf").exists())
 	        						uploadSystemFiles(data,pdfLocation);
-	        					if(new File(pdfLocation+"/"+data[4].trim()+".pdf").exists())
-	        						uploadSystemFiles(data,pdfLocation);
+	        					else
+        						{
+        							flage="";
+        							invalidLine=true;
+        						}
+        					}
+	        					
 	        				} 
 	        				if(department.equals("Marketing"))
 	        				{
+	        					if(marketingService.isAllotmentNoExists(data[6].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
 	        					System.out.println("file path :  "+pdfLocation+"/"+data[6].trim()+".pdf");
 	        					if(new File(pdfLocation+"/"+data[6].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[6].trim()+"R"+".pdf").exists())
 	        						uploadMarketingFiles(data,pdfLocation);
+	        					else
+        						{
+        							flage="";
+        							invalidLine=true;
+        						}
+        					}
 	        					
-	        					if(new File(pdfLocation+"/"+data[6].trim()+".pdf").exists())
-	        						uploadMarketingFiles(data,pdfLocation);
 	        				}
 	        				
 	        				if(department.equals("Health"))
 	        				{
-	        					System.out.println("file path :  "+pdfLocation+"/"+data[6].trim()+".pdf");
+	        					if(healthService.isAllotmentNoExists(data[3].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
+	        					System.out.println("file path :  "+pdfLocation+"/"+data[3].trim()+".pdf");
 	        					if(new File(pdfLocation+"/"+data[3].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R"+".pdf").exists())
 	        						uploadHealthFiles(data,pdfLocation);
-	        					
-	        					if(new File(pdfLocation+"/"+data[3].trim()+".pdf").exists())
-	        						uploadHealthFiles(data,pdfLocation);
+	        					else
+        						{
+        							flage="";
+        							invalidLine=true;
+        						}
+        					}
 	        				}
 	        				
 	        				if(department.equals("HR"))
 	        				{
+	        					if(hrs.isHRExists(data[4].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
 	        					System.out.println("file path :  "+pdfLocation+"/"+data[4].trim()+".pdf");
 	        					if(new File(pdfLocation+"/"+data[4].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[4].trim()+"R"+".pdf").exists())
 	        						uploadHRFiles(data,pdfLocation);
-	        					
-	        					if(new File(pdfLocation+"/"+data[4].trim()+".pdf").exists())
-	        						uploadHRFiles(data,pdfLocation);
+	        					else
+        						{
+        							flage="";
+        							invalidLine=true;
+        						}
+        					}
 	        				} 
 	        				if(department.equals("UE"))
 	        				{
+	        					if(emlService.isUEExists(data[3].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
 	        					System.out.println("file path :  "+pdfLocation+"/"+data[3].trim()+".pdf");
 	        					if(new File(pdfLocation+"/"+data[3].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R"+".pdf").exists())
 	        						uploadUEFiles(data,pdfLocation);
-	        					
-	        					if(new File(pdfLocation+"/"+data[3].trim()+".pdf").exists())
-	        						uploadUEFiles(data,pdfLocation);
+	        					else
+        						{
+        							flage="";
+        							invalidLine=true;
+        						}
+        					}
 	        				} 
 	        				
 	        				if(department.equals("EM2"))
 	        				{
+	        					if(emlService.isEM2Exists(data[3].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
 	        					System.out.println("file path :  "+pdfLocation+"/"+data[3].trim()+".pdf");
 	        					if(new File(pdfLocation+"/"+data[3].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R"+".pdf").exists())
 	        						uploadEM2Files(data,pdfLocation);
-	        					
-	        					if(new File(pdfLocation+"/"+data[3].trim()+".pdf").exists())
-	        						uploadEM2Files(data,pdfLocation);
+	        					else
+        						{
+        							flage="";
+        							invalidLine=true;
+        						}
+        					}
 	        				} 
 	        				
 	        				if(department.equals("ProjectTech"))
 	        				{
-	        					if(new File(pdfLocation+"/"+data[4].trim()+".pdf").exists())
+	        					if(emlService.isPTExists(data[3].trim()))
+	        						duplicateFlage=true;
+	        					else
+	        					{
+	        					if(new File(pdfLocation+"/"+data[3].trim()+".pdf").exists())
 	        						uploadProjectTechFiles(data,pdfLocation);
+	        					else
+        						{
+        							flage="";
+        							invalidLine=true;
+        						}
+        					}
 	        				} 
-	        				
-	        				if(department.equals("Planning2"))
-	        				{
-	        					if(new File(pdfLocation+"/"+data[4].trim()+".pdf").exists())
-	        						uploadPlanning2Files(data,pdfLocation);
-	        				} 		
-	        				       				
-	        				
 	        				
 	        				if(duplicateFlage)
 	        					errors.append("\tDuplicate entry for line no.:"+countLine+".\n");
@@ -502,6 +656,7 @@ public class FileController
 	{
 		Planning planning=new Planning();
 		planning.setSubDepartment(subDepartment);
+		if(!subDepartment.equals("Building NOC")) {
 		planning.setFileType(data[4]);
 		planning.setCategory(data[5]);
 		planning.setBpNo(data[6].trim());
@@ -512,8 +667,9 @@ public class FileController
 		planning.setBlockNo(data[11]);
 		planning.setSector(data[12]);
 		planning.setFts(data[13]);
+		}
 		planning.setLocation(utils.generateFilePath());
-		if(subDepartment.equals("Industry"))
+		if(subDepartment.equals("Industry") || subDepartment.equals("Institutional"))
 		{
 			planning.setDoa(data[14]);
 			planning.setDoc(data[15]);
@@ -531,6 +687,29 @@ public class FileController
 			new File(pdfLocation+"/"+data[7].trim()+"R.pdf").renameTo(new File(planning.getLocation()+data[7].trim()+"R.pdf"));
 			new File(pdfLocation+"/"+data[7].trim()+" R.pdf").renameTo(new File(planning.getLocation()+data[7].trim()+"R.pdf"));
 		}
+		else if(subDepartment.equals("Building NOC"))
+		{
+			planning.setClerk_Name(data[1]);
+			planning.setFileType(data[2]);
+			planning.setCategory(data[3]);
+			planning.setDepartment(data[4]);
+			planning.setBn_no(data[5].trim());
+			planning.setAllotmentNo(data[6]);
+			planning.setApplicantName(data[7]);
+			planning.setYear(data[8]);
+			planning.setFileNo(data[9]);
+			planning.setPlotNo(data[10]);
+			planning.setPlotSize(data[11]);
+			planning.setBlockNo(data[12]);
+			planning.setSector(data[13]);
+			planning.setFts(data[14]);
+			new File(pdfLocation+"/"+data[5].trim()+"L.pdf").renameTo(new File(planning.getLocation()+data[5].trim()+"L.pdf"));
+			new File(pdfLocation+"/"+data[5].trim()+" L.pdf").renameTo(new File(planning.getLocation()+data[5].trim()+"L.pdf"));
+			new File(pdfLocation+"/"+data[5].trim()+"R.pdf").renameTo(new File(planning.getLocation()+data[5].trim()+"R.pdf"));
+			new File(pdfLocation+"/"+data[5].trim()+" R.pdf").renameTo(new File(planning.getLocation()+data[5].trim()+"R.pdf"));
+		}
+		
+		
 		
 		genAgePlanService.insertOrUpdatePlan(planning);
 	}

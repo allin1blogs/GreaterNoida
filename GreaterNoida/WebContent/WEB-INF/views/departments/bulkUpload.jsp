@@ -60,6 +60,7 @@
                         		<option class="form-control" value="Planning(Industry)">Planning(Industry)</option>
                         		<option class="form-control" value="Planning(Residential)">Planning(Residential)</option>
                         		<option class="form-control" value="Planning(Institutional)">Planning(Institutional)</option>
+                        		<option class="form-control" value="Planning(Building NOC)">Planning(Building NOC)</option>
                         	</c:if>
                         	<c:if test="${department=='Finance'}">
                         		<option class="form-control" value="Finance_Bank_Statement">Finance(Bank Statement)</option>

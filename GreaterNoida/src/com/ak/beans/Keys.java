@@ -37,6 +37,9 @@ public class Keys
 	@Value("#{'${Planning(Industry)Header}'.split(',')}")
 	private String[] plnIndHeader;
 	
+	@Value("#{'${Planning(BuildingNOC)Header}'.split(',')}")
+	private String[] plnBNOCHeader;
+	
 	@Value("#{'${Finance(DirectSalary)Header}'.split(',')}")
 	private String[] finDSHeader;
 	
@@ -249,6 +252,12 @@ public class Keys
 	}
 	public void setFinBSHeader(String[] finBSHeader) {
 		this.finBSHeader = finBSHeader;
+	}
+	public String[] getPlnBNOCHeader() {
+		return plnBNOCHeader;
+	}
+	public void setPlnBNOCHeader(String[] plnBNOCHeader) {
+		this.plnBNOCHeader = plnBNOCHeader;
 	}
 	
 	

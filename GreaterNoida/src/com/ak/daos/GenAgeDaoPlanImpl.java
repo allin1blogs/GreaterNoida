@@ -33,6 +33,38 @@ public class GenAgeDaoPlanImpl implements GenAgePlanDao
 			return true;
 		return false;
 	}
+	
+	@Override
+	public boolean isAllotmentNo1Exists(String allotmentNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select allotmentNo from Planning where allotmentNo='"+allotmentNo+"'").list().isEmpty())
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean isAllotmentNo2Exists(String allotmentNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select bpNo from Planning where bpNo='"+allotmentNo+"'").list().isEmpty())
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean isAllotmentNo3Exists(String allotmentNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select bpNo from Planning where bpNo='"+allotmentNo+"'").list().isEmpty())
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean isAllotmentNo4Exists(String allotmentNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select bn_No from Planning where bn_No='"+allotmentNo+"'").list().isEmpty())
+			return true;
+		return false;
+	}
 
 	@Override
 	public void insertOrUpdateGen(General general)
@@ -76,7 +108,7 @@ public class GenAgeDaoPlanImpl implements GenAgePlanDao
 			}
 			q=q+")";
 		}
-		List list=session.createQuery(q).setMaxResults(1000).list();
+		List list=session.createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((General)it.next());
 		return records;
@@ -110,7 +142,7 @@ public class GenAgeDaoPlanImpl implements GenAgePlanDao
 		String q="From Agenda agenda";
 		if(description!=null && description.trim().length()>0)
 			q="From Agenda agenda where agenda.description='"+description+"' or agenda.description like '"+description+"%' or agenda.description like '%"+description+"%' or agenda.description like '%"+description+"'";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			agendas.add((Agenda)it.next());
 		return agendas;
@@ -147,7 +179,7 @@ public class GenAgeDaoPlanImpl implements GenAgePlanDao
 		}
 		else
 			q="From Planning planning";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((Planning)it.next());
 		return records;

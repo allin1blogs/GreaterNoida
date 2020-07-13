@@ -83,7 +83,7 @@ public class MarketingDaoImpl implements MarketingDao {
 			}
 		} else
 			q = "From Marketing m";
-		List list = sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list = sessionFactory.getCurrentSession().createQuery(q).list();
 		for (Iterator it = list.iterator(); it.hasNext();)
 			records.add((Marketing) it.next());
 		return records;

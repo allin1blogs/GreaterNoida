@@ -10,6 +10,8 @@ import javax.persistence.Table;
 /*
  *	@Author
  *	Swapril Tyagi 
+ *  @Update
+ *  Preeti Rani
 */
 
 @Entity
@@ -68,6 +70,24 @@ public class Planning
 	
 	@Column(name="Location")
 	private String location;
+	
+	@Column(name="OPA_FTS")
+	private String opa_Fts;
+	
+	@Column(name="BN_NO")
+	private String bn_no;
+	
+	@Column(name="Year")
+	private String year;
+	
+	@Column(name="CLERK_NAME")
+	private String clerk_Name;
+	
+	@Column(name="DEPARTMENT")
+	private String department;
+	
+	@Column(name="FILENO")
+	private String fileNo;
 	
 	public int getSno()
 	{
@@ -221,4 +241,42 @@ public class Planning
 	{
 		this.location=location;
 	}
+	public String getOpa_Fts() {
+		return opa_Fts;
+	}
+	public String getBn_no() {
+		return bn_no;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setOpa_Fts(String opa_Fts) {
+		this.opa_Fts = opa_Fts;
+	}
+	public void setBn_no(String bn_no) {
+		this.bn_no = bn_no;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getClerk_Name() {
+		return clerk_Name;
+	}
+	public void setClerk_Name(String clerk_Name) {
+		this.clerk_Name = clerk_Name;
+	}
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+	public String getFileNo() {
+		return fileNo;
+	}
+	public void setFileNo(String fileNo) {
+		this.fileNo = fileNo;
+	}
+	
+	
 }

@@ -92,7 +92,8 @@
 				else
 					corrPage.innerHTML=corrPage.innerHTML+'<option value="'+i+'">'+i+'</option>'
 			}
-			var pages='<p style="text-align: center; font-family: cambria; font-size: 14px; color: #ffffff;">Go To Page:</p><select style="width: 50px; height: 15px;" name="notePage"><option value="Select">Select</option></select>';
+			var pages='<p style="text-align: center; font-family: cambria; font-size: 14px; color: #ffffff;">Go To Page:</p>
+				<select style="width: 50px; height: 15px;" name="notePage"><option value="Select">Select</option></select>';
 			currentNote=1;currentCorr=1;
 			getPage('noteDiv',1);getPage('corrDiv',1);
 		}

@@ -794,7 +794,7 @@ public class FileUtils
         titleFont.setFontHeightInPoints((short)13);
         titleStyle.setFont(titleFont);
         titleCell.setCellStyle(titleStyle);
-        titleCell.setCellValue("Software generated report of Planning Department");
+        titleCell.setCellValue("Software generated report of Planning ("+records.get(0).getSubDepartment()+") Department");
         HSSFRow rowHead=sheet.createRow(2);
         HSSFCell cell=rowHead.createCell(0);
         cell.setCellValue("S.No");
@@ -829,6 +829,9 @@ public class FileUtils
         cell=rowHead.createCell(10);
         cell.setCellValue("FTS No.");
         cell.setCellStyle(style);
+        cell=rowHead.createCell(10);
+        cell.setCellValue("Sub-Department");
+        cell.setCellStyle(style);
         int r=0,i=3;
         for(int j=0;j<records.size();j++)
         {
@@ -855,6 +858,8 @@ public class FileUtils
             row.createCell(r).setCellValue(records.get(j).getCategory());
             r++;
             row.createCell(r).setCellValue(records.get(j).getFts());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getSubDepartment());
             i++;
         }
         try
@@ -1069,6 +1074,9 @@ public class FileUtils
         cell=rowHead.createCell(7);
         cell.setCellValue("Year");
         cell.setCellStyle(style);
+        cell=rowHead.createCell(8);
+        cell.setCellValue("Contractor Name");
+        cell.setCellStyle(style);
         int r=0,i=3;
         for(int j=0;j<records.size();j++)
         {
@@ -1089,6 +1097,8 @@ public class FileUtils
             row.createCell(r).setCellValue(records.get(j).getFileNo());
             r++;
             row.createCell(r).setCellValue(records.get(j).getYear());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getContractorName());
             i++;
         }
         try

@@ -13,7 +13,7 @@ public interface HRDao
 {
 	
 	public HR retrieveHRRecords(int snos);	
-   
+	public boolean isHRExists(String petitionNo);
     public ArrayList<HR> retrieveHRRecords(String[] snos);
 	
     public HR getHRRecord(int sno);

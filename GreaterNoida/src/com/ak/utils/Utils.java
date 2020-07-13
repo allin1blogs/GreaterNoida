@@ -134,8 +134,10 @@ public class Utils
 			return keys.getLandHeader();
 		else if(department.equals("Planning(Residential)"))
 			return keys.getPlnResHeader();
-		else if(department.equals("Planning(Industry)"))
+		else if(department.equals("Planning(Industry)") || department.equals("Planning(Institutional)"))
 			return keys.getPlnIndHeader();
+		else if(department.equals("Planning(Building NOC)"))
+			return keys.getPlnBNOCHeader();
 		else if(department.equals("Finance_Bank_Statement") || department.equals("Finance_Loan"))
 			return keys.getFinBSHeader();
 		else if(department.equals("Finance_Direct_Salary") || department.equals("Finance_Deputation_Salary")|| department.equals("Finance_tax") || department.equals("Finance_Labor_Cass") || department.equals("Finance_Costing") || department.equals("Finance_tax"))
@@ -272,6 +274,8 @@ public class Utils
 			params.add(planning.getBlockNo()+"@blockNo");
 		if(planning.getPlotSize().trim().length()>0)
 			params.add(planning.getPlotSize()+"@plotSize");
+		if(planning.getBn_no().trim().length()>0)
+			params.add(planning.getBn_no()+"@bn_no");
 		return params;
 	}
 	

@@ -28,6 +28,30 @@ public class GenAgePlanServiceImpl implements GenAgePlanService
 	{
 		return genAgePlanDao.isAllotmentNoExists(allotmentNo);
 	}
+	
+	@Override
+	public boolean isAllotmentNo1Exists(String allotmentNo)
+	{
+		return genAgePlanDao.isAllotmentNo1Exists(allotmentNo);
+	}
+	
+	@Override
+	public boolean isAllotmentNo2Exists(String allotmentNo)
+	{
+		return genAgePlanDao.isAllotmentNo2Exists(allotmentNo);
+	}
+	
+	@Override
+	public boolean isAllotmentNo3Exists(String allotmentNo)
+	{
+		return genAgePlanDao.isAllotmentNo3Exists(allotmentNo);
+	}
+	
+	@Override
+	public boolean isAllotmentNo4Exists(String allotmentNo)
+	{
+		return genAgePlanDao.isAllotmentNo4Exists(allotmentNo);
+	}
 
 	@Override
 	public void insertOrUpdateGen(General general)

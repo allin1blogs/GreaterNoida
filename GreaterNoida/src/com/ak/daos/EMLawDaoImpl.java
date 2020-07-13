@@ -90,7 +90,55 @@ public class EMLawDaoImpl implements EMLawDao
 	@Override
 	public boolean isPetitionNoexists(String petitionNo)
 	{
-		if(!sessionFactory.getCurrentSession().createSQLQuery("Select petitionNo from EM where petitionNo='"+petitionNo+"'").list().isEmpty())
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select petitionNo from Law where petitionNo='"+petitionNo+"'").list().isEmpty())
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean isSysexists(String petitionNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select file_no from Systems where file_no='"+petitionNo+"'").list().isEmpty())
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean isUEExists(String petitionNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select opa_fts from UE where opa_fts='"+petitionNo+"'").list().isEmpty())
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean isEM2Exists(String petitionNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select opa_fts from EM2 where opa_fts='"+petitionNo+"'").list().isEmpty())
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean isPTExists(String petitionNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select opa_fts from ProjectTech where opa_fts='"+petitionNo+"'").list().isEmpty())
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean isEMExists(String petitionNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select Opa_Fts from EM where Opa_Fts='"+petitionNo+"'").list().isEmpty())
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean isEHUExists(String petitionNo)
+	{
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select Opa_Fts from EM3 where Opa_Fts='"+petitionNo+"'").list().isEmpty())
 			return true;
 		return false;
 	}
@@ -116,7 +164,7 @@ public class EMLawDaoImpl implements EMLawDao
 		}
 		else
 			q="From EM em";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((EM)it.next());
 		return records;
@@ -140,7 +188,7 @@ public class EMLawDaoImpl implements EMLawDao
 		}
 		else
 			q="From EM2 em";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((EM2)it.next());
 		return records;
@@ -163,7 +211,7 @@ public class EMLawDaoImpl implements EMLawDao
 			}
 			else
 				q="From UE ue";
-			List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+			List list=sessionFactory.getCurrentSession().createQuery(q).list();
 			for(Iterator it=list.iterator();it.hasNext();)
 				records.add((UE)it.next());
 			return records;
@@ -188,7 +236,7 @@ public class EMLawDaoImpl implements EMLawDao
 		}
 		else
 			q="From Law law";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((Law)it.next());
 		return records;
@@ -216,7 +264,7 @@ public class EMLawDaoImpl implements EMLawDao
 		}
 		else
 			q="From Planning2 law";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((Planning2)it.next());
 		return records;
@@ -242,7 +290,7 @@ public class EMLawDaoImpl implements EMLawDao
 		}
 		else
 			q="From Systems law";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((Systems)it.next());
 		return records;
@@ -450,7 +498,7 @@ public class EMLawDaoImpl implements EMLawDao
 		}
 		else
 			q="From ProjectTech law";
-		List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List list=sessionFactory.getCurrentSession().createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((ProjectTech)it.next());
 		return records;
@@ -531,7 +579,7 @@ public class EMLawDaoImpl implements EMLawDao
 			else
 				q="From EM3 em";
 			System.out.println("===============================================================");
-			List list=sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+			List list=sessionFactory.getCurrentSession().createQuery(q).list();
 			for(Iterator it=list.iterator();it.hasNext();)
 				records.add((EM3)it.next());
 			return records;

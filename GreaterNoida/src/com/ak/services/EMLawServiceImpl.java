@@ -62,6 +62,17 @@ public class EMLawServiceImpl implements EMLawService
 		emlDao.insertOrUpdatePlanning2Record(planning2);
 	}
 
+	@Override
+	public boolean isEMExists(String petitionNo)
+	{
+		return emlDao.isEMExists(petitionNo);
+	}
+	
+	@Override
+	public boolean isEHUExists(String petitionNo)
+	{
+		return emlDao.isEHUExists(petitionNo);
+	}
 	
 	
 	@Override
@@ -70,6 +81,31 @@ public class EMLawServiceImpl implements EMLawService
 		return emlDao.isPetitionNoexists(petitionNo);
 	}
 
+	@Override
+	public boolean isSysexists(String petitionNo)
+	{
+		return emlDao.isSysexists(petitionNo);
+	}
+	
+	@Override
+	public boolean isUEExists(String petitionNo)
+	{
+		return emlDao.isUEExists(petitionNo);
+	}
+	
+	@Override
+	public boolean isEM2Exists(String petitionNo)
+	{
+		return emlDao.isEM2Exists(petitionNo);
+	}
+	
+	@Override
+	public boolean isPTExists(String petitionNo)
+	{
+		return emlDao.isPTExists(petitionNo);
+	}
+
+	
 	@Override
 	public void insertOrUpdateLawRecord(Law law)
 	{

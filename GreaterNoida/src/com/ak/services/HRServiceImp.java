@@ -26,6 +26,13 @@ public class HRServiceImp implements HRService
 	}
 	
 	@Override
+	public boolean isHRExists(String petitionNo)
+	{
+		return hrd.isHRExists(petitionNo);
+	}
+	
+	
+	@Override
 	public HR getHRRecord(int sno)
 	{
 		return hrd.getHRRecord(sno);

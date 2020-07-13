@@ -83,7 +83,7 @@ public class HealthDaoImpl implements HealthDao {
 			}
 		} else
 			q = "From Health m";
-		List<Health> list = sessionFactory.getCurrentSession().createQuery(q).setMaxResults(1000).list();
+		List<Health> list = sessionFactory.getCurrentSession().createQuery(q).list();
 		for (Iterator<Health> it = list.iterator(); it.hasNext();)
 			records.add((Health) it.next());
 		return records;
