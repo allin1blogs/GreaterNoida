@@ -196,35 +196,71 @@ public class GenAgePlanController
 		String uId=modelInitializer.getId(request);
 		if(uId==null)
 			return "error";
-		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
-		{
-			if(!noteSheet.getOriginalFilename().equals(planning.getBpNo()+"L.pdf"))
+		String subd=planning.getSubDepartment();
+		System.out.println(subd);
+		if(subd.equals("Building NOC")) {
+			if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
 			{
-				flashAttributes.addFlashAttribute("msg","Notesheet name should be as BPNoL.pdf");
-				return "redirect:/updateFile?department=Planning&sno="+planning.getSno();
+				if(!noteSheet.getOriginalFilename().equals(planning.getBn_no()+"L.pdf"))
+				{
+					flashAttributes.addFlashAttribute("msg","Notesheet name should be as Bn_noL.pdf");
+					return "redirect:/updateFile?department=Planning&sno="+planning.getSno();
+				}
+			}
+			if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
+			{
+				if(!correspondence.getOriginalFilename().equals(planning.getBn_no()+"R.pdf"))
+				{
+					flashAttributes.addFlashAttribute("msg","Correspondence name should be as Bn_noR.pdf");
+					return "redirect:/updateFile?department=Planning&sno="+planning.getSno();
+				}
+			}
+			if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+			{
+				new File(planning.getLocation()+planning.getBn_no()+"L.pdf").renameTo(new File("C:/Resources/"+planning.getBn_no()+"L.pdf"));
+				Files.write(Paths.get(keys.getRepository()+planning.getBn_no()+"L.pdf"),noteSheet.getBytes());
+				FileUtils.mergeFiles("C:/Resources/"+planning.getBn_no()+"L.pdf",keys.getRepository()+planning.getBn_no()+"L.pdf",planning.getLocation()+planning.getBn_no()+"L.pdf");
+				new File("C:/Resources/"+planning.getBn_no()+"L.pdf").delete();new File(keys.getRepository()+planning.getBn_no()+"L.pdf").delete();
+			}
+			if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
+			{
+				new File(planning.getLocation()+planning.getBn_no()+"R.pdf").renameTo(new File("C:/Resources/"+planning.getBn_no()+"R.pdf"));
+				Files.write(Paths.get(keys.getRepository()+planning.getBn_no()+"R.pdf"),correspondence.getBytes());
+				FileUtils.mergeFiles("C:/Resources/"+planning.getBn_no()+"R.pdf",keys.getRepository()+planning.getBn_no()+"R.pdf",planning.getLocation()+planning.getBn_no()+"R.pdf");
+				new File("C:/Resources/"+planning.getBn_no()+"R.pdf").delete();new File(keys.getRepository()+planning.getBn_no()+"R.pdf").delete();
 			}
 		}
-		if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
-		{
-			if(!correspondence.getOriginalFilename().equals(planning.getBpNo()+"R.pdf"))
+		else {
+			if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
 			{
-				flashAttributes.addFlashAttribute("msg","Correspondence name should be as BPNoR.pdf");
-				return "redirect:/updateFile?department=Planning&sno="+planning.getSno();
+				if(!noteSheet.getOriginalFilename().equals(planning.getBpNo()+"L.pdf"))
+				{
+					flashAttributes.addFlashAttribute("msg","Notesheet name should be as BPNoL.pdf");
+					return "redirect:/updateFile?department=Planning&sno="+planning.getSno();
+				}
 			}
-		}
-		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
-		{
-			new File(planning.getLocation()+planning.getBpNo()+"L.pdf").renameTo(new File("C:/Resources/"+planning.getBpNo()+"L.pdf"));
-			Files.write(Paths.get(keys.getRepository()+planning.getBpNo()+"L.pdf"),noteSheet.getBytes());
-			FileUtils.mergeFiles("C:/Resources/"+planning.getBpNo()+"L.pdf",keys.getRepository()+planning.getBpNo()+"L.pdf",planning.getLocation()+planning.getBpNo()+"L.pdf");
-			new File("C:/Resources/"+planning.getBpNo()+"L.pdf").delete();new File(keys.getRepository()+planning.getBpNo()+"L.pdf").delete();
-		}
-		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
-		{
-			new File(planning.getLocation()+planning.getBpNo()+"R.pdf").renameTo(new File("C:/Resources/"+planning.getBpNo()+"R.pdf"));
-			Files.write(Paths.get(keys.getRepository()+planning.getBpNo()+"R.pdf"),noteSheet.getBytes());
-			FileUtils.mergeFiles("C:/Resources/"+planning.getBpNo()+"R.pdf",keys.getRepository()+planning.getBpNo()+"R.pdf",planning.getLocation()+planning.getBpNo()+"R.pdf");
-			new File("C:/Resources/"+planning.getBpNo()+"R.pdf").delete();new File(keys.getRepository()+planning.getBpNo()+"R.pdf").delete();
+			if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
+			{
+				if(!correspondence.getOriginalFilename().equals(planning.getBpNo()+"R.pdf"))
+				{
+					flashAttributes.addFlashAttribute("msg","Correspondence name should be as BPNoR.pdf");
+					return "redirect:/updateFile?department=Planning&sno="+planning.getSno();
+				}
+			}
+			if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+			{
+				new File(planning.getLocation()+planning.getBpNo()+"L.pdf").renameTo(new File("C:/Resources/"+planning.getBpNo()+"L.pdf"));
+				Files.write(Paths.get(keys.getRepository()+planning.getBpNo()+"L.pdf"),noteSheet.getBytes());
+				FileUtils.mergeFiles("C:/Resources/"+planning.getBpNo()+"L.pdf",keys.getRepository()+planning.getBpNo()+"L.pdf",planning.getLocation()+planning.getBpNo()+"L.pdf");
+				new File("C:/Resources/"+planning.getBpNo()+"L.pdf").delete();new File(keys.getRepository()+planning.getBpNo()+"L.pdf").delete();
+			}
+			if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
+			{
+				new File(planning.getLocation()+planning.getBpNo()+"R.pdf").renameTo(new File("C:/Resources/"+planning.getBpNo()+"R.pdf"));
+				Files.write(Paths.get(keys.getRepository()+planning.getBpNo()+"R.pdf"),correspondence.getBytes());
+				FileUtils.mergeFiles("C:/Resources/"+planning.getBpNo()+"R.pdf",keys.getRepository()+planning.getBpNo()+"R.pdf",planning.getLocation()+planning.getBpNo()+"R.pdf");
+				new File("C:/Resources/"+planning.getBpNo()+"R.pdf").delete();new File(keys.getRepository()+planning.getBpNo()+"R.pdf").delete();
+			}
 		}
 		genAgePlanService.insertOrUpdatePlan(planning);
 		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");

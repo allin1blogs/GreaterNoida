@@ -27,18 +27,18 @@
 	</div>
 </c:if>
 
-<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">${department}</p>
+<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">${projectForm.department}</p>
 <div class="container">
 	<projectForm:form action="updatePro" id="updateProjectForm" enctype="multipart/form-data" method="post" modelAttribute="projectForm">
         <table class="table">
             <tr>
             	<td>
                    	<label style="color: black; font-family: cambria;" for="Work Circle"><h4><b>Work Circle:</b></h4></label><br>
-                   	<projectForm:input style="width: 235px; height: 35px;" path="department" required="true"/>
+                   	<projectForm:input style="width: 235px; height: 35px;" path="workCircle" required="true"/>
                 </td>
                 <td>
                     <label style="color: black; font-family: cambria;" for="Sector"><h4><b>Sector:</b></h4></label><br>
-                    <projectForm:input style="width: 235px; height: 35px;" path="sector" required="true"/>
+                    <projectForm:input style="width: 235px; height: 35px;" path="sector" readonly="true"/>
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="Contractor Name"><h4><b>Contractor Name:</b></h4></label><br>
@@ -64,15 +64,20 @@
                    	<label style="color: black; font-family: cambria;" for="Category"><h4><b>Category:</b></h4></label><br>
                    	<projectForm:input style="width: 235px; height: 35px;" path="Category" required="true"/>
                 </td>
-                <td>
-                  	<label style="color: black; font-family: cambria;" for="WorkCircle"><h4><b>WorkCircle.:</b></h4></label><br>
-                   	<projectForm:input style="width: 235px; height: 35px;" path="WorkCircle" required="true"/>
+                            	<td>
+                   	<label style="color: black; font-family: cambria;" for="Year"><h4><b>Year:</b></h4></label><br>
+                   	<projectForm:input style="width: 235px; height: 35px;" path="year" required="true"/>
+                </td>
+                
+                 <td>
+                  	<label style="color: black; font-family: cambria;" for="department"><h4><b>Department.:</b></h4></label><br>
+                   	<projectForm:input style="width: 235px; height: 35px;" path="department" readonly="true"/>
                 </td>
             </tr>
             <tr>
-            	<td>
-                   	<label style="color: black; font-family: cambria;" for="Year"><h4><b>Year:</b></h4></label><br>
-                   	<projectForm:input style="width: 235px; height: 35px;" path="year" required="true"/>
+                <td>
+                   	<label style="color: black; font-family: cambria;" for="uploadDate"><h4><b>Upload Date:</b></h4></label><br>
+                   	<projectForm:input style="width: 235px; height: 35px;" path="uploadDate" required="true"/>
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose NoteSheet Pages:</b></h4></label><br>
@@ -82,8 +87,8 @@
                    	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose Correspondence Page:</b></h4></label><br>
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
-            </tr>
-            <tr><td colspan="3"><projectForm:hidden path="sno"/></td></tr>
+                 </tr>
+            <tr><td colspan="3"><projectForm:hidden path="sno"/></td><td colspan="2"><projectForm:hidden path="location"/></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
     </projectForm:form>

@@ -80,7 +80,8 @@
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
-            <tr><td colspan="3"><emForm:hidden path="sno"/></td></tr>
+            <tr><td ><emForm:hidden path="sno"/></td><td colspan="2"><emForm:hidden path="location"/></td></tr>
+            
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
     </emForm:form>

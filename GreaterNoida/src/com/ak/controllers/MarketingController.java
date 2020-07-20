@@ -115,20 +115,47 @@ public class MarketingController {
 				"Updated File of " + marketing.getDepartment() + " with Id:" + marketing.getFts_No_Opa_No() + ".");
 		return "redirect:/updateFile?department=Marketing&sno=" + marketing.getSno();
 	}
-	@RequestMapping(value = "/updateHealth", method = RequestMethod.POST)
-	public String updateHealth(HttpServletRequest request, @ModelAttribute("HealthForm") Health health, RedirectAttributes flashAttributes)
-			throws IOException {
-		String uId = modelInitializer.getId(request);
-		if (uId == null)
+	
+	
+	@RequestMapping(value="/updateHealth",method=RequestMethod.POST)
+	public String updateHealth(HttpServletRequest request,@ModelAttribute("HealthForm")Health health,@RequestParam("noteSheet")MultipartFile noteSheet,@RequestParam("correspondence")MultipartFile correspondence,RedirectAttributes flashAttributes)throws IOException
+	{
+		String uId=modelInitializer.getId(request);
+		if(uId==null)
 			return "error";
-		
-		
-		
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			if(!noteSheet.getOriginalFilename().equals(health.getOpa_fts()+"L.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Notesheet name should be as OPA/FTSNoL.pdf");
+				return "redirect:/updateFile?department=health&sno="+health.getSno();
+			}
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
+		{
+			if(!correspondence.getOriginalFilename().equals(health.getOpa_fts()+"R.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Correspondence name should be as OPA/FTSNoR.pdf");
+				return "redirect:/updateFile?department=health&sno="+health.getSno();
+			}
+		}
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			new File(health.getLocation()+health.getOpa_fts()+"L.pdf").renameTo(new File("C:/Resources/"+health.getOpa_fts()+"L.pdf"));
+			Files.write(Paths.get(keys.getRepository()+health.getOpa_fts()+"L.pdf"),noteSheet.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+health.getOpa_fts()+"L.pdf",keys.getRepository()+health.getOpa_fts()+"L.pdf",health.getLocation()+health.getOpa_fts()+"L.pdf");
+			new File("C:/Resources/"+health.getOpa_fts()+"L.pdf").delete();new File(keys.getRepository()+health.getOpa_fts()+"L.pdf").delete();
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
+		{
+			new File(health.getLocation()+health.getOpa_fts()+"R.pdf").renameTo(new File("C:/Resources/"+health.getOpa_fts()+"R.pdf"));
+			Files.write(Paths.get(keys.getRepository()+health.getOpa_fts()+"R.pdf"),correspondence.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+health.getOpa_fts()+"R.pdf",keys.getRepository()+health.getOpa_fts()+"R.pdf",health.getLocation()+health.getOpa_fts()+"R.pdf");
+			new File("C:/Resources/"+health.getOpa_fts()+"R.pdf").delete();new File(keys.getRepository()+health.getOpa_fts()+"R.pdf").delete();
+		}
 		healthService.insertOrUpdateHealth(health);
-		flashAttributes.addFlashAttribute("msg", "File has been updated successfully.");
-		commonService.insertLogs(uId,
-				"Updated File of " + health.getDepartment() + " with Id:" + health.getOpa_fts() + ".");
-		return "redirect:/updateFile?department=Health&sno=" + health.getSno();
+		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");
+		commonService.insertLogs(uId,"Updated File of health with Id:"+health.getOpa_fts()+".");
+		return "redirect:/updateFile?department=Health&sno="+health.getSno();
 	}
-
 }

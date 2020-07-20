@@ -42,7 +42,7 @@
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="file_No"><h4><b>file No:</b></h4></label><br>
-                   	<SystemForm:input style="width: 235px; height: 35px;" path="file_No" required="true"/>
+                   	<SystemForm:input style="width: 235px; height: 35px;" path="file_No" readonly="true"/>
                 </td>
             </tr>
               <tr>
@@ -59,10 +59,24 @@
                    	<SystemForm:input style="width: 235px; height: 35px;" path="Total_No_Of_Pages" required="true"/>
                 </td>
             </tr>
+             <tr>
+            	<td>
+                   	<label style="color: black; font-family: cambria;" for="date"><h4><b>Date:</b></h4></label><br>
+                   	<SystemForm:input style="width: 235px; height: 35px;" path="date" required="true"/>
+                </td>
+                <td>
+                    <label style="color: black; font-family: cambria;" for="No_Of_Cros"><h4><b>Total No Of Cros:</b></h4></label><br>
+                    <SystemForm:input style="width: 235px; height: 35px;" path="No_Of_Cros" required="true"/>
+                </td>
+                <td>
+                   	<label style="color: black; font-family: cambria;" for="no_Of_NoteSheet"><h4><b>Total No Of Notesheet:</b></h4></label><br>
+                   	<SystemForm:input style="width: 235px; height: 35px;" path="no_Of_NoteSheet" required="true"/>
+                </td>
+            </tr>
             <tr>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="optFts"><h4><b>Opt/Fts No.:</b></h4></label><br>
-                   	<SystemForm:input style="width: 235px; height: 35px;" path="optFts" required="true"/>
+                   	<SystemForm:input style="width: 235px; height: 35px;" path="optFts" readonly="true"/>
                 </td>
                 <td>
                   	<label style="color: black; font-family: cambria;" for="subjectName."><h4><b>Subject Name:</b></h4></label><br>
@@ -79,7 +93,7 @@
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
-            <tr><td><SystemForm:hidden path="sno"/></td><td colspan="2"><SystemForm:hidden path="location"/></td></tr>
+            <tr><td><SystemForm:hidden path="sno"/></td><td><SystemForm:hidden path="location"/><td><SystemForm:hidden path="department"/></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
     </SystemForm:form>

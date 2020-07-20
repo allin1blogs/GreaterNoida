@@ -355,14 +355,14 @@
 				    <th></th>
 				    <th>SNo.</th>
 				     
-					<th>File_No</th>
+					<th>File No</th>
 					
 				     
-					<th>LotNo</th>
+					<th>Lot No</th>
 					<th>Department</th>	
-					<th>FTS_NO/OPA_NO</th>
-					<th>SubjectName</th>					
-					<th>Clerk_Name</th>
+					<th>FTS/OPA NO</th>
+					<th>Subject Name</th>					
+					<th>Clerk Name</th>
 					<th>Date</th>		
 							
 					<th>Action</th>		

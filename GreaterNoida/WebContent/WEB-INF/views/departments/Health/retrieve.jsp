@@ -419,14 +419,14 @@
 					<th></th>
 					<th>SNo.</th>
 
-					<th>workName</th>
+					<th>Work Name</th>
 
 
-					<th>fileNo</th>
-					<th>department</th>
-					<th>FTS_NO/OPA_NO</th>
-					<th>contrName</th>
-					<th>opa_fts</th>
+					<th>File No</th>
+					<th>Department</th>
+					<th>Sector</th>
+					<th>Contr Name</th>
+					<th>FTS/OPA No</th>
 
 
 					<th>Action</th>

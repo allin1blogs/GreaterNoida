@@ -56,7 +56,7 @@
                 </td> 
                 <td>
                    	<label style="color: black; font-family: cambria;" for="opaFts"><h4><b>Opa/Fts No.:</b></h4></label><br>
-                   	<LandForm:input style="width: 235px; height: 35px;" path="opaFts" required="true"/>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="opaFts" readonly="true"/>
                 </td>
             </tr>
              
@@ -72,7 +72,7 @@
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="department"><h4><b>Department:</b></h4></label><br>
-                   	<LandForm:input style="width: 235px; height: 35px;" path="department" required="true"/>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="department" readonly="true"/>
                 </td>
             </tr>
             <tr>
@@ -104,9 +104,24 @@
                 </td>
             </tr>
             <tr>
+            <td>
+                   	<label style="color: black; font-family: cambria;" for="total_pages"><h4><b>Total Pages:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="total_pages" required="true"/>
+                </td>
+                 <td>
+                   	<label style="color: black; font-family: cambria;" for="map_11"><h4><b>Map 11:</b></h4></label><br>
+                   	<LandForm:input style="width: 235px; height: 35px;" path="map_11" required="true"/>
+                </td>
              <td>
-                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose File Pages:</b></h4></label><br>
-                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="file"/>
+                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose NoteSheet Pages:</b></h4></label><br>
+                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="noteSheet"/>
+                </td>
+                
+            </tr>
+            <tr>
+            <td>
+                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose Correspondence Page:</b></h4></label><br>
+                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
             <tr><td><LandForm:hidden path="sno"/></td><td colspan="2"><LandForm:hidden path="location"/></td></tr>

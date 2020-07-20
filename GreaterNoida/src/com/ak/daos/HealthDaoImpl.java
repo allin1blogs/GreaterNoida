@@ -31,9 +31,9 @@ public class HealthDaoImpl implements HealthDao {
 	}
 
 	@Override
-	public Health retrieveHealth(int Sno) {
+	public Health retrieveHealth(int sno) {
 		System.out.println("retrieveHealthRecords(int Sno):1");
-		for (Iterator it = sessionFactory.getCurrentSession().createQuery("From Health m where m.Sno=" + Sno + "")
+		for (Iterator it = sessionFactory.getCurrentSession().createQuery("From Health m where m.Sno=" + sno + "")
 				.list().iterator(); it.hasNext();)
 			return (Health) it.next();
 		return null;
@@ -118,13 +118,13 @@ public class HealthDaoImpl implements HealthDao {
 	}
 
 	@Override
-	public ArrayList<Health> retrieveHealthRecords(String[] Snos) {
+	public ArrayList<Health> retrieveHealthRecords(String[] snos) {
 		System.out.println("post method:1");
 		ArrayList<Health> records = new ArrayList<Health>();
 		System.out.println("2");
 		session = sessionFactory.getCurrentSession();
-		for (String Sno : Snos)
-			for (Iterator it = session.createQuery("From Health law where law.Sno=" + Integer.parseInt(Sno) + "")
+		for (String sno : snos)
+			for (Iterator it = session.createQuery("From Health law where law.sno=" + Integer.parseInt(sno) + "")
 					.list().iterator(); it.hasNext();)
 				records.add((Health) it.next());
 		return records;

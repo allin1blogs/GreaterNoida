@@ -89,6 +89,8 @@ public class Planning
 	@Column(name="FILENO")
 	private String fileNo;
 	
+	
+	
 	public int getSno()
 	{
 		return sno;

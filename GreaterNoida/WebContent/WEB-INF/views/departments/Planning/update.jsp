@@ -45,14 +45,14 @@
                    	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="applicantName" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: #345c65;" class="lb" for="Plot Size"><h4>Plot Size:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" path="plotSize" required="true"/>
+                   	<label style="color: #345c65;" class="lb" for="plotSize"><h4>PlotSize:</h4></label><br>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="plotSize" required="true"/>
                 </td>
             </tr>
             <tr>
             	<td>
                    	<label style="color: #345c65;" class="lb" for="Sector"><h4>Sector:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" path="sector" required="true"/>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" path="sector" readonly="true"/>
                 </td>
                 <td>
                    	<label style="color: #345c65;" class="lb" for="blockNo"><h4>Block No.:</h4></label><br>
@@ -82,14 +82,43 @@
                 </td>
                 <td>
                    	<label style="color: #345c65;" class="lb" for="Category"><h4>Category:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="category" required="true"/>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="category" readonly="true"/>
                 </td>
             </tr>
             <tr>
-             <td>
-                   	<label style="color: #345c65;" class="lb" for="Category"><h4>Sub-Department:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="subDepartment" required="true"/>
+                 <td>
+                   	<label style="color: #345c65;" class="lb" for="policyNo"><h4>Policy No:</h4></label><br>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="policyNo" required="true"/>
                 </td>
+                 <td>
+                   	<label style="color: #345c65;" class="lb" for="subject"><h4>Subject:</h4></label><br>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="subject" required="true"/>
+                </td>
+                 <td>
+                   	<label style="color: #345c65;" class="lb" for="subject"><h4>Sub-Department:</h4></label><br>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="subDepartment" readonly="true"/>
+                </td>
+                </tr>
+            <tr>
+             <tr>
+             <td>
+                   	<label style="color: #345c65;" class="lb" for="bn_no"><h4>Bn No:</h4></label><br>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="bn_no" readonly="true"/>
+                </td>
+                 <td>
+                   	<label style="color: #345c65;" class="lb" for="year"><h4>Year:</h4></label><br>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="year" required="true"/>
+                </td>
+                 <td>
+                   	<label style="color: #345c65;" class="lb" for="clerk_Name"><h4>Clerk Name:</h4></label><br>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="clerk_Name" required="true"/>
+                </td>
+                 <td>
+                   	<label style="color: #345c65;" class="lb" for="fileNo"><h4>File No:</h4></label><br>
+                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="fileNo" required="true"/>
+                </td>
+                </tr>
+            <tr>
             	<td>
                    	<label style="color: #345c65;" class="lb" for="File"><h4>Choose NoteSheet Pages:</h4></label><br>
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="noteSheet"/>
@@ -99,7 +128,7 @@
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
-            <tr><td colspan="2"><planningForm:hidden path="sno"/></td><td colspan="2"><planningForm:hidden path="location"/></td></tr>
+            <tr><td ><planningForm:hidden path="sno"/></td><td><planningForm:hidden path="location"/></td></tr>
             <tr><td colspan="4" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
     </planningForm:form>

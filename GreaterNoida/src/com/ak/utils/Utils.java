@@ -240,7 +240,7 @@ public class Utils
 	{
 		ArrayList<String> params=new ArrayList<String>();
 		params.add(project.getDepartment()+"@department");
-		if(!project.getWorkCircle().trim().equals("Select"))
+		if(!project.getWorkCircle().trim().equals("Select") || project.getWorkCircle().trim().length()>0)
 			params.add(project.getWorkCircle()+"@workCircle");
 		if(project.getWorkName().trim().length()>0)
 			params.add(project.getWorkName()+"@workName");

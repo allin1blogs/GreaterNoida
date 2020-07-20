@@ -34,7 +34,7 @@
             <tr>
             	<td>
                    	<label style="color: black; font-family: cambria;" for="Department"><h4><b>Department:</b></h4></label><br>
-                   	<em3Form:input style="width: 235px; height: 35px;" path="department" required="true"/>
+                   	<em3Form:input style="width: 235px; height: 35px;" path="department" readonly="true"/>
                 </td>
                 <td>
                     <label style="color: black; font-family: cambria;" for="Sector"><h4><b>Sector:</b></h4></label><br>
@@ -79,7 +79,7 @@
                    	<em3Form:input style="width: 235px; height: 35px;" path="category" required="true"/>
                 </td>
                 </tr>
-            <tr><td colspan="3"><em3Form:hidden path="sno"/></td></tr>
+            <tr><td colspan="2"><em3Form:hidden path="sno"/><td colspan="2"><em3Form:hidden path="location"/></td></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
     </em3Form:form>

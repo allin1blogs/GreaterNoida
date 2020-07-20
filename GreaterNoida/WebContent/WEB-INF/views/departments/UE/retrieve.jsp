@@ -350,15 +350,15 @@
 		<table id="fileTable" class="table display" style="margin-left: 1%; width: 99%;">
 			<thead>
 				<tr>
-				    <th>CheckBox</th>				     
+				    <th>Check Box</th>				     
 					<th>SNo.</th>		
 							
-					<th>Name_Of_Work</th>
-					<th>File_Number</th>
-					<th>Contractor_Name.</th>
+					<th>Name Of Work</th>
+					<th>File Number</th>
+					<th>Contractor Name</th>
 					
 					<th>Department</th>					
-					<th>Opa_fts</th>
+					<th>Opa/Fts No</th>
 					<th>Action</th>
 					
 				</tr>

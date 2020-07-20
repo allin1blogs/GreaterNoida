@@ -376,6 +376,7 @@ public class FileUtils
 			if(new File(file2).exists())
 				pdfMerger.addSource(file2);
 			pdfMerger.setDestinationFileName(destinationFile);
+			System.out.println(destinationFile);
 			pdfMerger.mergeDocuments();
 		}
 		catch(Exception e)
@@ -560,7 +561,7 @@ public class FileUtils
         cell.setCellValue("Branch Name");
         cell.setCellStyle(style);
         cell=rowHead.createCell(3);
-        cell.setCellValue("FILE NAME");
+        cell.setCellValue("FILE NO.");
         cell.setCellStyle(style);
         cell=rowHead.createCell(4);
         cell.setCellValue("Period of Statement");
@@ -597,7 +598,7 @@ public class FileUtils
             r++;
             row.createCell(r).setCellValue(records.get(j).getBranchName());
             r++;
-            row.createCell(r).setCellValue(records.get(j).getFileName());
+            row.createCell(r).setCellValue(records.get(j).getFileNo());
             r++;
             row.createCell(r).setCellValue(records.get(j).getStatement());
             r++;
@@ -706,7 +707,7 @@ public class FileUtils
         titleFont.setFontHeightInPoints((short)13);
         titleStyle.setFont(titleFont);
         titleCell.setCellStyle(titleStyle);
-        titleCell.setCellValue("Software generated report "+records.get(0).getDepartment());
+        titleCell.setCellValue("Software generated "+records.get(0).getDepartment()+" report");
         HSSFRow rowHead=sheet.createRow(2);
         HSSFCell cell=rowHead.createCell(0);
         cell.setCellValue("S.No");
@@ -732,6 +733,15 @@ public class FileUtils
         cell=rowHead.createCell(7);
         cell.setCellValue("Sector");
         cell.setCellStyle(style);
+        cell=rowHead.createCell(8);
+        cell.setCellValue("Work Circle");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(9);
+        cell.setCellValue("File No.");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(10);
+        cell.setCellValue("Upload Date");
+        cell.setCellStyle(style);
         int r=0,i=3;
         for(int j=0;j<records.size();j++)
         {
@@ -739,7 +749,7 @@ public class FileUtils
             HSSFRow row=sheet.createRow(i);
             row.createCell(r).setCellValue(i-2);
             r++;
-            row.createCell(r).setCellValue(records.get(j).getWorkCircle());
+            row.createCell(r).setCellValue(records.get(j).getDepartment());
             r++;
             row.createCell(r).setCellValue(records.get(j).getWorkName());
             r++;
@@ -753,7 +763,11 @@ public class FileUtils
             r++;
             row.createCell(r).setCellValue(records.get(j).getSector());
             r++;
-            row.createCell(r).setCellValue(records.get(j).getDepartment());
+            row.createCell(r).setCellValue(records.get(j).getWorkCircle());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getFileNo());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getUploadDate());
             i++;
         }
         try
@@ -796,6 +810,8 @@ public class FileUtils
         titleCell.setCellStyle(titleStyle);
         titleCell.setCellValue("Software generated report of Planning ("+records.get(0).getSubDepartment()+") Department");
         HSSFRow rowHead=sheet.createRow(2);
+        String subd=records.get(0).getSubDepartment();
+        if(subd.equals("Industry") || subd.equals("Institutional")) {
         HSSFCell cell=rowHead.createCell(0);
         cell.setCellValue("S.No");
         cell.setCellStyle(style);
@@ -829,8 +845,11 @@ public class FileUtils
         cell=rowHead.createCell(10);
         cell.setCellValue("FTS No.");
         cell.setCellStyle(style);
-        cell=rowHead.createCell(10);
+        cell=rowHead.createCell(11);
         cell.setCellValue("Sub-Department");
+        cell.setCellStyle(style);
+        cell=rowHead.createCell(12);
+        cell.setCellValue("Cleark name");
         cell.setCellStyle(style);
         int r=0,i=3;
         for(int j=0;j<records.size();j++)
@@ -860,8 +879,165 @@ public class FileUtils
             row.createCell(r).setCellValue(records.get(j).getFts());
             r++;
             row.createCell(r).setCellValue(records.get(j).getSubDepartment());
+            r++;
+            row.createCell(r).setCellValue(records.get(j).getClerk_Name());
             i++;
         }
+        }
+        else
+        	if(subd.equals("Building NOC")) {
+                HSSFCell cell=rowHead.createCell(0);
+                cell.setCellValue("S.No");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(1);
+                cell.setCellValue("Allotment No.");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(2);
+                cell.setCellValue("BN No.");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(3);
+                cell.setCellValue("File Type");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(4);
+                cell.setCellValue("Applicant Name");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(5);
+                cell.setCellValue("Plot Size");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(6);
+                cell.setCellValue("Plot No.");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(7);
+                cell.setCellValue("Block No.");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(8);
+                cell.setCellValue("Sector");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(9);
+                cell.setCellValue("Category");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(10);
+                cell.setCellValue("FTS No.");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(11);
+                cell.setCellValue("Sub-Department");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(12);
+                cell.setCellValue("Clerk name");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(13);
+                cell.setCellValue("Year");
+                cell.setCellStyle(style);
+                cell=rowHead.createCell(14);
+                cell.setCellValue("File No");
+                cell.setCellStyle(style);
+                int r=0,i=3;
+                for(int j=0;j<records.size();j++)
+                {
+                	r=0;
+                    HSSFRow row=sheet.createRow(i);
+                    row.createCell(r).setCellValue(i-2);
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getAllotmentNo());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getBn_no());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getFileType());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getApplicantName());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getPlotSize());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getPlotNo());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getBlockNo());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getSector());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getCategory());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getFts());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getSubDepartment());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getClerk_Name());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getYear());
+                    r++;
+                    row.createCell(r).setCellValue(records.get(j).getFileNo());
+                    i++;
+                }
+                }
+        
+        	else if(subd.equals("Residential") || subd.equals("Planning(Group Housing)")){
+        	 HSSFCell cell=rowHead.createCell(0);
+             cell.setCellValue("S.No");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(1);
+             cell.setCellValue("Allotment No.");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(2);
+             cell.setCellValue("BP No.");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(3);
+             cell.setCellValue("File Type");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(4);
+             cell.setCellValue("Applicant Name");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(5);
+             cell.setCellValue("Plot Size");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(6);
+             cell.setCellValue("Plot No.");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(7);
+             cell.setCellValue("Block No.");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(8);
+             cell.setCellValue("Sector");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(9);
+             cell.setCellValue("Category");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(10);
+             cell.setCellValue("FTS No.");
+             cell.setCellStyle(style);
+             cell=rowHead.createCell(10);
+             cell.setCellValue("Sub-Department");
+             cell.setCellStyle(style);
+             int r=0,i=3;
+             for(int j=0;j<records.size();j++)
+             {
+             	r=0;
+                 HSSFRow row=sheet.createRow(i);
+                 row.createCell(r).setCellValue(i-2);
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getAllotmentNo());
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getBpNo());
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getFileType());
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getApplicantName());
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getPlotSize());
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getPlotNo());
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getBlockNo());
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getSector());
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getCategory());
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getFts());
+                 r++;
+                 row.createCell(r).setCellValue(records.get(j).getSubDepartment());
+                 i++;
+             }
+        }
+        	
         try
         {
         	FileOutputStream out=new FileOutputStream(location+"Report.xls");
@@ -1177,22 +1353,18 @@ public class FileUtils
         cell=rowHead.createCell(10);
         cell.setCellValue("No_Of_Cros");
         cell.setCellStyle(style);        
+		/*
+		 * cell=rowHead.createCell(11); cell.setCellValue("No_Of_A0_Pages");
+		 * cell.setCellStyle(style); cell=rowHead.createCell(12);
+		 * cell.setCellValue("No_Of_A1_Pages"); cell.setCellStyle(style);
+		 * cell=rowHead.createCell(13); cell.setCellValue("No_Of_A2_Pages");
+		 * cell.setCellStyle(style); cell=rowHead.createCell(14);
+		 * cell.setCellValue("No_Of_A3_Pages"); cell.setCellStyle(style);
+		 */       
         cell=rowHead.createCell(11);
-        cell.setCellValue("No_Of_A0_Pages");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(12);
-        cell.setCellValue("No_Of_A1_Pages");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(13);
-        cell.setCellValue("No_Of_A2_Pages");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(14);
-        cell.setCellValue("No_Of_A3_Pages");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(15);
         cell.setCellValue("Opt_Name");
         cell.setCellStyle(style);  
-        cell=rowHead.createCell(16);
+        cell=rowHead.createCell(12);
         cell.setCellValue("Total_No_Of_Pages");
         cell.setCellStyle(style);
       
@@ -1204,7 +1376,7 @@ public class FileUtils
             row.createCell(r).setCellValue(i-2);
             r++;
             row.createCell(r).setCellValue(records.get(j).getDate());
-            i++; 
+            r++; 
             row.createCell(r).setCellValue(records.get(j).getLotNo());
             r++;
             row.createCell(r).setCellValue(records.get(j).getClerk_Name());
@@ -1226,14 +1398,12 @@ public class FileUtils
             row.createCell(r).setCellValue(records.get(j).getNo_Of_Cros());
             r++;    
             
-            row.createCell(r).setCellValue(records.get(j).getNo_Of_A0_Pages());
-            r++;            
-            row.createCell(r).setCellValue(records.get(j).getNo_Of_A1_Pages());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getNo_Of_A2_Pages());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getNo_Of_A3_Pages());
-            r++;
+			/*
+			 * row.createCell(r).setCellValue(records.get(j).getNo_Of_A0_Pages()); r++;
+			 * row.createCell(r).setCellValue(records.get(j).getNo_Of_A1_Pages()); r++;
+			 * row.createCell(r).setCellValue(records.get(j).getNo_Of_A2_Pages()); r++;
+			 * row.createCell(r).setCellValue(records.get(j).getNo_Of_A3_Pages()); r++;
+			 */
             row.createCell(r).setCellValue(records.get(j).getOpt_Name());
             r++;
             row.createCell(r).setCellValue(records.get(j).getTotal_No_Of_Pages());
@@ -1314,27 +1484,19 @@ public class FileUtils
         cell=rowHead.createCell(8);
         cell.setCellValue("YEAR");
         cell.setCellStyle(style);        
-        cell=rowHead.createCell(9);
-        cell.setCellValue("NO. OF NOTSHEET");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(10);
-        cell.setCellValue("NO. OF CROS.");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(11);
-        cell.setCellValue("NO. OF A3 PAGES");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(12);
-        cell.setCellValue("NO. OF A2 PAGES");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(13);
-        cell.setCellValue("NO. OF A1 PAGES");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(14);
-        cell.setCellValue("NO. OF A0 PAGES");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(15);
-        cell.setCellValue("TOTAL NO. OF PAGES");
-        cell.setCellStyle(style);  
+		/*
+		 * cell=rowHead.createCell(9); cell.setCellValue("NO. OF NOTSHEET");
+		 * cell.setCellStyle(style); cell=rowHead.createCell(10);
+		 * cell.setCellValue("NO. OF CROS."); cell.setCellStyle(style);
+		 * cell=rowHead.createCell(11); cell.setCellValue("NO. OF A3 PAGES");
+		 * cell.setCellStyle(style); cell=rowHead.createCell(12);
+		 * cell.setCellValue("NO. OF A2 PAGES"); cell.setCellStyle(style);
+		 * cell=rowHead.createCell(13); cell.setCellValue("NO. OF A1 PAGES");
+		 * cell.setCellStyle(style); cell=rowHead.createCell(14);
+		 * cell.setCellValue("NO. OF A0 PAGES"); cell.setCellStyle(style);
+		 * cell=rowHead.createCell(15); cell.setCellValue("TOTAL NO. OF PAGES");
+		 * cell.setCellStyle(style);
+		 */
         
         int r=0,i=3;
         for(int j=0;j<records.size();j++)
@@ -1359,22 +1521,17 @@ public class FileUtils
             row.createCell(r).setCellValue(records.get(j).getFileNo());
             r++;
             row.createCell(r).setCellValue(records.get(j).getYear());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getNoOfNoteSheet());
-            r++;
-            
-            row.createCell(r).setCellValue(records.get(j).getNoOfCros());
-            r++;    
-            
-            row.createCell(r).setCellValue(records.get(j).getNoOfA0Pages());
-            r++;            
-            row.createCell(r).setCellValue(records.get(j).getNoOfA1Pages());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getNoOfA2Pages());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getNoOfA3Pages());
-            r++;
-            row.createCell(r).setCellValue(records.get(j).getTotalNoOfPages());
+			/*
+			 * r++; row.createCell(r).setCellValue(records.get(j).getNoOfNoteSheet()); r++;
+			 * 
+			 * row.createCell(r).setCellValue(records.get(j).getNoOfCros()); r++;
+			 * 
+			 * row.createCell(r).setCellValue(records.get(j).getNoOfA0Pages()); r++;
+			 * row.createCell(r).setCellValue(records.get(j).getNoOfA1Pages()); r++;
+			 * row.createCell(r).setCellValue(records.get(j).getNoOfA2Pages()); r++;
+			 * row.createCell(r).setCellValue(records.get(j).getNoOfA3Pages()); r++;
+			 * row.createCell(r).setCellValue(records.get(j).getTotalNoOfPages());
+			 */
             i++;
                 
            
@@ -1725,30 +1882,21 @@ public class FileUtils
         cell.setCellValue("FileNo");//3
         cell.setCellStyle(style);
         cell=rowHead.createCell(5);
-        cell.setCellValue("Location");//4
-        cell.setCellStyle(style);
-        cell=rowHead.createCell(6);
         cell.setCellValue("Opa_Fts");//5
         cell.setCellStyle(style);
-        cell=rowHead.createCell(7);
+        cell=rowHead.createCell(6);
         cell.setCellValue("Sector");//6
         cell.setCellStyle(style);        
-        cell=rowHead.createCell(8);
+        cell=rowHead.createCell(7);
         cell.setCellValue("WorkName");
         cell.setCellStyle(style);        
-        cell=rowHead.createCell(9);
+        cell=rowHead.createCell(8);
         cell.setCellValue("Year");
         cell.setCellStyle(style);        
-        cell=rowHead.createCell(10);
-        cell.setCellValue("No_Of_Cros");
-        cell.setCellStyle(style);        
-        cell=rowHead.createCell(11);
+        cell=rowHead.createCell(9);
         cell.setCellValue("ContrName");
         cell.setCellStyle(style);  
-        cell=rowHead.createCell(12);
-        cell.setCellValue("OpaFts");
-        cell.setCellStyle(style);
-        cell=rowHead.createCell(13);
+        cell=rowHead.createCell(10);
         cell.setCellValue("Scheme");
         cell.setCellStyle(style);
         int r=0,i=3;
@@ -1759,32 +1907,23 @@ public class FileUtils
             row.createCell(r).setCellValue(i-2);
             r++;
             row.createCell(r).setCellValue(records.get(j).getCategory());
-            i++; 
+            r++; 
             row.createCell(r).setCellValue(records.get(j).getContractorName());
             r++;
             row.createCell(r).setCellValue(records.get(j).getDepartment());
             r++;
             row.createCell(r).setCellValue(records.get(j).getFileNo());
             r++;
-            
-            row.createCell(r).setCellValue(records.get(j).getLocation());
-            r++;
-            
             row.createCell(r).setCellValue(records.get(j).getOpa_fts());
             r++;
             row.createCell(r).setCellValue(records.get(j).getSector());
             r++;
             row.createCell(r).setCellValue(records.get(j).getWorkName());
             r++;
-            
             row.createCell(r).setCellValue(records.get(j).getYear());
             r++;    
             row.createCell(r).setCellValue(records.get(j).getContrName());
-            r++;
-            
-            row.createCell(r).setCellValue(records.get(j).getOpafts());
-            i++;  
-            
+            r++;  
             row.createCell(r).setCellValue(records.get(j).getScheme());
             i++;
            

@@ -42,24 +42,21 @@
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="Department"><h4><b>Department:</b></h4></label><br>
-                   	<HealthForm:input style="width: 235px; height: 35px;" path="department" required="true"/>
+                   	<HealthForm:input style="width: 235px; height: 35px;" path="department" readonly="true"/>
                 </td>
             </tr>
             <tr>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="Applicant_Name"><h4><b>File No:</b></h4></label><br>
-                   	<HealthForm:input style="width: 235px; height: 35px;" path="fileNo" required="true"/>
+                   	<HealthForm:input style="width: 235px; height: 35px;" path="fileNo" readonly="true"/>
                 </td>
-                <td>
-                   	<label style="color: black; font-family: cambria;" for="location"><h4><b>location:</b></h4></label><br>
-                   	<HealthForm:input style="width: 235px; height: 35px;" path="location" required="true"/>
+            <td>
+                   	<label style="color: black; font-family: cambria;" for="scheme"><h4><b>scheme:</b></h4></label><br>
+                   	<HealthForm:input style="width: 235px; height: 35px;" path="scheme" required="true"/>
                 </td>
-            </tr>
-             
-            <tr>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="opa_fts"><h4><b>OPA/FTS:</b></h4></label><br>
-                   	<HealthForm:input style="width: 235px; height: 35px;" path="opa_fts" required="true"/>
+                   	<HealthForm:input style="width: 235px; height: 35px;" path="opa_fts" readonly="true"/>
                 </td>
             </tr>
             <tr>
@@ -81,20 +78,17 @@
                    	<label style="color: black; font-family: cambria;" for="contrName"><h4><b>Contr Name:</b></h4></label><br>
                    	<HealthForm:input style="width: 235px; height: 35px;" path="contrName" required="true"/>
                 </td>
-                <td>
-                   	<label style="color: black; font-family: cambria;" for="opafts"><h4><b>opa/FTS:</b></h4></label><br>
-                   	<HealthForm:input style="width: 235px; height: 35px;" path="opafts" required="true"/>
+                 <td>
+                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose NoteSheet Pages:</b></h4></label><br>
+                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="noteSheet"/>
                 </td>
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose File Pages:</b></h4></label><br>
-                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="file"/>
+                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose Correspondence Page:</b></h4></label><br>
+                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
 			<tr>
-            	<td>
-                   	<label style="color: black; font-family: cambria;" for="scheme"><h4><b>scheme:</b></h4></label><br>
-                   	<HealthForm:input style="width: 235px; height: 35px;" path="scheme" required="true"/>
-                </td>
+            	
             </tr>
             <tr><td><HealthForm:hidden path="sno"/></td><td colspan="2"><HealthForm:hidden path="location"/></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>

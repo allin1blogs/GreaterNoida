@@ -202,7 +202,7 @@ public class EMLController
 		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
 		{
 			new File(em.getLocation()+em.getOpaFts()+"R.pdf").renameTo(new File("C:/Resources/"+em.getOpaFts()+"R.pdf"));
-			Files.write(Paths.get(keys.getRepository()+em.getOpaFts()+"R.pdf"),noteSheet.getBytes());
+			Files.write(Paths.get(keys.getRepository()+em.getOpaFts()+"R.pdf"),correspondence.getBytes());
 			FileUtils.mergeFiles("C:/Resources/"+em.getOpaFts()+"R.pdf",keys.getRepository()+em.getOpaFts()+"R.pdf",em.getLocation()+em.getOpaFts()+"R.pdf");
 			new File("C:/Resources/"+em.getOpaFts()+"R.pdf").delete();new File(keys.getRepository()+em.getOpaFts()+"R.pdf").delete();
 		}
@@ -288,7 +288,7 @@ public class EMLController
 		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
 		{
 			new File(em.getLocation()+em.getFile_No()+"R.pdf").renameTo(new File("C:/Resources/"+em.getFile_No()+"R.pdf"));
-			Files.write(Paths.get(keys.getRepository()+em.getFile_No()+"R.pdf"),noteSheet.getBytes());
+			Files.write(Paths.get(keys.getRepository()+em.getFile_No()+"R.pdf"),correspondence.getBytes());
 			FileUtils.mergeFiles("C:/Resources/"+em.getFile_No()+"R.pdf",keys.getRepository()+em.getFile_No()+"R.pdf",em.getLocation()+em.getFile_No()+"R.pdf");
 			new File("C:/Resources/"+em.getFile_No()+"R.pdf").delete();new File(keys.getRepository()+em.getFile_No()+"R.pdf").delete();
 		}
@@ -330,7 +330,7 @@ public class EMLController
 		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
 		{
 			new File(em.getLocation()+em.getOpa_fts()+"R.pdf").renameTo(new File("C:/Resources/"+em.getOpa_fts()+"R.pdf"));
-			Files.write(Paths.get(keys.getRepository()+em.getOpa_fts()+"R.pdf"),noteSheet.getBytes());
+			Files.write(Paths.get(keys.getRepository()+em.getOpa_fts()+"R.pdf"),correspondence.getBytes());
 			FileUtils.mergeFiles("C:/Resources/"+em.getOpa_fts()+"R.pdf",keys.getRepository()+em.getOpa_fts()+"R.pdf",em.getLocation()+em.getOpa_fts()+"R.pdf");
 			new File("C:/Resources/"+em.getOpa_fts()+"R.pdf").delete();new File(keys.getRepository()+em.getOpa_fts()+"R.pdf").delete();
 		}
@@ -372,7 +372,7 @@ public class EMLController
 		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
 		{
 			new File(em.getLocation()+em.getOpa_Fts()+"R.pdf").renameTo(new File("C:/Resources/"+em.getOpa_Fts()+"R.pdf"));
-			Files.write(Paths.get(keys.getRepository()+em.getOpa_Fts()+"R.pdf"),noteSheet.getBytes());
+			Files.write(Paths.get(keys.getRepository()+em.getOpa_Fts()+"R.pdf"),correspondence.getBytes());
 			FileUtils.mergeFiles("C:/Resources/"+em.getOpa_Fts()+"R.pdf",keys.getRepository()+em.getOpa_Fts()+"R.pdf",em.getLocation()+em.getOpa_Fts()+"R.pdf");
 			new File("C:/Resources/"+em.getOpa_Fts()+"R.pdf").delete();new File(keys.getRepository()+em.getOpa_Fts()+"R.pdf").delete();
 		}
@@ -452,25 +452,40 @@ public class EMLController
 	
 
 	@RequestMapping(value="/updateLaw",method=RequestMethod.POST)
-	public String updateLaw(HttpServletRequest request,@ModelAttribute("lawForm")Law law,@RequestParam("file")MultipartFile file,RedirectAttributes flashAttributes)throws IOException
+	public String updateLaw(HttpServletRequest request,@ModelAttribute("lawForm")Law law,@RequestParam("noteSheet")MultipartFile noteSheet,@RequestParam("correspondence")MultipartFile correspondence,RedirectAttributes flashAttributes)throws IOException
 	{
 		String uId=modelInitializer.getId(request);
 		if(uId==null)
 			return "error";
-		if(file!=null && file.getOriginalFilename().trim().length()>0)
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
 		{
-			if(!file.getOriginalFilename().equals(law.getPetitionNo()+".pdf"))
+			if(!noteSheet.getOriginalFilename().equals(law.getPetitionNo()+"L.pdf"))
 			{
-				flashAttributes.addFlashAttribute("msg","File name should be as PeriodOfStatement.pdf");
-				return "redirect:/updateFile?department=Finance&sno="+law.getSno();
+				flashAttributes.addFlashAttribute("msg","Notesheet name should be as AllotmentNoL.pdf");
+				return "redirect:/updateFile?department=law&sno="+law.getSno();
 			}
 		}
-		if(file!=null && file.getOriginalFilename().trim().length()>0)
+		if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
 		{
-			new File(law.getLocation()+law.getPetitionNo()+".pdf").renameTo(new File("C:/Resources/"+law.getPetitionNo()+".pdf"));
-			Files.write(Paths.get(keys.getRepository()+law.getPetitionNo()+".pdf"),file.getBytes());
-			FileUtils.mergeFiles("C:/Resources/"+law.getPetitionNo()+".pdf",keys.getRepository()+law.getPetitionNo()+".pdf",law.getLocation()+law.getPetitionNo()+".pdf");
-			new File("C:/Resources/"+law.getPetitionNo()+".pdf").delete();new File(keys.getRepository()+law.getPetitionNo()+".pdf").delete();
+			if(!correspondence.getOriginalFilename().equals(law.getPetitionNo()+"R.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Correspondence name should be as AllotmentNoR.pdf");
+				return "redirect:/updateFile?department=law&sno="+law.getSno();
+			}
+		}
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			new File(law.getLocation()+law.getPetitionNo()+"L.pdf").renameTo(new File("C:/Resources/"+law.getPetitionNo()+"L.pdf"));
+			Files.write(Paths.get(keys.getRepository()+law.getPetitionNo()+"L.pdf"),noteSheet.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+law.getPetitionNo()+"L.pdf",keys.getRepository()+law.getPetitionNo()+"L.pdf",law.getLocation()+law.getPetitionNo()+"L.pdf");
+			new File("C:/Resources/"+law.getPetitionNo()+"L.pdf").delete();new File(keys.getRepository()+law.getPetitionNo()+"L.pdf").delete();
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
+		{
+			new File(law.getLocation()+law.getPetitionNo()+"R.pdf").renameTo(new File("C:/Resources/"+law.getPetitionNo()+"R.pdf"));
+			Files.write(Paths.get(keys.getRepository()+law.getPetitionNo()+"R.pdf"),correspondence.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+law.getPetitionNo()+"R.pdf",keys.getRepository()+law.getPetitionNo()+"R.pdf",law.getLocation()+law.getPetitionNo()+"R.pdf");
+			new File("C:/Resources/"+law.getPetitionNo()+"R.pdf").delete();new File(keys.getRepository()+law.getPetitionNo()+"R.pdf").delete();
 		}
 		emlService.insertOrUpdateLawRecord(law);
 		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");

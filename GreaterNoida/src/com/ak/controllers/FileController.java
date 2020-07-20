@@ -305,7 +305,7 @@ public class FileController
 	        				{
 	        					if(department.equals("Planning(Residential)"))
 	        					{
-	        						if(genAgePlanService.isAllotmentNo1Exists(data[7].trim()))
+	        						if(genAgePlanService.isAllotmentNo1Exists(data[7].trim(),"Residential"))
 		        						duplicateFlage=true;
 		        					else
 		        					{
@@ -318,9 +318,24 @@ public class FileController
 	        						}
 	        					}
 	        					}
-	        					else if(department.equals("Planning(Industry)") || department.equals("Planning(Group Housing)"))
+	        					else if(department.equals("Planning(Industry)"))
 	        					{
-	        						if(genAgePlanService.isAllotmentNo2Exists(data[3].trim()))
+	        						if(genAgePlanService.isAllotmentNo2Exists(data[3].trim(),"Industry"))
+		        						duplicateFlage=true;
+		        					else
+		        					{
+	        						if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" R.pdf").exists())
+	        							uploadPlanningFiles("Industry",data,pdfLocation);
+	        						else
+	        						{
+	        							flage="";
+	        							invalidLine=true;
+	        						}
+	        					}
+	        					}
+	        					else if(department.equals("Planning(Group Housing)"))
+	        					{
+	        						if(genAgePlanService.isAllotmentNo2Exists(data[3].trim(),"Group Housing"))
 		        						duplicateFlage=true;
 		        					else
 		        					{
@@ -335,7 +350,7 @@ public class FileController
 	        					}
 	        					else if(department.equals("Planning(Institutional)"))
 	        					{
-	        						if(genAgePlanService.isAllotmentNo3Exists(data[6].trim()))
+	        						if(genAgePlanService.isAllotmentNo3Exists(data[6].trim(),"Institutional"))
 		        						duplicateFlage=true;
 		        					else
 		        					{
@@ -350,7 +365,7 @@ public class FileController
 	        					}
 	        					else if(department.equals("Planning(Building NOC)"))
 	        					{
-	        						if(genAgePlanService.isAllotmentNo4Exists(data[5].trim()))
+	        						if(genAgePlanService.isAllotmentNo4Exists(data[5].trim(),"Building NOC"))
 		        						duplicateFlage=true;
 		        					else
 		        					{
@@ -1098,9 +1113,6 @@ public class FileController
 				System.out.println("view:systems");
 				if(department.equals("Systems")) {
 					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
-						
-					
-					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				}
 				else
@@ -1108,7 +1120,6 @@ public class FileController
                      count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 						
 					
-					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				}
 			}
@@ -1122,7 +1133,6 @@ public class FileController
 					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 						
 					
-					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				}
 				else
@@ -1139,9 +1149,6 @@ public class FileController
 				System.out.println("Health");
 				if(department.equals("Health")) {
 					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
-						
-					
-					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				}
 				else
@@ -1162,9 +1169,6 @@ public class FileController
 				System.out.println("Land");
 				if(department.equals("Land")) {
 					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
-						
-					
-					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				}
 				else
@@ -1181,9 +1185,6 @@ public class FileController
 				System.out.println("view:HR");
 				if(department.equals("HR")) {
 					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
-						
-					
-					count=FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				}
 				else

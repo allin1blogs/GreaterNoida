@@ -142,7 +142,7 @@ public class CommonDaoImpl implements CommonDao
 	public ArrayList<Logs> retrieveLogs(String userId)
 	{
 		ArrayList<Logs> logs=new ArrayList<Logs>();
-		List list=sessionFactory.getCurrentSession().createQuery("From Logs log where log.userId='"+userId+"'").setMaxResults(500).list();
+		List list=sessionFactory.getCurrentSession().createQuery("From Logs log where log.userId='"+userId+"'").list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			logs.add((Logs)it.next());
 		return logs;

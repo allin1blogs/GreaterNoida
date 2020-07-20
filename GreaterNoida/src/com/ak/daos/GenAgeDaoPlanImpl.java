@@ -35,33 +35,33 @@ public class GenAgeDaoPlanImpl implements GenAgePlanDao
 	}
 	
 	@Override
-	public boolean isAllotmentNo1Exists(String allotmentNo)
+	public boolean isAllotmentNo1Exists(String allotmentNo,String dep)
 	{
-		if(!sessionFactory.getCurrentSession().createSQLQuery("Select allotmentNo from Planning where allotmentNo='"+allotmentNo+"'").list().isEmpty())
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select allotmentNo from Planning where allotmentNo='"+allotmentNo+"' && SubDepartment='"+dep+"'").list().isEmpty())
 			return true;
 		return false;
 	}
 	
 	@Override
-	public boolean isAllotmentNo2Exists(String allotmentNo)
+	public boolean isAllotmentNo2Exists(String allotmentNo,String dep)
 	{
-		if(!sessionFactory.getCurrentSession().createSQLQuery("Select bpNo from Planning where bpNo='"+allotmentNo+"'").list().isEmpty())
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select bpNo from Planning where bpNo='"+allotmentNo+"' && SubDepartment='"+dep+"'").list().isEmpty())
 			return true;
 		return false;
 	}
 	
 	@Override
-	public boolean isAllotmentNo3Exists(String allotmentNo)
+	public boolean isAllotmentNo3Exists(String allotmentNo,String dep)
 	{
-		if(!sessionFactory.getCurrentSession().createSQLQuery("Select bpNo from Planning where bpNo='"+allotmentNo+"'").list().isEmpty())
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select bpNo from Planning where bpNo='"+allotmentNo+"' && SubDepartment='"+dep+"'").list().isEmpty())
 			return true;
 		return false;
 	}
 	
 	@Override
-	public boolean isAllotmentNo4Exists(String allotmentNo)
+	public boolean isAllotmentNo4Exists(String allotmentNo,String dep)
 	{
-		if(!sessionFactory.getCurrentSession().createSQLQuery("Select bn_No from Planning where bn_No='"+allotmentNo+"'").list().isEmpty())
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select bn_No from Planning where bn_No='"+allotmentNo+"' && SubDepartment='"+dep+"'").list().isEmpty())
 			return true;
 		return false;
 	}

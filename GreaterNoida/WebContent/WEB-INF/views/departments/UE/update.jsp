@@ -70,7 +70,7 @@
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="opa_fts"><h4><b>OPA/FTS:</b></h4></label><br>
-                   	<UEForm:input style="width: 235px; height: 35px;" path="opa_fts" required="true"/>
+                   	<UEForm:input style="width: 235px; height: 35px;" path="opa_fts" readonly="true"/>
                 </td>
                 </tr>
             <tr>
@@ -87,7 +87,7 @@
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
-            <tr><td><UEForm:hidden path="sno"/></td><td colspan="2"><UEForm:hidden path="location"/></td></tr>
+            <tr><td><UEForm:hidden path="sno"/></td><td><UEForm:hidden path="location"/></td><td><UEForm:hidden path="department"/></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
     </UEForm:form>

@@ -65,32 +65,7 @@ public class ProFinController
 		return "departments/Finance/retrieve";
 	}
 	
-	@RequestMapping(value="/updateFin",method=RequestMethod.POST)
-	public String updateFin(HttpServletRequest request,@ModelAttribute("financeForm")Finance finance,@RequestParam("file")MultipartFile file,RedirectAttributes flashAttributes)throws IOException
-	{
-		String uId=modelInitializer.getId(request);
-		if(uId==null)
-			return "error";
-		if(file!=null && file.getOriginalFilename().trim().length()>0)
-		{
-			if(!file.getOriginalFilename().equals(finance.getStatement()+".pdf"))
-			{
-				flashAttributes.addFlashAttribute("msg","File name should be as PeriodOfStatement.pdf");
-				return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
-			}
-		}
-		if(file!=null && file.getOriginalFilename().trim().length()>0)
-		{
-			new File(finance.getLocation()+finance.getStatement()+".pdf").renameTo(new File("C:/Resources/"+finance.getStatement()+".pdf"));
-			Files.write(Paths.get(keys.getRepository()+finance.getStatement()+".pdf"),file.getBytes());
-			FileUtils.mergeFiles("C:/Resources/"+finance.getStatement()+".pdf",keys.getRepository()+finance.getStatement()+".pdf",finance.getLocation()+finance.getStatement()+".pdf");
-			new File("C:/Resources/"+finance.getStatement()+".pdf").delete();new File(keys.getRepository()+finance.getStatement()+".pdf").delete();
-		}
-		proFinService.insertOrUpdateFin(finance);
-		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");
-		commonService.insertLogs(uId,"Updated File of Planning with Id:"+finance.getStatement()+".");
-		return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
-	}
+	
 	
 	@RequestMapping(value="/retrievePro",method=RequestMethod.GET)
 	public String retrievePro(ModelMap model,HttpServletRequest request,@ModelAttribute("projectForm")Project project)
@@ -149,7 +124,7 @@ public class ProFinController
 		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
 		{
 			new File(project.getLocation()+project.getOpaFts()+"R.pdf").renameTo(new File("C:/Resources/"+project.getOpaFts()+"R.pdf"));
-			Files.write(Paths.get(keys.getRepository()+project.getOpaFts()+"R.pdf"),noteSheet.getBytes());
+			Files.write(Paths.get(keys.getRepository()+project.getOpaFts()+"R.pdf"),correspondence.getBytes());
 			FileUtils.mergeFiles("C:/Resources/"+project.getOpaFts()+"R.pdf",keys.getRepository()+project.getOpaFts()+"R.pdf",project.getLocation()+project.getOpaFts()+"R.pdf");
 			new File("C:/Resources/"+project.getOpaFts()+"R.pdf").delete();new File(keys.getRepository()+project.getOpaFts()+"R.pdf").delete();
 		}
@@ -157,5 +132,82 @@ public class ProFinController
 		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");
 		commonService.insertLogs(uId,"Updated File of Project with Id:"+project.getOpaFts()+".");
 		return "redirect:/updateFile?department=Project&sno="+project.getSno();
+	}
+	
+	@RequestMapping(value="/updateFin",method=RequestMethod.POST)
+	public String updateFin(HttpServletRequest request,@ModelAttribute("financeForm")Finance finance,@RequestParam("noteSheet")MultipartFile noteSheet,@RequestParam("correspondence")MultipartFile correspondence,RedirectAttributes flashAttributes)throws IOException
+	{
+		String uId=modelInitializer.getId(request);
+		if(uId==null)
+			return "error";
+		if(finance.getSubdepartment().equals("Bank Statement") || finance.getSubdepartment().equals("Loan")) {
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			if(!noteSheet.getOriginalFilename().equals(finance.getAccountNo()+"L.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Notesheet name should be as AccountNoL.pdf");
+				return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
+			}
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
+		{
+			if(!correspondence.getOriginalFilename().equals(finance.getAccountNo()+"R.pdf"))
+			{
+				flashAttributes.addFlashAttribute("msg","Correspondence name should be as AccountNoR.pdf");
+				return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
+			}
+		}
+		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		{
+			new File(finance.getLocation()+finance.getAccountNo()+"L.pdf").renameTo(new File("C:/Resources/"+finance.getAccountNo()+"L.pdf"));
+			Files.write(Paths.get(keys.getRepository()+finance.getAccountNo()+"L.pdf"),noteSheet.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+finance.getAccountNo()+"L.pdf",keys.getRepository()+finance.getAccountNo()+"L.pdf",finance.getLocation()+finance.getAccountNo()+"L.pdf");
+			new File("C:/Resources/"+finance.getAccountNo()+"L.pdf").delete();new File(keys.getRepository()+finance.getAccountNo()+"L.pdf").delete();
+		}
+		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
+		{
+			new File(finance.getLocation()+finance.getAccountNo()+"R.pdf").renameTo(new File("C:/Resources/"+finance.getAccountNo()+"R.pdf"));
+			Files.write(Paths.get(keys.getRepository()+finance.getAccountNo()+"R.pdf"),correspondence.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+finance.getAccountNo()+"R.pdf",keys.getRepository()+finance.getAccountNo()+"R.pdf",finance.getLocation()+finance.getAccountNo()+"R.pdf");
+			new File("C:/Resources/"+finance.getAccountNo()+"R.pdf").delete();new File(keys.getRepository()+finance.getAccountNo()+"R.pdf").delete();
+		}
+	}
+		else {
+			if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+			{
+				if(!noteSheet.getOriginalFilename().equals(finance.getCodeNo()+"L.pdf"))
+				{
+					flashAttributes.addFlashAttribute("msg","Notesheet name should be as CodeNoL.pdf");
+					return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
+				}
+			}
+			if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
+			{
+				if(!correspondence.getOriginalFilename().equals(finance.getCodeNo()+"R.pdf"))
+				{
+					flashAttributes.addFlashAttribute("msg","Correspondence name should be as CodeNoL.pdf");
+					return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
+				}
+			}
+			if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+			{
+				new File(finance.getLocation()+finance.getCodeNo()+"L.pdf").renameTo(new File("C:/Resources/"+finance.getCodeNo()+"L.pdf"));
+				Files.write(Paths.get(keys.getRepository()+finance.getCodeNo()+"L.pdf"),noteSheet.getBytes());
+				FileUtils.mergeFiles("C:/Resources/"+finance.getCodeNo()+"L.pdf",keys.getRepository()+finance.getCodeNo()+"L.pdf",finance.getLocation()+finance.getCodeNo()+"L.pdf");
+				new File("C:/Resources/"+finance.getCodeNo()+"L.pdf").delete();new File(keys.getRepository()+finance.getCodeNo()+"L.pdf").delete();
+			}
+			if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
+			{
+				new File(finance.getLocation()+finance.getCodeNo()+"R.pdf").renameTo(new File("C:/Resources/"+finance.getCodeNo()+"R.pdf"));
+				Files.write(Paths.get(keys.getRepository()+finance.getCodeNo()+"R.pdf"),correspondence.getBytes());
+				FileUtils.mergeFiles("C:/Resources/"+finance.getCodeNo()+"R.pdf",keys.getRepository()+finance.getCodeNo()+"R.pdf",finance.getLocation()+finance.getCodeNo()+"R.pdf");
+				new File("C:/Resources/"+finance.getCodeNo()+"R.pdf").delete();new File(keys.getRepository()+finance.getCodeNo()+"R.pdf").delete();
+			}
+		}
+		proFinService.insertOrUpdateFin(finance);
+		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");
+		commonService.insertLogs(uId,"Updated File of finance with Id:"+finance.getCodeNo()+".");
+		System.out.println("redirect:/updateFin?department=Finance&sno="+finance.getSno());
+		return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
 	}
 }

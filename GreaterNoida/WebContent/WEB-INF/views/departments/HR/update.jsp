@@ -29,7 +29,7 @@
 
 <p class="h1" style="font-family: cambria; text-align: center; color: #387403;">HR</p>
 <div class="container">
-	<HRForm:form action="updateEM" id="updateHRForm" enctype="multipart/form-data" method="post" modelAttribute="HRForm">
+	<HRForm:form action="updateHR" id="updateHRForm" enctype="multipart/form-data" method="post" modelAttribute="HRForm">
         <table class="table">
             <tr>
                 <td>
@@ -38,11 +38,11 @@
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="fileNo"><h4><b>File No:</b></h4></label><br>
-                   	<HRForm:input style="width: 235px; height: 35px;" path="fileNo" required="true"/>
+                   	<HRForm:input style="width: 235px; height: 35px;" path="fileNo" readonly="true"/>
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="opaFts"><h4><b>Opa/Fts No.:</b></h4></label><br>
-                   	<HRForm:input style="width: 235px; height: 35px;" path="opaFts" required="true"/>
+                   	<HRForm:input style="width: 235px; height: 35px;" path="opaFts" readonly="true"/>
                 </td>
             </tr>
             <tr>
@@ -52,7 +52,7 @@
                 </td>
                 <td>
                   	<label style="color: black; font-family: cambria;" for="year"><h4><b>Year:</b></h4></label><br>
-                   	<HRForm:input style="width: 235px; height: 35px;" path="year" readonly="true"/>
+                   	<HRForm:input style="width: 235px; height: 35px;" path="year" required="true"/>
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="file_Subject"><h4><b>File Subject:</b></h4></label><br>
@@ -60,17 +60,26 @@
                 </td>
             </tr>
             <tr>
-            	
+            	<td>
+                   	<label style="color: black; font-family: cambria;" for="date"><h4><b>Date:</b></h4></label><br>
+                   	<HRForm:input style="width: 235px; height: 35px;" path="date" required="true"/>
+                </td>
+                <td>
+                   	<label style="color: black; font-family: cambria;" for="total_No_Of_Pages"><h4><b>Total No_Of Pages:</b></h4></label><br>
+                   	<HRForm:input style="width: 235px; height: 35px;" path="total_No_Of_Pages" required="true"/>
+                </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose NoteSheet Pages:</b></h4></label><br>
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="noteSheet"/>
                 </td>
+                </tr>
+            <tr>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose Correspondence Page:</b></h4></label><br>
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
-            <tr><td colspan="3"><HRForm:hidden path="sno"/></td></tr>
+            <tr><td colspan="3"><HRForm:hidden path="sno"/></td><td colspan="2"><HRForm:hidden path="location"/></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
     </HRForm:form>

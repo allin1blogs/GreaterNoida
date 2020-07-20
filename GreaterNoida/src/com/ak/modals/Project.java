@@ -51,6 +51,9 @@ public class Project
 	@Column(name="Department")
 	private String department;
 	
+	@Column(name="UploadDate")
+	private String uploadDate;
+	
 	public void setSno(int sno)
 	{
 		this.sno=sno;
@@ -145,6 +148,12 @@ public class Project
 	}
 	public void setDepartment(String department) {
 		this.department = department;
+	}
+	public String getUploadDate() {
+		return uploadDate;
+	}
+	public void setUploadDate(String uploadDate) {
+		this.uploadDate = uploadDate;
 	}
 	
 	

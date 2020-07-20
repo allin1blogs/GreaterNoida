@@ -68,7 +68,7 @@
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="Department"><h4><b>Department:</b></h4></label><br>
-                   	<em2Form:input style="width: 235px; height: 35px;" path="department" required="true"/>
+                   	<em2Form:input style="width: 235px; height: 35px;" path="department" readonly="true"/>
                 </td>
                 <td>
                    	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose NoteSheet Pages:</b></h4></label><br>
@@ -81,7 +81,7 @@
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
-            <tr><td colspan="3"><em2Form:hidden path="sno"/></td></tr>
+            <tr><td colspan="3"><em2Form:hidden path="sno"/></td><td colspan="2"><em2Form:hidden path="location"/></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
     </em2Form:form>

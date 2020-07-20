@@ -35,7 +35,7 @@
 		var opaFts=document.getElementById('opaFts').value;
 		var category=document.getElementById('category').value;
 		var year=document.getElementById('year').value;
-		if(workCircle=='Select' && workName=='' && contractorName=='' && opaFts=='' && category=='' && year=='')
+		if(workCircle=='Select' || workCircle=='' && workName=='' && contractorName=='' && opaFts=='' && category=='' && year=='')
 			setContent('Empty Parameters!');
 		else
 			document.getElementById('projectForm').submit();
@@ -276,7 +276,7 @@
   		</div>
 	</div>
 </c:if>
-
+<c:set var="subd" value="${param.department}"/>
 <p class="h1" style="font-family: cambria; text-align: center; color: #387403;">${department}</p>
 <div style="margin-bottom: 0px; padding-bottom: 0px; margin-left: 1%;">
     <projectForm:form action="retrievePro" id="projectForm" method="get" modelAttribute="projectForm">
@@ -284,10 +284,17 @@
             <tr>
             	<td>
                 	<label style="font-family: cambria;" for="Work Circle"><h4><b>Work Circle:</b></h4></label><br>
+                	<c:choose>
+	                 <c:when test="${subd =='Project'}" >
                 	<projectForm:select style="height: 35px; width: 230px;" path="workCircle" id="workCircle">
                 		<projectForm:option value="Select" label="Select"/>
                   		<projectForm:options items="${sectors}"/>
                    	</projectForm:select>
+                   	</c:when>
+					<c:otherwise>
+					<projectForm:input style="width: 230px; height: 35px;" id="workCircle" path="workCircle" list="workCircleNameHelp" onkeyup="getHelp('workCircle');"/>
+					</c:otherwise>
+					</c:choose>
                 </td>
             	<td>
             		<label style="font-family: cambria;" for="Contractor Name"><h4><b>Contractor Name:</b></h4></label><br>
@@ -318,7 +325,7 @@
                 	<datalist id="yearHelp"></datalist>
                 </td>
 		<td><br><br><input class="btn btn-primary" style="background-color: #1B3AD1; color: #ffffff; font-size: 14px;" type="button" value="Retrieve Files" onclick="retrieveFiles();"></td></tr>
-		 <tr><td><projectForm:hidden path="department" value="${param.department}"/></td></tr>
+		 <tr><td><projectForm:hidden path="department" value="${param.department}"/></td></tr> 
         </table>
     </projectForm:form>
 </div><br>

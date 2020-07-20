@@ -31,11 +31,10 @@
 		var file_Subject=document.getElementById('file_Subject').value;
 		
 		var opaFts=document.getElementById('opaFts').value;
-		var no_Of_Noteeing=document.getElementById('no_Of_Noteeing').value;
-		var total_No_Of_Pages=document.getElementById('total_No_Of_Pages').value;	
+		
 		
 				
-		if(line_No=='' && fileNo=='' && fileCode=='' && file_Subject=='' && opaFts=='' && no_Of_Noteeing=='' && total_No_Of_Pages=='')
+		if(line_No=='' && fileNo=='' && fileCode=='' && file_Subject=='' && opaFts=='')
 			setContent('Empty Parameters!');
 		else
 			document.getElementById('HRForm').submit();
@@ -310,19 +309,7 @@
               
    
             </tr>
-            <tr>
-                       
-				 <td>
-                	<label style="font-family: cambria;" for="Category"><h4><b>No_Of_Noteeing:</b></h4></label><br>
-                	<HrForm:input style="width: 230px; height: 35px;" path="no_Of_Noteeing" id="no_Of_Noteeing" list="categoryHelp" onkeyup="getHelp('category');"/>
-                	<datalist id="categoryHelp"></datalist>
-                </td>
-                <td>
-                	<label style="font-family: cambria;" for="Year"><h4><b>Total_No_Of_Pages:</b></h4></label><br>
-                	<HrForm:input style="width: 230px; height: 35px;" path="total_No_Of_Pages" id="total_No_Of_Pages" list="yearHelp" onkeyup="getHelp('year');"/>
-                	<datalist id="yearHelp"></datalist>
-                </td>
-                </tr>
+            
                 <tr>
 				<td><br><br><input class="btn btn-primary" style="background-color: #1B3AD1; color: #ffffff; font-size: 14px;" type="button" value="Retrieve Files" onclick="retrieveFiles();"></td>
 			</tr>
@@ -336,13 +323,12 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th>FileNo</th>
-					<th>LineNo</th>
-					<th>FileCode</th>
-					<th>FileSubject</th>
+					<th>File No</th>
+					<th>Line No</th>
+					<th>File Code</th>
+					<th>File Subject</th>
 					<th>OPA/FTS No.</th>
-					<th>NoOfNoteeing</th>
-					<th>TotalNoOfPages</th>
+					<th>Total No Of Pages</th>
 					
 					
 					<th>Action</th>
@@ -358,7 +344,6 @@
 						<td>${record.fileCode}</td>
 						<td>${record.file_Subject}</td>
 						<td>${record.opaFts}</td>						
-						<td>${record.no_Of_Noteeing}</td>
 						<td>${record.total_No_Of_Pages}</td>
 						<td>
 							<a href="#" onclick="viewFile('${record.fileCode}','${record.sno}','${view}','${record.file_Subject}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;

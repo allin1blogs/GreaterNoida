@@ -27,7 +27,7 @@
 	</div>
 </c:if>
 
-<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Finance</p>
+<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Law</p>
 <div class="container">
 	<lawForm:form action="updateLaw" id="updatelawForm" enctype="multipart/form-data" method="POST" modelAttribute="lawForm">
         <table class="table">
@@ -66,8 +66,12 @@
                    	<lawForm:input style="width: 235px; height: 35px;" path="year" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose File Pages:</b></h4></label><br>
-                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="file"/>
+                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose NoteSheet Pages:</b></h4></label><br>
+                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="noteSheet"/>
+                </td>
+                <td>
+                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose Correspondence Page:</b></h4></label><br>
+                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
             <tr><td><lawForm:hidden path="sno"/></td><td colspan="2"><lawForm:hidden path="location"/></td></tr>
