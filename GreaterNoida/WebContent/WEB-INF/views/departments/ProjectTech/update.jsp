@@ -4,14 +4,14 @@
     Author     : Swapril Tyagi
 --%>
 
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="planningForm"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="ptForm"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script type="text/javascript">
 	function update()
 	{
 		mscConfirm("Have checked all details before updating record?",function(){
-		  	document.getElementById('updatePlanningForm').submit();
+		  	document.getElementById('updateptForm').submit();
 		});
 	}
 </script>
@@ -27,62 +27,44 @@
 	</div>
 </c:if>
 
-<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">${department}</p>
+<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">ProjectTech</p>
 <div class="container">
-	<planningForm:form action="updatePlan" id="updatePlanningForm" enctype="multipart/form-data" method="post" modelAttribute="planningForm">
+	<ptForm:form action="updateProjectTech" id="updateptForm" enctype="multipart/form-data" method="post" modelAttribute="ProjectTechForm">
         <table class="table">
             <tr>
             	<td>
-                   	<label style="color: #345c65;" class="lb" for="BP No."><h4>BP No.:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" path="bpNo" readonly="true"/>
+                   	<label style="color: #345c65;" class="lb" for="BP No."><h4>OPA/FTS:</h4></label><br>
+                   	<ptForm:input style="width: 235px; height: 35px;" type="text" path="opaFts" readonly="true"/>
                 </td>
                 <td>
-                   	<label style="color: #345c65;" class="lb" for="Allotment No"><h4>Allotment No.:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" path="allotmentNo" required="true"/>
+                   	<label style="color: #345c65;" class="lb" for="Allotment No"><h4>SECTOR NAME:</h4></label><br>
+                   	<ptForm:input style="width: 235px; height: 35px;" type="text" path="sector" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: #345c65;" class="lb" for="Allotee Name"><h4>Applicant Name:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="applicantName" required="true"/>
+                   	<label style="color: #345c65;" class="lb" for="Allotee Name"><h4>CATEGORY:</h4></label><br>
+                   	<ptForm:input style="width: 235px; height: 35px;" type="text" class="in" path="category" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: #345c65;" class="lb" for="Plot Size"><h4>Plot Size:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" path="plotSize" required="true"/>
+                   	<label style="color: #345c65;" class="lb" for="Plot Size"><h4>NAME OF WORK:</h4></label><br>
+                   	<ptForm:input style="width: 235px; height: 35px;" type="text" path="name_Of_Work" required="true"/>
                 </td>
             </tr>
             <tr>
             	<td>
-                   	<label style="color: #345c65;" class="lb" for="Sector"><h4>Sector:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" path="sector" required="true"/>
+                   	<label style="color: #345c65;" class="lb" for="Sector"><h4>CONTRACTOR NAME:</h4></label><br>
+                   	<ptForm:input style="width: 235px; height: 35px;" type="text" path="contractor_Name" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: #345c65;" class="lb" for="Block No"><h4>Block No.:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="block" required="true"/>
+                   	<label style="color: #345c65;" class="lb" for="Block No"><h4>DEPARTMENT:</h4></label><br>
+                   	<ptForm:input style="width: 235px; height: 35px;" type="text" class="in" path="department" readonly="true"/>
                 </td>
                 <td>
-                  	<label style="color: #345c65;" class="lb" for="Scheme Code"><h4>File Type:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="fileType" required="true"/>
+                  	<label style="color: #345c65;" class="lb" for="Scheme Code"><h4>FILE NUMBER:</h4></label><br>
+                   	<ptForm:input style="width: 235px; height: 35px;" type="text" class="in" path="fileNumber" required="true"/>
                 </td>
                 <td>
-                   	<label style="color: #345c65;" class="lb" for="House/Plot"><h4>House/Plot No.:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="plotNo" required="true"/>
-                </td>
-            </tr>
-            <tr>
-            	<td>
-                   	<label style="color: #345c65;" class="lb" for="DOA"><h4>DOA:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" path="doa" required="true"/>
-                </td>
-               	<td>
-                   	<label style="color: #345c65;" class="lb" for="DOC"><h4>DOC:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="doc" required="true"/>
-                </td>
-                <td>
-                   	<label style="color: #345c65;" class="lb" for="FTS"><h4>FTS No.:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="fts" required="true"/>
-                </td>
-                <td>
-                   	<label style="color: #345c65;" class="lb" for="Category"><h4>Category:</h4></label><br>
-                   	<planningForm:input style="width: 235px; height: 35px;" type="text" class="in" path="category" required="true"/>
+                   	<label style="color: #345c65;" class="lb" for="House/Plot"><h4>YEAR:</h4></label><br>
+                   	<ptForm:input style="width: 235px; height: 35px;" type="text" class="in" path="year" required="true"/>
                 </td>
             </tr>
             <tr>
@@ -95,8 +77,8 @@
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
                 </td>
             </tr>
-            <tr><td colspan="2"><planningForm:hidden path="sno"/></td><td colspan="2"><planningForm:hidden path="location"/></td></tr>
+            <tr><td colspan="2"><ptForm:hidden path="sno"/></td><td colspan="2"><ptForm:hidden path="location"/></td></tr>
             <tr><td colspan="4" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>
-    </planningForm:form>
+    </ptForm:form>
 </div>

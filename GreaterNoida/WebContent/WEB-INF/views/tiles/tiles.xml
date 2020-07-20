@@ -199,6 +199,11 @@
         <put-attribute name="body" value="/WEB-INF/views/departments/ProjectTech/retrieve.jsp"></put-attribute>
     </definition>
     
+    <definition name="departments/ProjectTech/update" extends="base.definition">
+        <put-attribute name="title" value="Update Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/ProjectTech/update.jsp"></put-attribute>
+    </definition>
+    
       <definition name="departments/Planning2/retrieve" extends="base.definition">
         <put-attribute name="title" value=" Search Planning2 Record"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/departments/Planning2/retrieve.jsp"></put-attribute>

@@ -969,7 +969,7 @@ public class FileUtils
                 }
                 }
         
-        	else if(subd.equals("Residential") || subd.equals("Planning(Group Housing)")){
+        	else if(subd.equals("Residential") || subd.equals("Planning(Group Housing)") || subd.equals("Planning(Policies)")){
         	 HSSFCell cell=rowHead.createCell(0);
              cell.setCellValue("S.No");
              cell.setCellStyle(style);

@@ -352,6 +352,14 @@ public class EMLawDaoImpl implements EMLawDao
 			return (UE)it.next();
 		return null;
 	}
+	
+	@Override
+	public ProjectTech getPTRecord(int sno)
+	{    System.out.println("getProjectTechRecord(int sno):1");
+		for(Iterator it=sessionFactory.getCurrentSession().createQuery("From ProjectTech law where law.sno="+sno+"").list().iterator();it.hasNext();)
+			return (ProjectTech)it.next();
+		return null;
+	}
 
 	@Override
 	public ProjectTech retrieveProjectTechRecords(int snos) {

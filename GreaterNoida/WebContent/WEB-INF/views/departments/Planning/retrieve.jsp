@@ -378,16 +378,16 @@
 						<td>${record.subDepartment}</td>
 						<td>
 							<c:if test="${record.subDepartment=='Industry' || record.subDepartment=='Institutional'}"><a href="#" onclick="viewFile('${record.bpNo}','${record.sno}','${view}');" style="text-decoration: none;">View</a>&nbsp;&nbsp;</c:if>
-							<c:if test="${record.subDepartment=='Residential'}"><a href="#" onclick="viewFile('${record.allotmentNo}','${record.sno}','${view}');" style="text-decoration: none;">View</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${record.subDepartment=='Residential' || record.subDepartment=='Policies'}"><a href="#" onclick="viewFile('${record.allotmentNo}','${record.sno}','${view}');" style="text-decoration: none;">View</a>&nbsp;&nbsp;</c:if>
 							<c:if test="${record.subDepartment=='Building NOC'}"><a href="#" onclick="viewFile('${record.bn_no}','${record.sno}','${view}');" style="text-decoration: none;">View</a>&nbsp;&nbsp;</c:if>
 							<c:if test="${download=='1'}">
 							<c:if test="${record.subDepartment=='Industry' || record.subDepartment=='Institutional'}"><a href="#" onclick="downloadFile('${record.bpNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
-							<c:if test="${record.subDepartment=='Residential'}"><a href="#" onclick="downloadFile('${record.allotmentNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${record.subDepartment=='Residential' || record.subDepartment=='Policies'}}"><a href="#" onclick="downloadFile('${record.allotmentNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
 							<c:if test="${record.subDepartment=='Building NOC'}"><a href="#" onclick="downloadFile('${record.bn_no}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
 							</c:if>
 							<c:if test="${print=='1'}">
 							<c:if test="${record.subDepartment=='Industry' || record.subDepartment=='Institutional'}"><a href="#" onclick="printOut('${record.bpNo}','${record.sno}','${print}','${record.applicantName}');" style="text-decoration: none;">Print</a></c:if>
-							<c:if test="${record.subDepartment=='Residential'}"><a href="#" onclick="printOut('${record.allotmentNo}','${record.sno}','${print}','${record.applicantName}');" style="text-decoration: none;">Print</a></c:if>
+							<c:if test="${record.subDepartment=='Residential' || record.subDepartment=='Policies'}}"><a href="#" onclick="printOut('${record.allotmentNo}','${record.sno}','${print}','${record.applicantName}');" style="text-decoration: none;">Print</a></c:if>
 							<c:if test="${record.subDepartment=='Building NOC'}"><a href="#" onclick="printOut('${record.bn_no}','${record.sno}','${print}','${record.applicantName}');" style="text-decoration: none;">Print</a></c:if>
 							</c:if>
 						</td>

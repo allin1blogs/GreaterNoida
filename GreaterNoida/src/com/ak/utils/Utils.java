@@ -132,7 +132,7 @@ public class Utils
 			return keys.getLawHeader();
 		else if(department.equals("Land"))
 			return keys.getLandHeader();
-		else if(department.equals("Planning(Residential)"))
+		else if(department.equals("Planning(Residential)") || department.equals("Planning(Policies)"))
 			return keys.getPlnResHeader();
 		else if(department.equals("Planning(Industry)") || department.equals("Planning(Institutional)"))
 			return keys.getPlnIndHeader();

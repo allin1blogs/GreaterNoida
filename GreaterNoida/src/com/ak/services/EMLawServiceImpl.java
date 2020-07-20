@@ -178,6 +178,12 @@ public class EMLawServiceImpl implements EMLawService
 	{
 		return emlDao.getUERecord(sno);
 	}
+	
+	@Override
+	public ProjectTech getPTRecord(int sno)
+	{
+		return emlDao.getPTRecord(sno);
+	}
 
 	@Override
 	public ArrayList<EM> retrieveEMRecords(String[] snos)

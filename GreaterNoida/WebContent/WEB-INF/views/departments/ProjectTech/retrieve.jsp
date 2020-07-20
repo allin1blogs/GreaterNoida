@@ -1,6 +1,6 @@
 
 
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="emForm"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="ptForm"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <link rel="stylesheet" href="<c:url value='staticResources/styleSheets/tableManager.css'/>"/>
@@ -44,6 +44,7 @@
 	{
 		if(right==1)
 		{
+			alert("==========="+opaFts);
 			var url="viewFile?id="+opaFts+"&sno="+sno+"&department=ProjectTech&prFlage=null&name="+contractorName;
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
@@ -273,48 +274,48 @@
 	</div>
 </c:if>
 
-<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">ProjectTech</p>
+<p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Project Tech</p>
 <div style="margin-bottom: 0px; padding-bottom: 0px; margin-left: 1%;">
-    <emForm:form action="retrievePT" id="ProjectTechForm" method="get" modelAttribute="ProjectTechForm">
+    <ptForm:form action="retrievePT" id="ProjectTechForm" method="get" modelAttribute="ProjectTechForm">
         <table style="border-spacing: 20px; border-top:0px; border-collapse: separate;">
             <tr>
             	<td>
                 	<label style="font-family: cambria;" for="Department"><h4><b>Sector:</b></h4></label><br>
-                	<emForm:input style="width: 230px; height: 35px;" id="sector" path="sector" list="departmentHelp" onkeyup="getHelp('department');"/>
+                	<ptForm:input style="width: 230px; height: 35px;" id="sector" path="sector" list="departmentHelp" onkeyup="getHelp('department');"/>
                 	<datalist id="departmentHelp"></datalist>
                 </td>
             	<td>
             		<label style="font-family: cambria;" for="Contractor Name"><h4><b>Category:</b></h4></label><br>
-            		<emForm:input style="width: 230px; height: 35px;" id="category" path="category" list="contractorNameHelp" onkeyup="getHelp('contractorName');"/>
+            		<ptForm:input style="width: 230px; height: 35px;" id="category" path="category" list="contractorNameHelp" onkeyup="getHelp('contractorName');"/>
             		<datalist id="contractorNameHelp"></datalist>
             	</td>
                 <td>
-                	<label style="font-family: cambria;" for="Work Name"><h4><b>Name_Of_Work:</b></h4></label><br>
-                	<emForm:input style="width: 230px; height: 35px;" id="name_Of_Work" path="name_Of_Work" list="workHelp" onkeyup="getHelp('workName');"/>
+                	<label style="font-family: cambria;" for="Work Name"><h4><b>Name Of Work:</b></h4></label><br>
+                	<ptForm:input style="width: 230px; height: 35px;" id="name_Of_Work" path="name_Of_Work" list="workHelp" onkeyup="getHelp('workName');"/>
                 	<datalist id="workNameHelp"></datalist>
                 </td>
                 <td>
-                	<label style="font-family: cambria;" for="OPA/FTS"><h4><b>Contractor_Name:</b></h4></label><br>
-                	<emForm:input style="width: 230px; height: 35px;" path="contractor_Name" id="contractor_Name" list="opaFtsHelp" onkeyup="getHelp('opaFts');"/>
+                	<label style="font-family: cambria;" for="OPA/FTS"><h4><b>Contractor Name:</b></h4></label><br>
+                	<ptForm:input style="width: 230px; height: 35px;" path="contractor_Name" id="contractor_Name" list="opaFtsHelp" onkeyup="getHelp('opaFts');"/>
                 	<datalist id="opaFtsHelp"></datalist>
                 </td>
                 <td>
                 	<label style="font-family: cambria;" for="Category"><h4><b>Department:</b></h4></label><br>
-                	<emForm:input style="width: 230px; height: 35px;" path="department" id="department" list="categoryHelp" onkeyup="getHelp('category');"/>
+                	<ptForm:input style="width: 230px; height: 35px;" path="department" id="department" list="categoryHelp" onkeyup="getHelp('category');"/>
                 	<datalist id="categoryHelp"></datalist>
                 </td>
                 
             </tr>
             <tr>
 				<td>
-                	<label style="font-family: cambria;" for="Year"><h4><b>FileNumber:</b></h4></label><br>
-                	<emForm:input style="width: 230px; height: 35px;" path="fileNumber" id="fileNumber" list="yearHelp" onkeyup="getHelp('year');"/>
+                	<label style="font-family: cambria;" for="Year"><h4><b>File Number:</b></h4></label><br>
+                	<ptForm:input style="width: 230px; height: 35px;" path="fileNumber" id="fileNumber" list="yearHelp" onkeyup="getHelp('year');"/>
                 	<datalist id="yearHelp"></datalist>
                 </td>
 				<td><br><br><input class="btn btn-primary" style="background-color: #1B3AD1; color: #ffffff; font-size: 14px;" type="button" value="Retrieve Files" onclick="retrieveFiles();"></td>
 			</tr>
         </table>
-    </emForm:form>
+    </ptForm:form>
 </div><br>
 <c:if test="${not empty records}">
 	<form action="generateReport" id="reportForm" method="post">
@@ -323,14 +324,14 @@
 			<thead>
 				<tr>
 				    <th>SNO.</th>
-				    <th>FileNumber</th>
+				    <th>File Number</th>
 					<th>Sector</th>
-					<th>Category.</th>
-					<th>Name_Of_Work</th>
+					<th>Category </th>
+					<th>Name Of Work</th>
 					
-					<th>Contractor_Name</th>
+					<th>Contractor Name</th>
 					<th>Department</th>
-					<th></th>
+					<th>FTS/OPA No.</th>
 					<th>Action</th>
 					
 				</tr>
@@ -345,11 +346,11 @@
 						<td>${record.name_Of_Work}</td>
 						<td>${record.contractor_Name}</td>
 						<td>${record.department}</td>
-						<td>${record.fileNumber}</td>
+						<td>${record.opaFts}</td>
 						
 						<td>
-							<a href="#" onclick="viewFile('${record.fileNumber}','${record.sno}','${view}','${record.contractor_Name}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
-							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.fileNumber}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
+							<a href="#" onclick="viewFile('${record.opaFts}','${record.sno}','${view}','${record.contractor_Name}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
+							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.opaFts}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
 							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.opaFts}','${record.sno}','${print}','${record.contractor_Name}');" style="text-decoration: none;">Print</a></c:if>
 						</td>
 					</tr>

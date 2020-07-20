@@ -46,6 +46,7 @@ public interface EMLawService
 	public Law getLawRecord(int sno);
 	public Systems getSystemsRecord(int sno);
 	public UE getUERecord(int sno);
+	public ProjectTech getPTRecord(int sno);
 	
 	public ArrayList<EM> retrieveEMRecords(String[] snos);
 	
