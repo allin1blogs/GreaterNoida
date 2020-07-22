@@ -27,6 +27,10 @@
 	        e.stopImmediatePropagation();
 	    }  
 	});
+	function getValue(val){
+		   document.getElementById('myDiv').innerHTML = "retrieve?department="+val;
+		   window.location= "retrieve?department="+val;
+		}
 	function retrieveFiles()
 	{
 		var department=document.getElementById('department').value;
@@ -35,11 +39,14 @@
 		var opaFts=document.getElementById('opaFts').value;
 		var category=document.getElementById('category').value;
 		var year=document.getElementById('year').value;
-		if(department=='' && workName=='' && contractorName=='' && opaFts=='' && category=='' && year=='')
+		if(department=='Select' && workName=='' && contractorName=='' && opaFts=='' && category=='' && year=='')
 			setContent('Empty Parameters!');
 		else
 			document.getElementById('emForm').submit();
 	}
+	function getValue(val){
+		   window.location= "retrieve?department="+val;
+		}
 	function deleteFile()
 	{
 		window.location="delView?department=EM";
@@ -151,7 +158,6 @@
 	}
 	function report(sno,right,flage)
 	{
-		if(right==1)
 			document.getElementById('reportForm').submit();
 	}
 	function printOut(opaFts,sno,right,contractorName)
@@ -283,9 +289,13 @@
         <table style="border-spacing: 20px; border-top:0px; border-collapse: separate;">
             <tr>
             	<td>
-                	<label style="font-family: cambria;" for="Department"><h4><b>Department:</b></h4></label><br>
-                	<emForm:input style="width: 230px; height: 35px;" id="department" path="department" list="departmentHelp" onkeyup="getHelp('department');"/>
-                	<datalist id="departmentHelp"></datalist>
+                	<label style="font-family: cambria;" for="Scheme"><h4><b>Sub-Department:</b></h4></label><br>
+                	<emForm:select style="height: 35px; width: 200px;" path="department" id="department" onchange="getValue(this.value)">
+                		<emForm:option value="Select" label="Select"/>
+    					<emForm:option value="EM" label="E&M-1" selected="selected"/>
+    					<emForm:option value="EM2" label="E&M-2"/>
+    					<emForm:option value="EM3" label="E&M-3"/>
+                   	</emForm:select>
                 </td>
             	<td>
             		<label style="font-family: cambria;" for="Contractor Name"><h4><b>Contractor Name:</b></h4></label><br>

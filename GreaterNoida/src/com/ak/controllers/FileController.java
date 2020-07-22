@@ -318,28 +318,13 @@ public class FileController
 	        						}
 	        					}
 	        					}
-	        					if(department.equals("Planning(Policies)"))
-	        					{
-	        						if(genAgePlanService.isAllotmentNo1Exists(data[7].trim(),"Policy"))
-		        						duplicateFlage=true;
-		        					else
-		        					{
-	        						if(new File(pdfLocation+"/"+data[7].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[7].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[7].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[7].trim()+" R.pdf").exists())
-	        							uploadPlanningFiles("Policy",data,pdfLocation);
-	        						else
-	        						{
-	        							flage="";
-	        							invalidLine=true;
-	        						}
-	        					}
-	        					}
 	        					else if(department.equals("Planning(Industry)"))
 	        					{
-	        						if(genAgePlanService.isAllotmentNo2Exists(data[6].trim(),"Industry"))
+	        						if(genAgePlanService.isAllotmentNo2Exists(data[3].trim(),"Industry"))
 		        						duplicateFlage=true;
 		        					else
 		        					{
-	        						if(new File(pdfLocation+"/"+data[6].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[6].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[6].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[6].trim()+" R.pdf").exists())
+	        						if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" R.pdf").exists())
 	        							uploadPlanningFiles("Industry",data,pdfLocation);
 	        						else
 	        						{
@@ -355,7 +340,7 @@ public class FileController
 		        					else
 		        					{
 	        						if(new File(pdfLocation+"/"+data[3].trim()+"L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" L.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R.pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+" R.pdf").exists())
-	        							uploadPlanningFiles("Group Housing",data,pdfLocation);
+	        							uploadPlanningFiles("Industry",data,pdfLocation);
 	        						else
 	        						{
 	        							flage="";
@@ -555,7 +540,7 @@ public class FileController
 	        						duplicateFlage=true;
 	        					else
 	        					{
-	        					if(new File(pdfLocation+"/"+data[3].trim()+"L"+".pdf").exists() || new File(pdfLocation+"/"+data[3].trim()+"R"+".pdf").exists())
+	        					if(new File(pdfLocation+"/"+data[3].trim()+".pdf").exists())
 	        						uploadProjectTechFiles(data,pdfLocation);
 	        					else
         						{
@@ -708,7 +693,7 @@ public class FileController
 			new File(pdfLocation+"/"+data[6].trim()+"R.pdf").renameTo(new File(planning.getLocation()+data[6].trim()+"R.pdf"));
 			new File(pdfLocation+"/"+data[6].trim()+" R.pdf").renameTo(new File(planning.getLocation()+data[6].trim()+"R.pdf"));
 		}
-		else if(subDepartment.equals("Planning(Industry)") || subDepartment.equals("Residential") || subDepartment.equals("Policy") || subDepartment.equals("Planning(Group Housing)"))
+		else if(subDepartment.equals("Planning(Industry)") || subDepartment.equals("Residential") || subDepartment.equals("Planning(Group Housing)"))
 		{
 			planning.setDoa("NA");
 			planning.setDoc("NA");
@@ -850,21 +835,26 @@ public class FileController
 		ProjectTech pt=new ProjectTech();
 		System.out.println("uploadProjectTechFiles:1");
 		pt.setSector(data[1]);
-		pt.setOpaFts(data[3].trim());
+		
+		pt.setFileNumber(data[3].trim());
+	//	pt.setPetitionNo(data[2].trim());
 		pt.setCategory(data[2]);
+		
+		
 		pt.setName_Of_Work(data[4]);
+		
 		pt.setContractor_Name(data[5]);
+		
 		pt.setDepartment(data[6]);
-		pt.setFileNumber(data[7]);
-		pt.setYear(data[8]);
+		
+		
 		pt.setLocation(utils.generateFilePath());//????????		
 		System.out.println("9");
+		
 		emlService.insertOrUpdateProjectTechRecord(pt);
+	
 		System.out.println("10");
-		new File(pdfLocation+"/"+data[3].trim()+"L.pdf").renameTo(new File(pt.getLocation()+data[3].trim()+"L.pdf"));
-		new File(pdfLocation+"/"+data[3].trim()+"R.pdf").renameTo(new File(pt.getLocation()+data[3].trim()+"R.pdf"));
-		new File(pdfLocation+"/"+data[3].trim()+" L.pdf").renameTo(new File(pt.getLocation()+data[3].trim()+"L.pdf"));
-		new File(pdfLocation+"/"+data[3].trim()+" R.pdf").renameTo(new File(pt.getLocation()+data[3].trim()+"R.pdf"));
+		new File(pdfLocation+"/"+data[2].trim()+".pdf").renameTo(new File(pt.getLocation()+data[2].trim()+".pdf"));
 	}
 	
 	private void uploadSystemFiles(String[] data,String pdfLocation)
@@ -1203,22 +1193,6 @@ public class FileController
 					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				}
 			}
-			if(department.equals("ProjectTech"))
-			{
-				location=emlService.getLocation(Integer.parseInt(sno),department);
-				System.out.println("view:1:ProjectTech:"+location);
-				System.out.println("Projecttech");
-				System.out.println("=="+id);
-				if(department.equals("ProjectTech")) {
-					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
-					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
-				}
-				else
-				{
-					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
-					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
-				}
-			}
 			
 			
 			commonService.insertLogs(uId,"Viewed file of "+department+" with Id:"+id+" & name:"+alloteeName);
@@ -1425,14 +1399,6 @@ public class FileController
 			else
 				FileUtils.newDownloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
 	}
-		if(department.equals("ProjectTech"))
-		{
-			location=emlService.getLocation(Integer.parseInt(sno),department);
-			if(department.equals("ProjectTech"))
-				FileUtils.newDownloadFile(response,id+".pdf",location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
-			else
-				FileUtils.newDownloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
-	}
 		
 		System.out.println("======location"+location);
 		return null;
@@ -1473,8 +1439,6 @@ public class FileController
 			model.addAttribute("SystemForm",emlService.getSystemsRecord(Integer.parseInt(sno)));
 		if(department.equals("UE"))
 			model.addAttribute("UEForm",emlService.getUERecord(Integer.parseInt(sno)));
-		if(department.equals("ProjectTech"))
-			model.addAttribute("ProjectTechForm",emlService.getPTRecord(Integer.parseInt(sno)));
 		System.out.println("departments/"+department+"/update");
 		
 		return "departments/"+department+"/update";
@@ -1782,13 +1746,67 @@ public class FileController
 			if(department.equals("General"))
 				FileUtils.generateGenReport(genAgePlanService.retrieveGen(params,uId),location,response);
 			
+			if(department.equals("EM"))
+				FileUtils.generateEMReport(emlService.retrieveEMRecords(params),location,response);
+			
+			  if(department.equals("EM3"))
+			  FileUtils.generateEM3Report(emlService.retrieveEM3Records(params,uId),location,response);
+			 
 			if(department.equals("Finance"))
 				FileUtils.generateFinReport(proFinService.retrieveFin(params),location,response);
-			
+			if(department.equals("Law"))
+			{ 
+				System.out.println("LawReport:1:post method");				
+			    FileUtils.generateLawReport(emlService.retrieveLawRecords(params,uId),location,response);
+			}
 			if(department.equals("Project"))
-				//FileUtils.generateProReport(proFinService.retrievePro(params),location,response);
+				FileUtils.generateProReport(proFinService.retrievePro(params),location,response);
 			if(department.equals("Planning"))
 				FileUtils.generatePlanReport(genAgePlanService.retrievePlanRecords(params),location,response);
+			if(department.equals("Planning2"))
+			{ 
+			    FileUtils.generatePlanning2Report(emlService.retrievePlanning2Records(params),location,response);
+			}
+			
+			if(department.equals("UE"))
+			{ 
+				System.out.println("UEReport:1:post method");				
+			    FileUtils.generateUEReport(emlService.retrieveUERecords(params),location,response);
+			}
+			if(department.equals("HR"))
+			{ 
+				System.out.println("LawReport:1:post method");				
+			    FileUtils.generateHRReport(hrs.retrieveHRRecords(params),location,response);
+			}
+			if(department.equals("ProjectTech"))
+			{ 
+				System.out.println("LawReport:1:post method");				
+			    FileUtils.generateProjectTechReport(emlService.retrieveProjectTechRecords(params),location,response);
+			}
+			
+			if(department.equals("Systems"))
+			{ 
+				System.out.println("SystemsReport:1:post method");				
+			    FileUtils.generateSystemReport(emlService.retrieveSystemRecords(params),location,response);
+			}
+			
+			if(department.equals("Marketing"))
+			{ 
+				System.out.println("MarketingReport:1:post method");				
+			    FileUtils.generateMarketingReport(marketingService.retrieveMarketingRecords(params),location,response);
+			}
+			
+			if(department.equals("Health"))
+			{ 
+				System.out.println("HealthReport:1:post method");				
+			    FileUtils.generateHealthReport(healthService.retrieveHealthRecords(params),location,response);
+			}
+			
+			if(department.equals("Land"))
+			{ 
+				System.out.println("LandReport:1:post method");				
+			    FileUtils.generateLandReport(landService.retrieveLandRecords(params),location,response);
+			}
 		}
 		return null;
 	}

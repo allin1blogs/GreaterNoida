@@ -352,14 +352,6 @@ public class EMLawDaoImpl implements EMLawDao
 			return (UE)it.next();
 		return null;
 	}
-	
-	@Override
-	public ProjectTech getPTRecord(int sno)
-	{    System.out.println("getProjectTechRecord(int sno):1");
-		for(Iterator it=sessionFactory.getCurrentSession().createQuery("From ProjectTech law where law.sno="+sno+"").list().iterator();it.hasNext();)
-			return (ProjectTech)it.next();
-		return null;
-	}
 
 	@Override
 	public ProjectTech retrieveProjectTechRecords(int snos) {
@@ -593,7 +585,133 @@ public class EMLawDaoImpl implements EMLawDao
 			return records;
 	}
 
-
+	@Override
+	public ArrayList<EM> retrieveEMRecords(ArrayList<String> params,String userId)
+	{
+		ArrayList<EM> records=new ArrayList<EM>();
+		boolean sectorFlage=false;
+		String q="From EM general where general.department='"+params.get(0).substring(0,params.get(0).indexOf("@"))+"'";
+		for(int i=1;i<params.size();i++)
+		{
+			
+			if(params.get(i).substring(params.get(i).indexOf("@")+1).equals("scheme"))
+			{
+				sectorFlage=true;
+				q=q+" and general.scheme='"+params.get(i).substring(0,params.get(i).indexOf("@"))+"'";
+			}
+			else
+				q=q+"and (general."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '"+params.get(i).substring(0,params.get(i).indexOf("@"))+"%' or general."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '%"+params.get(i).substring(0,params.get(i).indexOf("@"))+"%' or general."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '%"+params.get(i).substring(0,params.get(i).indexOf("@"))+"')";
+		}
+		session=sessionFactory.getCurrentSession();
+		if(!sectorFlage)
+		{
+			ArrayList<String> sectors=new ArrayList<String>();
+			List list=session.createSQLQuery("Select sector from UserDepartments where userId='"+userId+"' and department='"+params.get(0).substring(0,params.get(0).indexOf("@"))+"'").list();
+			for(Iterator it=list.iterator();it.hasNext();)
+				sectors.add((String)it.next());
+			for(int i=0;i<sectors.size();i++)
+			{
+				if(sectors.get(i)!=null && !sectors.get(i).equals("null"))
+				{
+					if(i==0)
+						q=q+" and (general.scheme='"+sectors.get(i)+"'";
+					else
+						q=q+" or general.scheme='"+sectors.get(i)+"'";
+				}
+			}
+			q=q+")";
+		}
+		List list=session.createQuery(q).list();
+		for(Iterator it=list.iterator();it.hasNext();)
+			records.add((EM)it.next());
+		return records;
+	}
+	
+	@Override
+	public ArrayList<EM3> retrieveEM3Records(ArrayList<String> params,String userId)
+	{
+		ArrayList<EM3> records=new ArrayList<EM3>();
+		boolean sectorFlage=false;
+		String q="From EM3 general where general.department='"+params.get(0).substring(0,params.get(0).indexOf("@"))+"'";
+		for(int i=1;i<params.size();i++)
+		{
+			
+			if(params.get(i).substring(params.get(i).indexOf("@")+1).equals("scheme"))
+			{
+				sectorFlage=true;
+				q=q+" and general.scheme='"+params.get(i).substring(0,params.get(i).indexOf("@"))+"'";
+			}
+			else
+				q=q+"and (general."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '"+params.get(i).substring(0,params.get(i).indexOf("@"))+"%' or general."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '%"+params.get(i).substring(0,params.get(i).indexOf("@"))+"%' or general."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '%"+params.get(i).substring(0,params.get(i).indexOf("@"))+"')";
+		}
+		session=sessionFactory.getCurrentSession();
+		if(!sectorFlage)
+		{
+			ArrayList<String> sectors=new ArrayList<String>();
+			List list=session.createSQLQuery("Select sector from UserDepartments where userId='"+userId+"' and department='"+params.get(0).substring(0,params.get(0).indexOf("@"))+"'").list();
+			for(Iterator it=list.iterator();it.hasNext();)
+				sectors.add((String)it.next());
+			for(int i=0;i<sectors.size();i++)
+			{
+				if(sectors.get(i)!=null && !sectors.get(i).equals("null"))
+				{
+					if(i==0)
+						q=q+" and (general.scheme='"+sectors.get(i)+"'";
+					else
+						q=q+" or general.scheme='"+sectors.get(i)+"'";
+				}
+			}
+			q=q+")";
+		}
+		List list=session.createQuery(q).list();
+		for(Iterator it=list.iterator();it.hasNext();)
+			records.add((EM3)it.next());
+		return records;
+	}
+	
+	@Override
+	public ArrayList<Law> retrieveLawRecords(ArrayList<String> params,String userId)
+	{
+		ArrayList<Law> records=new ArrayList<Law>();
+		
+		
+		boolean sectorFlage=false;
+		String q="From Law Law";
+		for(int i=1;i<params.size();i++)
+		{
+			
+			if(params.get(i).substring(params.get(i).indexOf("@")+1).equals("scheme"))
+			{
+				sectorFlage=true;
+				q=q+" and Law.scheme='"+params.get(i).substring(0,params.get(i).indexOf("@"))+"'";
+			}
+			else
+				q=q+"and (Law."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '"+params.get(i).substring(0,params.get(i).indexOf("@"))+"%' or Law."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '%"+params.get(i).substring(0,params.get(i).indexOf("@"))+"%' or Law."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '%"+params.get(i).substring(0,params.get(i).indexOf("@"))+"')";
+		}
+		session=sessionFactory.getCurrentSession();
+		if(!sectorFlage)
+		{
+			ArrayList<String> sectors=new ArrayList<String>();
+			List list=session.createSQLQuery("Select sector from UserDepartments where userId='"+userId+"' and department='"+params.get(0).substring(0,params.get(0).indexOf("@"))+"'").list();
+			for(Iterator it=list.iterator();it.hasNext();)
+				sectors.add((String)it.next());
+			for(int i=0;i<sectors.size();i++)
+			{
+				if(sectors.get(i)!=null && !sectors.get(i).equals("null"))
+				{
+					if(i==0)
+						q=q+" and (Law.scheme='"+sectors.get(i)+"'";
+					else
+						q=q+" or Law.scheme='"+sectors.get(i)+"'";
+				}
+			}
+			q=q+")";
+		}
+		List list=session.createQuery(q).list();
+		for(Iterator it=list.iterator();it.hasNext();)
+			records.add((Law)it.next());
+		return records;
+	}
 
 	
 }

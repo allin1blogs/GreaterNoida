@@ -140,6 +140,9 @@ public class ModelInitializer
 			if(department.equals("Planning(Policies)"))
 				model.addAttribute("pol","1");
 		}
+		if(department.equals("EAndM")) {
+			model.addAttribute("em3Form",new EM3());
+		}
 		if(department.equals("EM")) {
 			model.addAttribute("emForm",new EM());
 		}
@@ -169,11 +172,11 @@ public class ModelInitializer
 		if(department.equals("UE"))
 			model.addAttribute("UEForm",new UE());
 		
-		if(department.equals("ProjectTech"))
-			model.addAttribute("ProjectTechForm",new ProjectTech());
-		
 		if(department.equals("Health"))
 			model.addAttribute("HealthForm",new Health());
+		
+		if(department.equals("ProjectTech"))
+			model.addAttribute("ProjectTechForm",new ProjectTech());
 		
 		return model;
 	}
@@ -188,6 +191,8 @@ public class ModelInitializer
 			return "Project";
 		else if(department.equals("Planning") || department.equals("Planning(Policies)"))
 			return "Planning";
+		else if(department.equals("EAndM"))
+			return "EAndM";
 		else if(department.equals("EM"))
 			return "EM";
 		else if(department.equals("EM2"))
@@ -204,13 +209,13 @@ public class ModelInitializer
 			return "Marketing";
 		else if (department.equals("HR"))
 			return "HR";
-		
+		else if (department.equals("Health"))
+			return "Health";
 		else if (department.equals("Planning2"))
 			return "Planning2";
 		else if (department.equals("UE"))
 			return "UE";
-		else if (department.equals("Health"))
-			return "Health";
+		
 		
 		else if (department.equals("ProjectTech"))
 			return "ProjectTech";

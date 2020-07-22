@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.ak.modals.EM;
 import com.ak.modals.EM2;
 import com.ak.modals.EM3;
+import com.ak.modals.General;
 import com.ak.modals.Law;
 import com.ak.modals.Planning2;
 import com.ak.modals.ProjectTech;
@@ -34,6 +35,10 @@ public interface EMLawService
 	public void insertOrUpdatePlanning2Record(Planning2 planning2);
 	public void insertOrUpdateUERecord(UE ue);
 	
+	public ArrayList<EM> retrieveEMRecords(ArrayList<String> params,String userId);
+	//public ArrayList<EM2> retrieveEM2Records(ArrayList<String> params,String userId);
+	public ArrayList<EM3> retrieveEM3Records(ArrayList<String> params,String userId);
+	
 	public ArrayList<EM> retrieveEMRecords(ArrayList<String> params);	
 	public ArrayList<EM3> retrieveEM3Records(ArrayList<String> params);	
 	
@@ -46,7 +51,6 @@ public interface EMLawService
 	public Law getLawRecord(int sno);
 	public Systems getSystemsRecord(int sno);
 	public UE getUERecord(int sno);
-	public ProjectTech getPTRecord(int sno);
 	
 	public ArrayList<EM> retrieveEMRecords(String[] snos);
 	
@@ -54,6 +58,8 @@ public interface EMLawService
 	public EM retrieveEMRecords(int snos);
     public ArrayList<Law> retrieveLawRecords(ArrayList<String> params);
     public ArrayList<Law> retrieveLawRecords(String[] snos);
+    
+    public ArrayList<Law> retrieveLawRecords(ArrayList<String> params,String userId);
     
     public Planning2 retrievePlanning2Records(int snos);//1	
     public ArrayList<Planning2> retrievePlanning2Records(ArrayList<String> params);//2

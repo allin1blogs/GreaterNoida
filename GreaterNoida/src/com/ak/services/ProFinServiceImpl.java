@@ -44,6 +44,12 @@ public class ProFinServiceImpl implements ProFinService
 	{
 		return proFinDao.retrieveFin(params);
 	}
+	
+	@Override
+	public ArrayList<Finance> retrieveFin(ArrayList<String> params,String userId)
+	{
+		return proFinDao.retrieveFin(params,userId);
+	}
 
 	@Override
 	public Finance retrieveFin(int sno)
@@ -64,9 +70,9 @@ public class ProFinServiceImpl implements ProFinService
 	}
 
 	@Override
-	public ArrayList<Project> retrievePro(ArrayList<String> params,String userId)
+	public ArrayList<Project> retrievePro(ArrayList<String> params)
 	{
-		return proFinDao.retrievePro(params,userId);
+		return proFinDao.retrievePro(params);
 	}
 
 	@Override

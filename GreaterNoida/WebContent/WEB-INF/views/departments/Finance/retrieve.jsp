@@ -343,7 +343,7 @@
 <c:if test="${not empty records}">
  <c:set var="subd" value="${param.subdepartment}"/>
 <c:choose>
-	<c:when test="${subd =='Bank Statement'  || subd=='Loan'}" >
+	<c:when test="${subd =='Bank Statement'  || subd=='Loan' || subd==''}" >
 	<form action="generateReport" id="reportForm" method="post">
 		<input type="hidden" name="department" value="Finance">
 		<table id="fileTable" class="table display" style="margin-left: 1%; width: 99%;">

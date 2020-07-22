@@ -80,7 +80,7 @@ public class ProFinController
 		else
 			model.addAttribute("sectors",commonService.getAllSectors("Project",uId));
 		ArrayList<String> params=utils.generateProjectParams(project);
-		ArrayList<Project> records=proFinService.retrievePro(params,uId);
+		ArrayList<Project> records=proFinService.retrievePro(params);
 		if(records.isEmpty())
 			model.addAttribute("msg","No Record Found!");
 		else

@@ -33,11 +33,14 @@
 		var CATEGORY=document.getElementById('category').value;
 		var Name_Of_Work=document.getElementById('name_Of_Work').value;
 		
-		if(department=='' && File_number=='' && Contractor_Name=='' && OPA_FTS=='' && CATEGORY=='' && Name_Of_Work=='')
+		if(department=='Select' && File_number=='' && Contractor_Name=='' && OPA_FTS=='' && CATEGORY=='' && Name_Of_Work=='')
 			setContent('Empty Parameters!');
 		else
 			document.getElementById('EM2Form').submit();
 	}
+	function getValue(val){
+		   window.location= "retrieve?department="+val;
+		}
 	function deleteFile()
 	{
 		window.location="delView?department=EM2";
@@ -282,11 +285,14 @@
         <table style="border-spacing: 20px; border-top:0px; border-collapse: separate;">
             <tr>
             	<td>
-                	<label style="font-family: cambria;" for="Department"><h4><b>Department:</b></h4></label><br>
-                	<emForm:input style="width: 230px; height: 35px;" id="department" path="department" list="departmentHelp" onkeyup="getHelp('department');"/>
-                	<datalist id="departmentHelp"></datalist>
+                	<label style="font-family: cambria;" for="Scheme"><h4><b>Sub-Department:</b></h4></label><br>
+                	<emForm:select style="height: 35px; width: 200px;" path="department" id="department" onchange="getValue(this.value)">
+                		<emForm:option value="Select" label="Select"/>
+    					<emForm:option value="EM" label="E&M-1"/>
+    					<emForm:option value="EM2" label="E&M-2" selected="selected"/>
+    					<emForm:option value="EM3" label="E&M-3"/>
+                   	</emForm:select>
                 </td>
-                
                 <td>
                 	<label style="font-family: cambria;" for="Year"><h4><b>File_number:</b></h4></label><br>
                 	<emForm:input style="width: 230px; height: 35px;" path="file_number" id="file_number" list="yearHelp" onkeyup="getHelp('year');"/>

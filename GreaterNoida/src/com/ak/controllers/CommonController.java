@@ -134,6 +134,7 @@ public class CommonController
 	@RequestMapping(value="/retrieve",method=RequestMethod.GET)
 	public String retrieve(ModelMap model,HttpServletRequest request,@ModelAttribute("department")String department)
 	{
+		System.out.println("=======");
 		String uId=modelInitializer.getId(request);
 		if(uId==null)
 			return "error";

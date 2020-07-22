@@ -492,47 +492,4 @@ public class EMLController
 		commonService.insertLogs(uId,"Updated File of Law with Id:"+law.getPetitionNo()+".");
 		return "redirect:/updateFile?department=Law&sno="+law.getSno();
 	}
-	
-	@RequestMapping(value="/updateProjectTech",method=RequestMethod.POST)
-	public String updateProjectTech(HttpServletRequest request,@ModelAttribute("ProjectTechForm")ProjectTech ProjectTech,@RequestParam("noteSheet")MultipartFile noteSheet,@RequestParam("correspondence")MultipartFile correspondence,RedirectAttributes flashAttributes)throws IOException
-	{
-		String uId=modelInitializer.getId(request);
-		if(uId==null)
-			return "error";
-		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
-		{
-			if(!noteSheet.getOriginalFilename().equals(ProjectTech.getOpaFts()+"L.pdf"))
-			{
-				flashAttributes.addFlashAttribute("msg","Notesheet name should be as OPA/FTSL.pdf");
-				return "redirect:/updateFile?department=ProjectTech&sno="+ProjectTech.getSno();
-			}
-		}
-		if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
-		{
-			if(!correspondence.getOriginalFilename().equals(ProjectTech.getOpaFts()+"R.pdf"))
-			{
-				flashAttributes.addFlashAttribute("msg","Correspondence name should be as OPA/FTSR.pdf");
-				return "redirect:/updateFile?department=ProjectTech&sno="+ProjectTech.getSno();
-			}
-		}
-		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
-		{
-			new File(ProjectTech.getLocation()+ProjectTech.getOpaFts()+"L.pdf").renameTo(new File("C:/Resources/"+ProjectTech.getOpaFts()+"L.pdf"));
-			Files.write(Paths.get(keys.getRepository()+ProjectTech.getOpaFts()+"L.pdf"),noteSheet.getBytes());
-			FileUtils.mergeFiles("C:/Resources/"+ProjectTech.getOpaFts()+"L.pdf",keys.getRepository()+ProjectTech.getOpaFts()+"L.pdf",ProjectTech.getLocation()+ProjectTech.getOpaFts()+"L.pdf");
-			new File("C:/Resources/"+ProjectTech.getOpaFts()+"L.pdf").delete();new File(keys.getRepository()+ProjectTech.getOpaFts()+"L.pdf").delete();
-		}
-		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
-		{
-			new File(ProjectTech.getLocation()+ProjectTech.getOpaFts()+"R.pdf").renameTo(new File("C:/Resources/"+ProjectTech.getOpaFts()+"R.pdf"));
-			Files.write(Paths.get(keys.getRepository()+ProjectTech.getOpaFts()+"R.pdf"),correspondence.getBytes());
-			FileUtils.mergeFiles("C:/Resources/"+ProjectTech.getOpaFts()+"R.pdf",keys.getRepository()+ProjectTech.getOpaFts()+"R.pdf",ProjectTech.getLocation()+ProjectTech.getOpaFts()+"R.pdf");
-			new File("C:/Resources/"+ProjectTech.getOpaFts()+"R.pdf").delete();new File(keys.getRepository()+ProjectTech.getOpaFts()+"R.pdf").delete();
-		}
-		emlService.insertOrUpdateProjectTechRecord(ProjectTech);
-		flashAttributes.addFlashAttribute("msg","File has been updated successfully.");
-		commonService.insertLogs(uId,"Updated File of ProjectTech with Id:"+ProjectTech.getOpaFts()+".");
-		return "redirect:/updateFile?department=ProjectTech&sno="+ProjectTech.getSno();
-	}
-	
 }

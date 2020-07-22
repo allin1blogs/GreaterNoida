@@ -29,6 +29,9 @@ public interface EMLawDao
 	public ArrayList<EM> retrieveEMRecords(ArrayList<String> params);
 	public ArrayList<EM3> retrieveEM3Records(ArrayList<String> params);
 	
+	public ArrayList<EM> retrieveEMRecords(ArrayList<String> params,String userId);
+	public ArrayList<EM3> retrieveEM3Records(ArrayList<String> params,String userId);
+	
 	public EM2 retrieveEM2Records(int snos);//1
 	public EM3 retrieveEM3Records(int snos);//1
 	public ArrayList<EM2> retrieveEM2Records(String[] snos);//2	
@@ -66,13 +69,13 @@ public interface EMLawDao
 	public Law getLawRecord(int sno);
 	public Systems getSystemsRecord(int sno);
 	public UE getUERecord(int sno);
-	public ProjectTech getPTRecord(int sno);
 	public ArrayList<EM> retrieveEMRecords(String[] snos);
 	
 	public Law retrieveLawRecords(int snos);//1
 	public EM retrieveEMRecords(int snos);//1
 	public ArrayList<Law> retrieveLawRecords(String[] snos);//2	
 	public ArrayList<Law> retrieveLawRecords(ArrayList<String> params);//3
+	public ArrayList<Law> retrieveLawRecords(ArrayList<String> params,String userId);
 	public Systems retrieveSystemRecords(int snos);
 	
 	public ArrayList<Systems> retrieveSystemRecords(String[] snos);	

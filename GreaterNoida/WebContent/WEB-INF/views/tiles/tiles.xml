@@ -135,7 +135,11 @@
         <put-attribute name="body" value="/WEB-INF/views/departments/Planning/update.jsp"></put-attribute>
     </definition>
     
-    <definition name="departments/EM/retrieve" extends="base.definition">
+    <definition name="departments/EAndM/retrieve" extends="base.definition">
+        <put-attribute name="title" value="Search Record"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/departments/EAndM/retrieve.jsp"></put-attribute>
+    </definition>
+     <definition name="departments/EM/retrieve" extends="base.definition">
         <put-attribute name="title" value="Search Record"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/departments/EM/retrieve.jsp"></put-attribute>
     </definition>

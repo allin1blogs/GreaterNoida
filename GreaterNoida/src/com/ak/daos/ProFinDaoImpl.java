@@ -65,8 +65,10 @@ public class ProFinDaoImpl implements ProFinDao
 		else
 			q="From Finance finance";
 		List list=sessionFactory.getCurrentSession().createQuery(q).list();
-		for(Iterator it=list.iterator();it.hasNext();)
+		for(Iterator it=list.iterator();it.hasNext();) {
 			records.add((Finance)it.next());
+            System.out.println(records.get(0).getSno());
+		}
 		return records;
 	}
 
@@ -99,7 +101,7 @@ public class ProFinDaoImpl implements ProFinDao
 	}
 
 	@Override
-	public ArrayList<Project> retrievePro(ArrayList<String> params,String userId)
+	public ArrayList<Project> retrievePro(ArrayList<String> params)
 	{
 		ArrayList<Project> records=new ArrayList<Project>();
 		boolean sectorFlage=false;
@@ -116,24 +118,17 @@ public class ProFinDaoImpl implements ProFinDao
 				q=q+"and (project."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '"+params.get(i).substring(0,params.get(i).indexOf("@"))+"%' or project."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '%"+params.get(i).substring(0,params.get(i).indexOf("@"))+"%' or project."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '%"+params.get(i).substring(0,params.get(i).indexOf("@"))+"')";
 		}
 		session=sessionFactory.getCurrentSession();
-		if(!sectorFlage)
-		{
-			ArrayList<String> sectors=new ArrayList<String>();
-			List list=session.createSQLQuery("Select sector from UserDepartments where userId='"+userId+"' and department='"+params.get(0).substring(0,params.get(0).indexOf("@"))+"'").list();
-			for(Iterator it=list.iterator();it.hasNext();)
-				sectors.add((String)it.next());
-			for(int i=0;i<sectors.size();i++)
-			{
-				if(sectors.get(i)!=null && !sectors.get(i).equals("null"))
-				{
-					if(i==0)
-						q=q+" and (project.scheme='"+sectors.get(i)+"'";
-					else
-						q=q+" or project.scheme='"+sectors.get(i)+"'";
-				}
-			}
-			q=q+")";
-		}
+		/*
+		 * if(!sectorFlage) { ArrayList<String> sectors=new ArrayList<String>(); List
+		 * list=session.
+		 * createSQLQuery("Select sector from UserDepartments where userId='"
+		 * +userId+"' and department='"+params.get(0).substring(0,params.get(0).indexOf(
+		 * "@"))+"'").list(); for(Iterator it=list.iterator();it.hasNext();)
+		 * sectors.add((String)it.next()); for(int i=0;i<sectors.size();i++) {
+		 * if(sectors.get(i)!=null && !sectors.get(i).equals("null")) { if(i==0)
+		 * q=q+" and (project.scheme='"+sectors.get(i)+"'"; else
+		 * q=q+" or project.scheme='"+sectors.get(i)+"'"; } } q=q+")"; }
+		 */
 		List list=session.createQuery(q).list();
 		for(Iterator it=list.iterator();it.hasNext();)
 			records.add((Project)it.next());
@@ -168,4 +163,46 @@ public class ProFinDaoImpl implements ProFinDao
 			return (String)it.next();
 		return null;
 	}	
+	
+	@Override
+	public ArrayList<Finance> retrieveFin(ArrayList<String> params,String userId)
+	{
+		ArrayList<Finance> records=new ArrayList<Finance>();
+		boolean sectorFlage=false;
+		String q="From Finance Finance where Finance.subdepartment='"+params.get(0).substring(0,params.get(0).indexOf("@"))+"'";
+		for(int i=1;i<params.size();i++)
+		{
+			
+			if(params.get(i).substring(params.get(i).indexOf("@")+1).equals("scheme"))
+			{
+				sectorFlage=true;
+				q=q+" and Finance.scheme='"+params.get(i).substring(0,params.get(i).indexOf("@"))+"'";
+			}
+			else
+				q=q+"and (Finance."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '"+params.get(i).substring(0,params.get(i).indexOf("@"))+"%' or Finance."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '%"+params.get(i).substring(0,params.get(i).indexOf("@"))+"%' or Finance."+params.get(i).substring(params.get(i).indexOf("@")+1)+" like '%"+params.get(i).substring(0,params.get(i).indexOf("@"))+"')";
+		}
+		session=sessionFactory.getCurrentSession();
+		if(!sectorFlage)
+		{
+			ArrayList<String> sectors=new ArrayList<String>();
+			List list=session.createSQLQuery("Select sector from UserDepartments where userId='"+userId+"' and department='"+params.get(0).substring(0,params.get(0).indexOf("@"))+"'").list();
+			for(Iterator it=list.iterator();it.hasNext();)
+				sectors.add((String)it.next());
+			for(int i=0;i<sectors.size();i++)
+			{
+				if(sectors.get(i)!=null && !sectors.get(i).equals("null"))
+				{
+					if(i==0)
+						q=q+" and (Finance.scheme='"+sectors.get(i)+"'";
+					else
+						q=q+" or Finance.scheme='"+sectors.get(i)+"'";
+				}
+			}
+			q=q+")";
+		}
+		List list=session.createQuery(q).list();
+		for(Iterator it=list.iterator();it.hasNext();)
+			records.add((Finance)it.next());
+		return records;
+	}
 }
