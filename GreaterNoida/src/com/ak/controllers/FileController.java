@@ -1118,8 +1118,6 @@ public class FileController
 				else
 				{
                      count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
-						
-					
 					count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				}
 			}
@@ -1203,69 +1201,51 @@ public class FileController
 			if(department.equals("General")||department.equals("Planning"))
 			{
 				location=genAgePlanService.getLocation(department,Integer.parseInt(sno));
-				FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+				FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
+			}
+			if(department.equals("Land"))
+			{
+				location=landService.getLocation(Integer.parseInt(sno),department);
+				FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			if(department.equals("Finance") || department.equals("Project"))
 			{
 				location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
-				if(department.equals("Finance"))
-					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
-				else
-					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			if(department.equals("EM") || department.equals("Law"))
 			{
 				location=emlService.getLocation(Integer.parseInt(sno),department);
-				if(department.equals("Law"))
-					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
-				else
-					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			if(department.equals("EM3") || department.equals("HortiCulture") || department.equals("Urban"))
 			{
 				location=emlService.getLocation(Integer.parseInt(sno),department);
-				if(department.equals("Law"))
-					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
-				else
-					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			
 			if(department.equals("Systems") || department.equals("UE"))
-			{    System.out.println("view:systems");
+				{
 				location=emlService.getLocation(Integer.parseInt(sno),department);
-				if(department.equals("Systems"))
-					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
-				else
-					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			
 			if(department.equals("Marketing") )
 			{    
-				System.out.println("Marketing");
 				location=marketingService.getLocation(Integer.parseInt(sno),department);
-				if(department.equals("Marketing"))
-					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
-				else
-					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			
 			if(department.equals("Health") )
 			{    
-				System.out.println("Health");
 				location=healthService.getLocation(Integer.parseInt(sno),department);
-				if(department.equals("Health"))
-					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
-				else
-					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			
 			if(department.equals("HR"))
 			{    System.out.println("view:HR");
 				location=emlService.getLocation(Integer.parseInt(sno),department);
-				if(department.equals("HR"))
-					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
-				else
-					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			
 			
@@ -1273,28 +1253,19 @@ public class FileController
 			if(department.equals("UE"))
 			{    System.out.println("view:UE");
 				location=emlService.getLocation(Integer.parseInt(sno),department);
-				if(department.equals("UE"))
-					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
-				else
-					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			
 			if(department.equals("EM2") || department.equals("Planning2"))
 			{
 				location=emlService.getLocation(Integer.parseInt(sno),department);
-				if(department.equals("Law"))
-					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
-				else
-					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			
 			if(department.equals("ProjectTech") || department.equals("HR"))
 			{
 				location=emlService.getLocation(Integer.parseInt(sno),department);
-				if(department.equals("ProjectTech"))
-					FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request),false);
-				else
-					FileUtils.viewFile(id+request.getParameter("lr")+".pdf",webLocation,location,modelInitializer.getId(request),false);
+					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
 			
 			

@@ -219,8 +219,15 @@ public class FileUtils
 					document.close();
 				}
 			}
-			else
+			else {
+				if(true)
+				{
+					mergeFiles(fileLocation+name+"L.pdf",fileLocation+name+"R.pdf","C:/Resources/"+name+".pdf");
+					fileLocation="C:/Resources/";
+					name=name+".pdf";
+				}
 				addWaterMark(fileLocation,webLocation,name,uId,false);
+			}
 		}
 		catch(Exception e)
 		{e.printStackTrace();}
