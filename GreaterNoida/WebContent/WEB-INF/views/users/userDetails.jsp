@@ -74,7 +74,7 @@
 </c:if>
 
 <div class="container">
-	<p class="h1" style="font-family: cambria math; text-align: center; color: #387403;">User Details.jsp</p><br>
+	<p class="h1" style="font-family: cambria math; text-align: center; color: #387403;">User Details</p><br>
 	<userForm:form action="updateUser" id="updateUserForm" method="post" modelAttribute="userForm">
         <table class="table">
             <tr>

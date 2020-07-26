@@ -217,7 +217,7 @@ public class FileController
 	        				
 	        				if(department.equals("Residential") || department.equals("Abadi 6%") || department.equals("Institutional") || department.equals("IT") || department.equals("Group Housing") || department.equals("Builder") || department.equals("Commercial") || department.equals("Industry"))
 	        				{
-	        					if(genAgePlanService.isAllotmentNoExists(data[7].trim()))
+	        					if(genAgePlanService.isAllotmentNoExists(data[7].trim(),"AllotmentNo"))
 	        						duplicateFlage=true;
 	        					else
 	        					{
@@ -1228,6 +1228,7 @@ public class FileController
 				{
 				location=emlService.getLocation(Integer.parseInt(sno),department);
 					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
+
 			}
 			
 			if(department.equals("Marketing") )

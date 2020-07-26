@@ -9,7 +9,7 @@
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.min.js'/>"></script>
 
 <script type="text/javascript">
-	var request,fileId,corrCount,noteCount,currentNote,currentCorr;
+	var request,fileId,noteCount,corrCount,currentNote,currentCorr,currentSno,currentAlloteeName,printLr,sno,bankName;
 	$(document).ready(function() 
 	{
     	$('#fileTable').DataTable({
@@ -45,6 +45,10 @@
 	}
 	function viewFile(fileCode,sno,right,contractorName)
 	{
+		currentSno=sno;currentAlloteeName=contractorName
+		
+		
+		
 		if(right==1)
 		{
 			var url="viewFile?id="+fileCode+"&sno="+sno+"&department=HR&prFlage=null&name="+contractorName;
@@ -153,11 +157,29 @@
 		if(right==1)
 			document.getElementById('reportForm').submit();
 	}
-	function printOut(opaFts,sno,right,contractorName)
+	function printConf(type)
 	{
-		if(right==1)
+		printLr=type;
+		document.getElementById('printConfModal').style.display='block';
+	}
+	function printFile(printType)
+	{
+		if(printType=='single')
 		{
-			var url="viewFile?id="+opaFts+"&sno="+sno+"&department=HR&prFlage=print&name="+contractorName;
+			if(printLr=='L')
+				singlePrint('note');
+			else
+				singlePrint('corr');
+		}
+		else
+			printOut(fileId,currentSno,printLr,currentAlloteeName);
+	}
+	
+	
+	function printOut(fileId,currentSno,printLr,currentAlloteeName)
+	{
+			var url="viewFile?id="+fileId+"&sno="+currentSno+"&department=HR&prFlage=print&name="+currentAlloteeName+"&lr="+printLr;
+			
 			setContent('Processing...');
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
@@ -171,7 +193,7 @@
 			}
 			catch(e)
 			{}
-		}
+	
 	}
 	function setPrint()
 	{
@@ -188,9 +210,9 @@
 	{
 		var contentDiv=document.getElementById('singlePrintDiv');
 		if(type=='note')
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'L@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'L@'+currentNote+'L@print.pdf"></iframe>';
 		else
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'R@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'R@'+currentCorr+'R@print.pdf"></iframe>';
 		document.getElementById('singlePdf').contentWindow.print();
 	}
 	function firLas(type,page)
@@ -228,7 +250,7 @@
 				<select style="width: 70px; height: 25px;" id="notePage" onchange="getPage('notePage','self');"></select>
 				<button class="btn btn-primary" onclick="nexPre('noteDiv','nex');">Next</button>
 				<button class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','las');">Last</button>
-				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 25%;" onclick="singlePrint('note');">Print It</button></c:if>
+				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('L');">Print It</button></c:if>
 			</td>
 			<td>
 				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
@@ -237,7 +259,7 @@
 				<select style="width: 70px; height: 25px;" id="corrPage" onchange="getPage('corrPage','self');"></select>
 				<button class="btn btn-primary" onclick="nexPre('corrDiv','nex')">Next</button>
 				<button class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','las');">Last</button>
-				<button class="btn btn-primary" style="margin-left: 25%;" onclick="singlePrint('corr');">Print It</button>
+				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('R');">Print It</button></c:if>
 			</td>
 		</tr>
 	</table>
@@ -250,17 +272,26 @@
     <div id="printDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height:99%;"></div>
 </div>
 
-<div id="singlePrintModal" class="modal" style="display: none; z-index: 100000;">
-  	<div class="modal-content">
-    	<div class="modal-header" style="background-color: #387403;" id="singlePrintDiv"></div>
-  	</div>
-</div>
-
-<div id="authModal" class="modal" style="display: none;">
+<div id="authModal" class="modal" style="display: none; z-index: 100000;">
   	<div class="modal-content">
     	<div class="modal-header" style="background-color: #387403;">
     		<span class="close" onclick="document.getElementById('authModal').style.display='none'" style="color: #FFFFFF;">&times;</span>
-    		<p style="text-align: center; color: #ffffff;" class="h3" id="authContentPara"></p>
+    		<p style="text-align: center; color: #FFFFFF;" class="h3" id="authContentPara"></p>
+    	</div>
+  	</div>
+</div>
+
+<div id="printConfModal" class="modal" style="display: none; z-index: 1000000;">
+  	<div class="modal-content" style="width: 20%;">
+    	<div class="modal-header" style="background-color: #387403;">
+    		<span class="close" onclick="document.getElementById('printConfModal').style.display='none'" style="color: #FFFFFF;">&times;</span>
+    		<table style="width: 100%;">
+    			<tr><td colspan="2" align="center"><p style="text-align: center; color: #FFFFFF; margin-top: 0px; padding-top: 0px;" class="h3" id="printPara">Noting Print</p></td></tr>
+    			<tr>
+    				<td align="center"><button class="base-button base-round-large" style="background-color: #ffffff;" onclick="printFile('single')">Current Page</button></td>
+    				<td align="center"><button class="base-button base-round-large" style="background-color: #ffffff;" onclick="printFile('cust')">Customize</button></td>
+    			</tr>
+    		</table>
     	</div>
   	</div>
 </div>
@@ -276,6 +307,11 @@
 	</div>
 </c:if>
 
+<div id="singlePrintModal" class="modal" style="display: none; z-index: 100000;">
+  	<div class="modal-content">
+    	<div class="modal-header" style="background-color: #387403;" id="singlePrintDiv"></div>
+  	</div>
+</div>
 <p class="h1" style="font-family: cambria; text-align: center; color: #387403;">HR</p>
 <div style="margin-bottom: 0px; padding-bottom: 0px; margin-left: 1%;">
     <HrForm:form action="retrieveHR" id="HRForm" method="get" modelAttribute="HRForm">
@@ -287,17 +323,17 @@
                 	<datalist id="departmentHelp"></datalist>
                 </td>
             	<td>
-            		<label style="font-family: cambria;" for="Contractor Name"><h4><b>FileNo:</b></h4></label><br>
+            		<label style="font-family: cambria;" for="Contractor Name"><h4><b>File No:</b></h4></label><br>
             		<HrForm:input style="width: 230px; height: 35px;" id="fileNo" path="fileNo" list="contractorNameHelp" onkeyup="getHelp('contractorName');"/>
             		<datalist id="contractorNameHelp"></datalist>
             	</td>
                 <td>
-                	<label style="font-family: cambria;" for="Work Name"><h4><b>FileCode:</b></h4></label><br>
+                	<label style="font-family: cambria;" for="Work Name"><h4><b>File Code:</b></h4></label><br>
                 	<HrForm:input style="width: 230px; height: 35px;" id="fileCode" path="fileCode" list="workHelp" onkeyup="getHelp('workName');"/>
                 	<datalist id="workNameHelp"></datalist>
                 </td>
                 <td>
-                	<label style="font-family: cambria;" for="OPA/FTS"><h4><b>File_Subject.:</b></h4></label><br>
+                	<label style="font-family: cambria;" for="OPA/FTS"><h4><b>File Subject.:</b></h4></label><br>
                 	<HrForm:input style="width: 230px; height: 35px;" path="file_Subject" id="file_Subject" list="opaFtsHelp" onkeyup="getHelp('opaFts');"/>
                 	<datalist id="opaFtsHelp"></datalist>
                 </td>

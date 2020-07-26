@@ -32,11 +32,19 @@
 	function getSectors()
 	{
 		var department=document.getElementById('department');
+		
+		alert("-----"+department);
 		var url="getHelp?help=getSectors&key=sector&value=";
 		for(var i=0;i<department.length;i++)
 		{
-			if(department.options[i].selected)
+			if(department.options[i].selected){
+				if(department.options[i].value=='Abadi 6%'){
+					department.options[i].value='Abadi';
+					alert("-----"+department.options[i].value);
+					}
+					
 				url=url+department.options[i].value+",";
+			}
 		}
 		if(window.XMLHttpRequest)  
 			request=new XMLHttpRequest();  
@@ -86,7 +94,7 @@
        	<form action="${pageContext.request.contextPath}/userDetails" method="post">
         	<table style="margin-bottom: 0px;" class="table">
         		<tr>
-        			<td align="right"><h3 style="font-family: cambria; color: #387403;"><b>Current_Users:</b></h3></td>
+        			<td align="right"><h3 style="font-family: cambria; color: #387403;"><b>Current Users:</b></h3></td>
        					<td>
         					<select class="form-control" style="margin-top: 18px; height: 36px; width: 165px;" name="userId">
         					<c:forEach items="${users}" var="user">
@@ -103,7 +111,7 @@
 </c:if>
 <!-- ==========================================FormAction2======================================================= -->
 <div style="margin-bottom: 0px; padding-bottom: 0px;" class="container">
-    <p class="h2" style="color: #387403; font-family: cambria; text-align: center"><b><i>Add_New_User????</i></b></p>
+    <p class="h2" style="color: #387403; font-family: cambria; text-align: center"><b><i>Add New User????</i></b></p>
 <!-- ================================================================================================ -->
     <userForm:form action="saveUser" id="addUserForm" method="post" modelAttribute="userForm">
         <table class="table">

@@ -24,9 +24,9 @@ public class GenAgePlanServiceImpl implements GenAgePlanService
 	private GenAgePlanDao genAgePlanDao;
 
 	@Override
-	public boolean isAllotmentNoExists(String allotmentNo)
+	public boolean isAllotmentNoExists(String allotmentNo,String dep)
 	{
-		return genAgePlanDao.isAllotmentNoExists(allotmentNo);
+		return genAgePlanDao.isAllotmentNoExists(allotmentNo,dep);
 	}
 	
 	@Override

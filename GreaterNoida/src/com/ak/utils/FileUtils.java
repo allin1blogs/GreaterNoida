@@ -1334,31 +1334,31 @@ public class FileUtils
         cell.setCellValue("Date");//1
         cell.setCellStyle(style);
         cell=rowHead.createCell(2);        
-        cell.setCellValue("LotNo");//1
+        cell.setCellValue("Lot No");//1
         cell.setCellStyle(style);
         cell=rowHead.createCell(3);
-        cell.setCellValue("Clerk_Name");//2
+        cell.setCellValue("Clerk Name");//2
         cell.setCellStyle(style);
         cell=rowHead.createCell(4);
-        cell.setCellValue("File_No");//3
+        cell.setCellValue("File No");//3
         cell.setCellStyle(style);
         cell=rowHead.createCell(5);
         cell.setCellValue("Department");//4
         cell.setCellStyle(style);
         cell=rowHead.createCell(6);
-        cell.setCellValue("FTS_NO_OPA_NO");//5
+        cell.setCellValue("FTS_NO/OPA_NO");//5
         cell.setCellStyle(style);
         cell=rowHead.createCell(7);
-        cell.setCellValue("SubjectName");//6
+        cell.setCellValue("Subject Name");//6
         cell.setCellStyle(style);        
         cell=rowHead.createCell(8);
         cell.setCellValue("Year");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(9);
-        cell.setCellValue("No_Of_NoteSheet");
+        cell.setCellValue("No Of NoteSheet");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(10);
-        cell.setCellValue("No_Of_Cros");
+        cell.setCellValue("No Of Cros");
         cell.setCellStyle(style);        
 		/*
 		 * cell=rowHead.createCell(11); cell.setCellValue("No_Of_A0_Pages");
@@ -1621,37 +1621,37 @@ public class FileUtils
         cell.setCellValue("Year");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(10);
-        cell.setCellValue("No_Of_Notsheet");
+        cell.setCellValue("No Of Notsheet");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(11);
-        cell.setCellValue("No_Of_Cos");
+        cell.setCellValue("No Of Cos");
         cell.setCellStyle(style);  
         cell=rowHead.createCell(12);
-        cell.setCellValue("No_Of_A3");
+        cell.setCellValue("No Of A3");
         cell.setCellStyle(style);
         cell=rowHead.createCell(13);
-        cell.setCellValue("No_Of_A2");
+        cell.setCellValue("No Of A2");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(14);
-        cell.setCellValue("No_Of_A1");
+        cell.setCellValue("No Of A1");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(15);
-        cell.setCellValue("No_Of_A0");
+        cell.setCellValue("No Of A0");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(16);
-        cell.setCellValue("Total_Pages");
+        cell.setCellValue("Total Pages");
         cell.setCellStyle(style);  
         cell=rowHead.createCell(17);
-        cell.setCellValue("Servey_Letter");
+        cell.setCellValue("Servey Letter");
         cell.setCellStyle(style);
         cell=rowHead.createCell(18);
         cell.setCellValue("Notifection");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(19);
-        cell.setCellValue("Morgeg_Letter");
+        cell.setCellValue("Morgeg Letter");
         cell.setCellStyle(style);  
         cell=rowHead.createCell(20);
-        cell.setCellValue("Map_11");
+        cell.setCellValue("Map 11");
         cell.setCellStyle(style);
       
         int r=0,i=3;
@@ -1758,37 +1758,37 @@ public class FileUtils
         cell.setCellValue("Date");//1
         cell.setCellStyle(style);
         cell=rowHead.createCell(2);        
-        cell.setCellValue("Lot_No");//1
+        cell.setCellValue("Lot No");//1
         cell.setCellStyle(style);
         cell=rowHead.createCell(3);
-        cell.setCellValue("Clerk_Name");//2
+        cell.setCellValue("Clerk Name");//2
         cell.setCellStyle(style);
         cell=rowHead.createCell(4);
-        cell.setCellValue("File_No");//3
+        cell.setCellValue("File No");//3
         cell.setCellStyle(style);
         cell=rowHead.createCell(5);
         cell.setCellValue("Department");//4
         cell.setCellStyle(style);
         cell=rowHead.createCell(6);
-        cell.setCellValue("FTS_NO_OPA_NO");//5
+        cell.setCellValue("FTS_NO/OPA_NO");//5
         cell.setCellStyle(style);
         cell=rowHead.createCell(7);
-        cell.setCellValue("Applicant_Name");//6
+        cell.setCellValue("Applicant Name");//6
         cell.setCellStyle(style);        
         cell=rowHead.createCell(8);
         cell.setCellValue("Year");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(9);
-        cell.setCellValue("No_Of_NoteSheet");
+        cell.setCellValue("No Of NoteSheet");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(10);
-        cell.setCellValue("No_Of_Cros");
+        cell.setCellValue("No Of Cros");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(15);
-        cell.setCellValue("Opt_Name");
+        cell.setCellValue("Opt Name");
         cell.setCellStyle(style);  
         cell=rowHead.createCell(16);
-        cell.setCellValue("Total_No_Of_Pages");
+        cell.setCellValue("Total No Of Pages");
         cell.setCellStyle(style);
       
         int r=0,i=3;
@@ -1880,28 +1880,28 @@ public class FileUtils
         cell.setCellValue("Category");//1
         cell.setCellStyle(style);
         cell=rowHead.createCell(2);        
-        cell.setCellValue("ContractorName");//1
+        cell.setCellValue("Contractor Name");//1
         cell.setCellStyle(style);
         cell=rowHead.createCell(3);
         cell.setCellValue("Department");//2
         cell.setCellStyle(style);
         cell=rowHead.createCell(4);
-        cell.setCellValue("FileNo");//3
+        cell.setCellValue("File No");//3
         cell.setCellStyle(style);
         cell=rowHead.createCell(5);
-        cell.setCellValue("Opa_Fts");//5
+        cell.setCellValue("Opa/Fts");//5
         cell.setCellStyle(style);
         cell=rowHead.createCell(6);
         cell.setCellValue("Sector");//6
         cell.setCellStyle(style);        
         cell=rowHead.createCell(7);
-        cell.setCellValue("WorkName");
+        cell.setCellValue("Work Name");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(8);
         cell.setCellValue("Year");
         cell.setCellStyle(style);        
         cell=rowHead.createCell(9);
-        cell.setCellValue("ContrName");
+        cell.setCellValue("Contr Name");
         cell.setCellStyle(style);  
         cell=rowHead.createCell(10);
         cell.setCellValue("Scheme");
@@ -2678,10 +2678,10 @@ public class FileUtils
         cell.setCellValue("YEAR");
         cell.setCellStyle(style);
         cell=rowHead.createCell(9);
-        cell.setCellValue(" NO_OF_NOTSHEET");
+        cell.setCellValue(" NO OF NOTSHEET");
         cell.setCellStyle(style);
         cell=rowHead.createCell(10);
-        cell.setCellValue("NO_OF_COS");
+        cell.setCellValue("NO OF COS");
         cell.setCellStyle(style);
         cell=rowHead.createCell(11);
         cell.setCellValue("NO. OF A3 PAGES");

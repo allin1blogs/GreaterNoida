@@ -27,9 +27,9 @@ public class GenAgeDaoPlanImpl implements GenAgePlanDao
 	private Session session;
 
 	@Override
-	public boolean isAllotmentNoExists(String allotmentNo)
+	public boolean isAllotmentNoExists(String allotmentNo,String dep)
 	{
-		if(!sessionFactory.getCurrentSession().createSQLQuery("Select allotmentNo from General where allotmentNo='"+allotmentNo+"'").list().isEmpty())
+		if(!sessionFactory.getCurrentSession().createSQLQuery("Select allotmentNo from General where allotmentNo='"+allotmentNo+"' && department='"+dep+"'").list().isEmpty())
 			return true;
 		return false;
 	}

@@ -123,7 +123,6 @@ public class UserController
 					}
 				}
 				userService.insertOrUpdateUserDepartments(userDepartments);
-				userService.insertOrUpdateUserDepartments(userDepartments);
 			}
 			flashAttributes.addFlashAttribute("msg","UserId is created successfully.");
 			commonService.insertLogs(uId,"Created UserId:"+uId+".");
@@ -159,8 +158,15 @@ public class UserController
 			if(modelInitializer.getIdModule(request).equals("Super Administrator"))
 			{
 				String[] unDepts=keys.getDepartments();
-				for(String unDept:unDepts)
+				for(String unDept:unDepts) {
 					unSelectedDepartments.add(unDept);
+					
+				}
+				for(int i=0;i<userDepartments.size();i++) {
+					System.out.println("==================="+userDepartments.size());
+				if(unSelectedDepartments.contains(userDepartments.get(i).getDepartment()))
+					unSelectedDepartments.remove(userDepartments.get(i).getDepartment());
+				}
 			}
 			else
 			{
@@ -221,6 +227,7 @@ public class UserController
 		if(user.getUserType().equals("User"))
 		{
 			ArrayList<UserDepartments> userDepartments=new ArrayList<UserDepartments>();
+			if(!(sectors==null)) {
 			for(String sector:sectors)
 			{
 				if(!sector.equals("") && sector.length()>0 && sector.indexOf("(")!=-1 && sector.indexOf(")")!=-1)
@@ -232,6 +239,14 @@ public class UserController
 					userDepartment.setUserId(user.getUserId());
 					userDepartments.add(userDepartment);
 				}
+			}
+			}
+			else {
+				UserDepartments userDepartment=new UserDepartments();
+				userDepartment.setUserId(user.getUserId());
+				userDepartment.setDepartment(departments[0]);
+				userDepartment.setSector("NA");
+				userDepartments.add(userDepartment);
 			}
 			userService.insertOrUpdateUserDepartments(userDepartments);
 		}

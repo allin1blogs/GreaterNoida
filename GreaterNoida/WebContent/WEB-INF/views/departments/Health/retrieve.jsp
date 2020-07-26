@@ -19,7 +19,7 @@
 
 <div id="ftsNo" style="display: none">${param.opa_fts}</div>
 <script type="text/javascript">
-	var request,fileId,count,currentCount;
+	var request,fileId,noteCount,corrCount,currentNote,currentCorr,currentSno,currentAlloteeName,printLr,sno,bankName;
 	$(document).ready(function() 
 	{
     	$('#fileTable').DataTable({
@@ -55,6 +55,7 @@
 	}
 	function viewFile(pos,sno,right,name)
 	{
+		currentSno=sno;currentAlloteeName=name;
 		if(right==1)
 		{
 			var url="viewFile?id="+pos+"&sno="+sno+"&department=Health&prFlage=null&name="+name;
@@ -179,11 +180,27 @@
 		if(right==1)
 			document.getElementById('reportForm').submit();
 	}
-	function printOut(pos,sno,right,bankName)
+	function printConf(type)
 	{
-		if(right==1)
+		printLr=type;
+		document.getElementById('printConfModal').style.display='block';
+	}
+	function printFile(printType)
+	{
+		if(printType=='single')
 		{
-			var url="viewFile?id="+pos+"&sno="+sno+"&department=Health&prFlage=print&name="+bankName;
+			if(printLr=='L')
+				singlePrint('note');
+			else
+				singlePrint('corr');
+		}
+		else
+			printOut(fileId,currentSno,printLr,currentAlloteeName);
+	}
+	function printOut(fileId,currentSno,printLr,currentAlloteeName)
+	{
+		
+			var url="viewFile?id="+fileId+"&sno="+currentSno+"&department=Health&prFlage=print&name="+currentAlloteeName+"&lr="+printLr;
 			setContent('Processing...');
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
@@ -197,7 +214,7 @@
 			}
 			catch(e)
 			{}
-		}
+		
 	}
 	function setPrint()
 	{
@@ -210,13 +227,13 @@
 			ifr.contentWindow.print();
 		}
 	}
-	function singlePrint()
+	function singlePrint(type)
 	{
 		var contentDiv=document.getElementById('singlePrintDiv');
 		if(type=='note')
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+sector+'L@'+currentNote+'L@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'L@'+currentNote+'L@print.pdf"></iframe>';
 		else
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+sector+'R@'+currentCorr+'R@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'R@'+currentCorr+'R@print.pdf"></iframe>';
 		document.getElementById('singlePdf').contentWindow.print();
 		}
 	function firLas(type,page)
@@ -330,6 +347,20 @@
 	</div>
 </div>
 
+<div id="printConfModal" class="modal" style="display: none; z-index: 1000000;">
+  	<div class="modal-content" style="width: 20%;">
+    	<div class="modal-header" style="background-color: #387403;">
+    		<span class="close" onclick="document.getElementById('printConfModal').style.display='none'" style="color: #FFFFFF;">&times;</span>
+    		<table style="width: 100%;">
+    			<tr><td colspan="2" align="center"><p style="text-align: center; color: #FFFFFF; margin-top: 0px; padding-top: 0px;" class="h3" id="printPara">Noting Print</p></td></tr>
+    			<tr>
+    				<td align="center"><button class="base-button base-round-large" style="background-color: #ffffff;" onclick="printFile('single')">Current Page</button></td>
+    				<td align="center"><button class="base-button base-round-large" style="background-color: #ffffff;" onclick="printFile('cust')">Customize</button></td>
+    			</tr>
+    		</table>
+    	</div>
+  	</div>
+</div>
 <c:if test="${not empty msg}">
 	<div id="modal" class="modal" style="display: block;">
 		<div class="modal-content">
@@ -399,9 +430,7 @@
             	</td> --%>
 			</tr>
 			<tr>
-				<td><br>
-				<br>
-				<input class="btn btn-primary"
+				<td><br> <br> <input class="btn btn-primary"
 					style="background-color: #1B3AD1; color: #ffffff; font-size: 14px;"
 					type="button" value="Retrieve Files" onclick="retrieveFiles();"></td>
 			</tr>

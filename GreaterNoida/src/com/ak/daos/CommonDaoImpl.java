@@ -106,6 +106,9 @@ public class CommonDaoImpl implements CommonDao
 	@Override
 	public String getHelp(String obj,String key,String value)
 	{
+		if(value.contains("Abadi,"))
+			value=value.replaceAll("Abadi,","Abadi 6%,");
+		
 		session=sessionFactory.getCurrentSession();
 		String helpBox="",q=null;
 		if(obj.equals("getDescription"))
@@ -116,6 +119,7 @@ public class CommonDaoImpl implements CommonDao
 		{
 			for(String department:value.split(","))
 			{
+				
 				q="Select sector from departments where department='"+department+"'";
 				for(Iterator it=session.createSQLQuery(q).list().iterator();it.hasNext();)
 					helpBox=helpBox+(String)it.next()+"("+department+")<@>";

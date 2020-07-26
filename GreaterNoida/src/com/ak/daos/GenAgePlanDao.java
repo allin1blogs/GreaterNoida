@@ -13,7 +13,7 @@ import com.ak.modals.Planning;
 
 public interface GenAgePlanDao
 {
-	public boolean isAllotmentNoExists(String allotmentNo);
+	public boolean isAllotmentNoExists(String allotmentNo,String dep);
 	public boolean isAllotmentNo1Exists(String allotmentNo,String dep);
 	public boolean isAllotmentNo2Exists(String allotmentNo,String dep);
 	public boolean isAllotmentNo3Exists(String allotmentNo,String dep);

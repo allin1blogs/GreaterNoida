@@ -14,7 +14,7 @@
 
 <div id="ftsNo" style="display:block"></div>
 <script type="text/javascript">
-	var request,fileId,count,currentCount;
+	var request,fileId,noteCount,corrCount,currentNote,currentCorr,currentSno,currentAlloteeName,printLr,sno,bankName;
 	$(document).ready(function() 
 	{
     	$('#fileTable').DataTable({
@@ -50,6 +50,7 @@
 	}
 	function viewFile(pos,sno,right,name)
 	{
+currentSno=sno;currentAlloteeName=name;
 		if(right==1)
 		{
 			var url="viewFile?id="+pos+"&sno="+sno+"&department=Land&prFlage=null&name="+name;
@@ -176,11 +177,27 @@
 		if(right==1)
 			document.getElementById('reportForm').submit();
 	}
-	function printOut(pos,sno,right,bankName)
+	function printConf(type)
 	{
-		if(right==1)
+		printLr=type;
+		document.getElementById('printConfModal').style.display='block';
+	}
+	function printFile(printType)
+	{
+		if(printType=='single')
 		{
-			var url="viewFile?id="+pos+"&sno="+sno+"&department=Land&prFlage=print&name="+bankName;
+			if(printLr=='L')
+				singlePrint('note');
+			else
+				singlePrint('corr');
+		}
+		else
+			printOut(fileId,currentSno,printLr,currentAlloteeName);
+	}
+	function printOut(fileId,currentSno,printLr,currentAlloteeName)
+	{
+		
+			var url="viewFile?id="+fileId+"&sno="+currentSno+"&department=Land&prFlage=print&name="+currentAlloteeName+"&lr="+printLr;
 			setContent('Processing...');
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
@@ -194,7 +211,7 @@
 			}
 			catch(e)
 			{}
-		}
+		
 	}
 	function setPrint()
 	{
@@ -207,13 +224,13 @@
 			ifr.contentWindow.print();
 		}
 	}
-	function singlePrint()
+	function singlePrint(type)
 	{
 		var contentDiv=document.getElementById('singlePrintDiv');
 		if(type=='note')
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+opaFts+'L@'+currentNote+'L@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'L@'+currentNote+'L@print.pdf"></iframe>';
 		else
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+opaFts+'R@'+currentCorr+'R@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'R@'+currentCorr+'R@print.pdf"></iframe>';
 		document.getElementById('singlePdf').contentWindow.print();
 		}
 	function firLas(type,page)
@@ -275,17 +292,26 @@
     <div id="printDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height:99%;"></div>
 </div>
 
-<div id="singlePrintModal" class="modal" style="display: none; z-index: 100000;">
-  	<div class="modal-content">
-    	<div class="modal-header" style="background-color: #387403;" id="singlePrintDiv"></div>
-  	</div>
-</div>
-
-<div id="authModal" class="modal" style="display: none;">
+<div id="authModal" class="modal" style="display: none; z-index: 100000;">
   	<div class="modal-content">
     	<div class="modal-header" style="background-color: #387403;">
     		<span class="close" onclick="document.getElementById('authModal').style.display='none'" style="color: #FFFFFF;">&times;</span>
-    		<p style="text-align: center; color: #ffffff;" class="h3" id="authContentPara"></p>
+    		<p style="text-align: center; color: #FFFFFF;" class="h3" id="authContentPara"></p>
+    	</div>
+  	</div>
+</div>
+
+<div id="printConfModal" class="modal" style="display: none; z-index: 1000000;">
+  	<div class="modal-content" style="width: 20%;">
+    	<div class="modal-header" style="background-color: #387403;">
+    		<span class="close" onclick="document.getElementById('printConfModal').style.display='none'" style="color: #FFFFFF;">&times;</span>
+    		<table style="width: 100%;">
+    			<tr><td colspan="2" align="center"><p style="text-align: center; color: #FFFFFF; margin-top: 0px; padding-top: 0px;" class="h3" id="printPara">Noting Print</p></td></tr>
+    			<tr>
+    				<td align="center"><button class="base-button base-round-large" style="background-color: #ffffff;" onclick="printFile('single')">Current Page</button></td>
+    				<td align="center"><button class="base-button base-round-large" style="background-color: #ffffff;" onclick="printFile('cust')">Customize</button></td>
+    			</tr>
+    		</table>
     	</div>
   	</div>
 </div>
@@ -301,6 +327,11 @@
 	</div>
 </c:if>
 
+<div id="singlePrintModal" class="modal" style="display: none; z-index: 100000;">
+  	<div class="modal-content">
+    	<div class="modal-header" style="background-color: #387403;" id="singlePrintDiv"></div>
+  	</div>
+</div>
 <p class="h1" style="font-family: cambria; text-align: center; color: #387403;">Land</p>
 <div style="margin-bottom: 0px; padding-bottom: 0px; margin-left: 1%;">
     <LandForm:form action="retrieveLand" id="LandForm" method="get" modelAttribute="LandForm">

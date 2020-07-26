@@ -12,7 +12,7 @@
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.min.js'/>"></script>
 <script type="text/javascript">
-	var request,fileId,noteCount,corrCount,currentNote,currentCorr,currentSno,currentAlloteeName,printLr;;
+	var request,fileId,noteCount,corrCount,currentNote,currentCorr,currentSno,currentAlloteeName,printLr,sno,bankName;
 	$(document).ready(function() 
 	{
     	$('#fileTable').DataTable({
@@ -169,13 +169,12 @@
 				singlePrint('corr');
 		}
 		else
-			printOut();
+			printOut(fileId,currentSno,printLr,currentAlloteeName);
 	}
-	function printOut(pos,sno,right,bankName)
+	function printOut(fileId,currentSno,printLr,currentAlloteeName)
 	{
-		if(right==1)
-		{
-			var url="viewFile?id="+pos+"&sno="+sno+"&department=General&prFlage=print&name="+bankName+"&lr="+right;
+		
+			var url="viewFile?id="+fileId+"&sno="+currentSno+"&department=General&prFlage=print&name="+currentAlloteeName+"&lr="+printLr;
 			setContent('Processing...');
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
@@ -189,7 +188,7 @@
 			}
 			catch(e)
 			{}
-		}
+		
 	}
 	function setPrint()
 	{
@@ -202,13 +201,13 @@
 			ifr.contentWindow.print();
 		}
 	}
-	function singlePrint()
+	function singlePrint(type)
 	{
 		var contentDiv=document.getElementById('singlePrintDiv');
 		if(type=='note')
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+allotmentNo+'L@'+currentNote+'L@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'L@'+currentNote+'L@print.pdf"></iframe>';
 		else
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+allotmentNo+'R@'+currentCorr+'R@print.pdf"></iframe>';
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'R@'+currentCorr+'R@print.pdf"></iframe>';
 		document.getElementById('singlePdf').contentWindow.print();
 		}
 	function firLas(type,page)
