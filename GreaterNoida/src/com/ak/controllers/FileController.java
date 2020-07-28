@@ -251,7 +251,30 @@ public class FileController
 	        					
 		        				if(subDepartment.equals("Bank Statement") || subDepartment.equals("Loan") || subDepartment.equals("Direct Salary") || subDepartment.equals("Deputation Salary")|| subDepartment.equals("TDS") || subDepartment.equals("Labor Cass") || subDepartment.equals("Costing") || subDepartment.equals("tax"))
 		        				{
-		        					if(subDepartment.equals("Bank Statement") || subDepartment.equals("Loan"))
+		        					if(subDepartment.equals("Bank Statement"))
+		        					{
+		        						if(proFinService.isFinExists(data[11].trim(),"AccountNo") || proFinService.isFinExists(data[4].trim(),"PeriodOfStatement")) {
+		        							duplicateFlage=true;
+		        						}
+			        					else
+			        					{
+		        						System.out.println(pdfLocation+"/"+data[11]+".pdf");
+		        						System.out.println(pdfLocation+"/"+data[4]+".pdf");
+		        						if(new File(pdfLocation+"/"+data[11]+".pdf").exists()){
+		        							uploadFinanceFiles(subDepartment,data,pdfLocation);
+		        						} else 
+		        							if(new File(pdfLocation+"/"+data[4]+".pdf").exists()){
+		        								System.out.println(pdfLocation+"/"+data[4]+"pdf");
+		        								uploadFinanceaFiles(subDepartment,data,pdfLocation);
+		        						}
+		        						else
+		        						{
+		        							flage="";
+		        							invalidLine=true;
+		        						}
+		        					}
+		        					}
+		        					if(subDepartment.equals("Loan"))
 		        					{
 		        						if(proFinService.isFinExists(data[11].trim(),"AccountNo")) {
 		        							duplicateFlage=true;
@@ -604,6 +627,44 @@ public class FileController
 		new File(pdfLocation+"/"+data[7].trim()+" L.pdf").renameTo(new File(general.getLocation()+data[7].trim()+"L.pdf"));
 		new File(pdfLocation+"/"+data[7].trim()+" R.pdf").renameTo(new File(general.getLocation()+data[7].trim()+"R.pdf"));
 		genAgePlanService.insertOrUpdateGen(general);
+	}
+	
+	private void uploadFinanceFiles(String subDepartment,String[] data,String pdfLocation)
+	{
+		Finance fc=new Finance();
+		fc.setBankName(data[1]);
+		fc.setBranchName(data[2]);
+		fc.setFileNo(data[3]);
+		fc.setStatement(data[4]);
+		fc.setPeriodOfYear(data[5]);
+		fc.setPatrawaliSankya(data[6]);
+		fc.setSubject(data[7]);
+		fc.setClerkName(data[8]);
+		fc.setRegisterName(data[9]);
+		fc.setSubdepartment(subDepartment);
+		fc.setAccountNo(data[11].trim());
+		fc.setLocation(utils.generateFilePath());
+		new File(pdfLocation+"/"+data[11].trim()+"pdf").renameTo(new File(fc.getLocation()+data[11].trim()+"pdf"));
+		proFinService.insertOrUpdateFin(fc);
+	}
+	
+	private void uploadFinanceaFiles(String subDepartment,String[] data,String pdfLocation)
+	{
+		Finance fc=new Finance();
+		fc.setBankName(data[1]);
+		fc.setBranchName(data[2]);
+		fc.setFileNo(data[3]);
+		fc.setStatement(data[4].trim());
+		fc.setPeriodOfYear(data[5]);
+		fc.setPatrawaliSankya(data[6]);
+		fc.setSubject(data[7]);
+		fc.setClerkName(data[8]);
+		fc.setRegisterName(data[9]);
+		fc.setSubdepartment(subDepartment);
+		fc.setAccountNo(data[11]);
+		fc.setLocation(utils.generateFilePath());
+		new File(pdfLocation+"/"+data[4].trim()+".pdf").renameTo(new File(fc.getLocation()+data[4].trim()+".pdf"));
+		proFinService.insertOrUpdateFin(fc);
 	}
 	
 	private void uploadFinance1Files(String subDepartment,String[] data,String pdfLocation)
@@ -1065,9 +1126,25 @@ public class FileController
 			if(department.equals("Finance") || department.equals("Project"))
 			{
 				location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
+				
 				if(department.equals("Finance")) {
+					if(new File(location+"/"+alloteeName+".pdf").exists()) {
+						count=FileUtils.viewFile(alloteeName+".pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+						commonService.insertLogs(uId,"Viewed file of "+department+" with Id:"+id+" & name:"+alloteeName);
+						out.println(alloteeName+"<@>"+count);
+						return null;
+					} 
+					else if(new File(location+"/"+id+".pdf").exists()) {
+						count=FileUtils.viewFile(id+".pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+						commonService.insertLogs(uId,"Viewed file of "+department+" with Id:"+id+" & name:"+alloteeName);
+						out.println(id+"<@>"+count);
+						return null;
+					}
+					else {
 					count=FileUtils.viewFile(id+"L.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 				     count=count+"<@>"+FileUtils.viewFile(id+"R.pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
+					}
+					
 				}
 				else
 				{

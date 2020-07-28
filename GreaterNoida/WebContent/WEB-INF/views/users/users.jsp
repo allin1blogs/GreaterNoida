@@ -33,14 +33,12 @@
 	{
 		var department=document.getElementById('department');
 		
-		alert("-----"+department);
 		var url="getHelp?help=getSectors&key=sector&value=";
 		for(var i=0;i<department.length;i++)
 		{
 			if(department.options[i].selected){
 				if(department.options[i].value=='Abadi 6%'){
 					department.options[i].value='Abadi';
-					alert("-----"+department.options[i].value);
 					}
 					
 				url=url+department.options[i].value+",";

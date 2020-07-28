@@ -205,8 +205,10 @@ public class FileUtils
 							page.save(webLocation+name.substring(0,name.indexOf(".pdf"))+"@"+count+"L.pdf");
 						else if(name.indexOf("R.pdf")!=-1)
 							page.save(webLocation+name.substring(0,name.indexOf(".pdf"))+"@"+count+"R.pdf");
-						else
+						else {
 							page.save(webLocation+name.substring(0,name.indexOf(".pdf"))+"@"+count+".pdf");
+							System.out.println(webLocation+name.substring(0,name.indexOf(".pdf"))+"@"+count+".pdf");
+						}
 						page.close();
 						if(name.indexOf("L.pdf")!=-1)
 							addWaterMark(webLocation,webLocation,name.substring(0,name.indexOf(".pdf"))+"@"+count+"L.pdf",uId,true);

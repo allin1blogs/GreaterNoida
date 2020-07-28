@@ -1,7 +1,7 @@
 <%-- 
     Document   : Retrieve Records
-    Created on : 03 Dec, 2017, 05:00:32 PM
-    Author     : Swapril Tyagi
+    Created on : 27 7, 2020, 05:00:32 PM
+    Author     : Preeti Rani
 --%>
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="financeForm"%>
@@ -401,9 +401,9 @@
 						<td>${record.subject}</td>
 						<td>${record.subdepartment}</td>
 						<td>
-							<a href="#" onclick="viewFile('${record.accountNo}','${record.sno}','${view}','${record.bankName}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
+							<a href="#" onclick="viewFile('${record.accountNo}','${record.sno}','${view}','${record.statement}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
 							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.accountNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
-							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.accountNo}','${record.sno}','${print}','${record.bankName}');" style="text-decoration: none;">Print</a></c:if>
+							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.accountNo}','${record.sno}','${print}','${record.statement}');" style="text-decoration: none;">Print</a></c:if>
 						</td>
 					</tr>
 				</c:forEach>
