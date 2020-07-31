@@ -140,38 +140,68 @@ public class ProFinController
 		String uId=modelInitializer.getId(request);
 		if(uId==null)
 			return "error";
-		if(finance.getSubdepartment().equals("Bank Statement") || finance.getSubdepartment().equals("Loan")) {
-		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+		if(finance.getSubdepartment().equals("Bank Statement")) {
+			if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
 		{
-			if(!noteSheet.getOriginalFilename().equals(finance.getAccountNo()+"L.pdf"))
+			if(!noteSheet.getOriginalFilename().equals(finance.getAccountNo()+".pdf") && !noteSheet.getOriginalFilename().equals(finance.getStatement()+".pdf"))
 			{
-				flashAttributes.addFlashAttribute("msg","Notesheet name should be as AccountNoL.pdf");
-				return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
-			}
-		}
-		if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
-		{
-			if(!correspondence.getOriginalFilename().equals(finance.getAccountNo()+"R.pdf"))
-			{
-				flashAttributes.addFlashAttribute("msg","Correspondence name should be as AccountNoR.pdf");
+				flashAttributes.addFlashAttribute("msg","File name should be as AccountNo.pdf/Statement.pdf");
 				return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
 			}
 		}
 		if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
 		{
-			new File(finance.getLocation()+finance.getAccountNo()+"L.pdf").renameTo(new File("C:/Resources/"+finance.getAccountNo()+"L.pdf"));
-			Files.write(Paths.get(keys.getRepository()+finance.getAccountNo()+"L.pdf"),noteSheet.getBytes());
-			FileUtils.mergeFiles("C:/Resources/"+finance.getAccountNo()+"L.pdf",keys.getRepository()+finance.getAccountNo()+"L.pdf",finance.getLocation()+finance.getAccountNo()+"L.pdf");
-			new File("C:/Resources/"+finance.getAccountNo()+"L.pdf").delete();new File(keys.getRepository()+finance.getAccountNo()+"L.pdf").delete();
+			if(new File(finance.getLocation()+finance.getAccountNo()+".pdf").exists() && noteSheet.getOriginalFilename().equals(finance.getAccountNo()+".pdf")){
+			new File(finance.getLocation()+finance.getAccountNo()+".pdf").renameTo(new File("C:/Resources/"+finance.getAccountNo()+".pdf"));
+			Files.write(Paths.get(keys.getRepository()+finance.getAccountNo()+".pdf"),noteSheet.getBytes());
+			FileUtils.mergeFiles("C:/Resources/"+finance.getAccountNo()+".pdf",keys.getRepository()+finance.getAccountNo()+".pdf",finance.getLocation()+finance.getAccountNo()+".pdf");
+			new File("C:/Resources/"+finance.getAccountNo()+".pdf").delete();new File(keys.getRepository()+finance.getAccountNo()+".pdf").delete();
+	     	}
+			else if(new File(finance.getLocation()+finance.getStatement()+".pdf").exists() && noteSheet.getOriginalFilename().equals(finance.getStatement()+".pdf")){
+				new File(finance.getLocation()+finance.getStatement()+".pdf").renameTo(new File("C:/Resources/"+finance.getStatement()+".pdf"));
+				Files.write(Paths.get(keys.getRepository()+finance.getStatement()+".pdf"),noteSheet.getBytes());
+				FileUtils.mergeFiles("C:/Resources/"+finance.getStatement()+".pdf",keys.getRepository()+finance.getStatement()+".pdf",finance.getLocation()+finance.getStatement()+".pdf");
+				new File("C:/Resources/"+finance.getStatement()+".pdf").delete();new File(keys.getRepository()+finance.getStatement()+".pdf").delete();
+		     	}
+			else {
+				flashAttributes.addFlashAttribute("msg","File name should not be Proper");
+				return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
+
+			}
+			}
 		}
-		if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
-		{
-			new File(finance.getLocation()+finance.getAccountNo()+"R.pdf").renameTo(new File("C:/Resources/"+finance.getAccountNo()+"R.pdf"));
-			Files.write(Paths.get(keys.getRepository()+finance.getAccountNo()+"R.pdf"),correspondence.getBytes());
-			FileUtils.mergeFiles("C:/Resources/"+finance.getAccountNo()+"R.pdf",keys.getRepository()+finance.getAccountNo()+"R.pdf",finance.getLocation()+finance.getAccountNo()+"R.pdf");
-			new File("C:/Resources/"+finance.getAccountNo()+"R.pdf").delete();new File(keys.getRepository()+finance.getAccountNo()+"R.pdf").delete();
+		else if(finance.getSubdepartment().equals("Loan")) {
+			if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+			{
+				if(!noteSheet.getOriginalFilename().equals(finance.getAccountNo()+"L.pdf"))
+				{
+					flashAttributes.addFlashAttribute("msg","Notesheet name should be as AccountNoL.pdf");
+					return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
+				}
+			}
+			if(correspondence!=null && correspondence.getOriginalFilename().length()>0)
+			{
+				if(!correspondence.getOriginalFilename().equals(finance.getAccountNo()+"R.pdf"))
+				{
+					flashAttributes.addFlashAttribute("msg","Correspondence name should be as AccountNoR.pdf");
+					return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
+				}
+			}
+			if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
+			{
+				new File(finance.getLocation()+finance.getAccountNo()+"L.pdf").renameTo(new File("C:/Resources/"+finance.getAccountNo()+"L.pdf"));
+				Files.write(Paths.get(keys.getRepository()+finance.getAccountNo()+"L.pdf"),noteSheet.getBytes());
+				FileUtils.mergeFiles("C:/Resources/"+finance.getAccountNo()+"L.pdf",keys.getRepository()+finance.getAccountNo()+"L.pdf",finance.getLocation()+finance.getAccountNo()+"L.pdf");
+				new File("C:/Resources/"+finance.getAccountNo()+"L.pdf").delete();new File(keys.getRepository()+finance.getAccountNo()+"L.pdf").delete();
+			}
+			if(correspondence!=null && correspondence.getOriginalFilename().trim().length()>0)
+			{
+				new File(finance.getLocation()+finance.getAccountNo()+"R.pdf").renameTo(new File("C:/Resources/"+finance.getAccountNo()+"R.pdf"));
+				Files.write(Paths.get(keys.getRepository()+finance.getAccountNo()+"R.pdf"),correspondence.getBytes());
+				FileUtils.mergeFiles("C:/Resources/"+finance.getAccountNo()+"R.pdf",keys.getRepository()+finance.getAccountNo()+"R.pdf",finance.getLocation()+finance.getAccountNo()+"R.pdf");
+				new File("C:/Resources/"+finance.getAccountNo()+"R.pdf").delete();new File(keys.getRepository()+finance.getAccountNo()+"R.pdf").delete();
+			}
 		}
-	}
 		else {
 			if(noteSheet!=null && noteSheet.getOriginalFilename().trim().length()>0)
 			{
@@ -210,4 +240,6 @@ public class ProFinController
 		System.out.println("redirect:/updateFin?department=Finance&sno="+finance.getSno());
 		return "redirect:/updateFile?department=Finance&sno="+finance.getSno();
 	}
+	
+	
 }

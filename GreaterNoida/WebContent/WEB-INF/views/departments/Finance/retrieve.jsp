@@ -10,14 +10,13 @@
 <fmt:setLocale value = "en"/>
 <fmt:setBundle basename="resources.application" var="storeText" scope="request"/>
 <fmt:message bundle="${storeText}" var="financeSubdepartment" key="FINANCE_SUBDEPARTMENT" />
-
 <link rel="stylesheet" href="<c:url value='staticResources/styleSheets/tableManager.css'/>"/>
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/retrieval.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/staticResources/scripts/table.min.js'/>"></script>
 
 <script type="text/javascript">
-	var request,fileId,noteCount,corrCount,currentNote,currentCorr,currentSno,currentAlloteeName,printLr,sno,bankName;
+	var request,fileId,noteCount,corrCount,currentNote,currentCorr,currentSno,currentAlloteeName,printLr,sno,bankName,subdepartment;
 	$(document).ready(function() 
 	{
     	$('#fileTable').DataTable({
@@ -41,10 +40,15 @@
 		var accountNo=document.getElementById('accountNo').value;
 		var codeNo=document.getElementById('codeNo').value;
 		var subdepartment=document.getElementById('subdepartment').value;
-		if(statement=='' && bankName=='' && branchName=='' && sector=='' && registerName=='' && subdepartment=='' && accountNo==''  && codeNo=='')
+		if(subdepartment=='Select'){
+			setContent('First Select Sub-department Parameters!');
+		}
+		else{
+		if(statement=='' && bankName=='' && branchName=='' && sector==''  && subdepartment=='Select' && registerName=='' && accountNo==''  && codeNo=='')
 			setContent('Empty Parameters!');
 		else
 			document.getElementById('financeForm').submit();
+		}
 	}
 	function deleteFile()
 	{
@@ -61,8 +65,9 @@
 			else if(window.ActiveXObject)  
 				request=new ActiveXObject("Microsoft.XMLHTTP");
 			document.getElementById('id01').style.display='block'; 
-			
+			var subDepartemnt = '<c:out value="${financeForm.subdepartment}"/>';
 			document.getElementById('noteDiv').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Opening Notesheet...</p>';
+			if(subDepartemnt != 'Bank Statement')
 			document.getElementById('corrDiv').innerHTML='<p style="margin-top: 5%; font-size: 22px; font-family: cambria; text-align: center;">Opening Correspondence...</p>';
 			try
 			{
@@ -79,11 +84,19 @@
 		if(request.readyState==4)
 		{
 			var data=request.responseText.split('<@>');
-			fileId=data[0];noteCount=data[1];corrCount=data[2];
+			fileId=data[0];
+			noteCount=data[1];
+			var subDepartemnt = '<c:out value="${financeForm.subdepartment}"/>';
+			if(subDepartemnt != 'Bank Statement')
+			corrCount=data[2];
 			setPageList();
 			var pages='<p style="text-align: center; font-family: cambria; font-size: 14px; color: #ffffff;">Go To Page:</p><select style="width: 50px; height: 15px;" name="notePage"><option value="Select">Select</option></select>';
 			currentNote=1;currentCorr=1;
-			getPage('noteDiv',1);getPage('corrDiv',1);
+			getPage('noteDiv',1);
+
+			var subDepartemnt = '<c:out value="${financeForm.subdepartment}"/>';
+			if(subDepartemnt != 'Bank Statement')
+			getPage('corrDiv',1);
 		}
 	}
 	function nexPre(type,opr)
@@ -114,18 +127,31 @@
 			page=parseInt(document.getElementById(type).value);
 			if(type=='notePage')
 				div=document.getElementById('noteDiv');
-			else
+			else{
+				var subDepartemnt = '<c:out value="${financeForm.subdepartment}"/>';
+				if(subDepartemnt != 'Bank Statement')
 				div=document.getElementById('corrDiv');
+				}
+				
 		}
 		if(type=='noteDiv' || type=='notePage')
 		{
 			currentNote=page;
-			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'L@'+page+'L.pdf#toolbar=0"></object>';
+			var subDepartemnt = '<c:out value="${financeForm.subdepartment}"/>';
+			if(subDepartemnt == 'Bank Statement')
+			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'@'+page+'.pdf#toolbar=0"></object>';
+			else
+				div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'L@'+page+'L.pdf#toolbar=0"></object>';
+				
 		}
 		else
 		{
-			currentCorr=page;
-			div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'R@'+page+'R.pdf#toolbar=0"></object>';
+			var subDepartemnt = '<c:out value="${financeForm.subdepartment}"/>';
+			if(subDepartemnt != 'Bank Statement'){
+				currentCorr=page;
+				div.innerHTML='<object oncontextmenu="return false" style="height: 100%; width: 100%;" data="staticResources/pdfs/'+fileId+'R@'+page+'R.pdf#toolbar=0"></object>';
+			}
+			
 		}
 	}
 	function setPageList()
@@ -147,10 +173,10 @@
 				corrPage.innerHTML=corrPage.innerHTML+'<option value="'+i+'">'+i+'</option>'
 		}
 	}
-	function downloadFile(pos,sno,right)
+	function downloadFile(pos,sno,right,statement)
 	{
 		if(right==1)
-			window.location="downloadFile?id="+pos+"&sno="+sno+"&department=Finance";
+			window.location="downloadFile?id="+pos+"&sno="+sno+"&department=Finance"+"&statement="+statement+"&subdepartment="+'<c:out value="${financeForm.subdepartment}"/>';
 	}
 	function updateFile(sno,right)
 	{
@@ -169,20 +195,25 @@
 	}
 	function printFile(printType)
 	{
-		if(printType=='single')
-		{
-			if(printLr=='L')
-				singlePrint('note');
-			else
-				singlePrint('corr');
+		var subdepartment = '<c:out value="${financeForm.subdepartment}"/>';
+		if(printType=='single' && subdepartment != 'undefined' && subdepartment.includes("Bank Statement")){
+			singlePrint('note');
 		}
-		else
-			printOut(fileId,currentSno,printLr,currentAlloteeName);
+		else{
+			if(printType=='single')
+			{
+				if(printLr=='L')
+					singlePrint('note');
+				else
+					singlePrint('corr');
+			}
+			else
+				printOut(fileId,currentSno,printLr,currentAlloteeName);	
+	 	}
 	}
 	function printOut(fileId,currentSno,printLr,currentAlloteeName)
 	{
-	
-			var url="viewFile?id="+fileId+"&sno="+currentSno+"&department=Finance&prFlage=print&name="+currentAlloteeName+"&lr="+printLr;
+			var url="viewFile?id="+fileId+"&sno="+currentSno+"&department=Finance&prFlage=print&name="+currentAlloteeName+"&lr="+printLr+"&subdepartment="+'<c:out value="${financeForm.subdepartment}"/>';
 			setContent('Processing...');
 			if(window.XMLHttpRequest)  
 				request=new XMLHttpRequest();  
@@ -203,6 +234,9 @@
 		if(request.readyState==4)
 		{
 			var id=request.responseText;
+			if(id.includes("_"))
+			document.getElementById('printDiv').innerHTML='<iframe id="pdf" src="staticResources/pdfs/'+id.split("_")[0]+'.pdf"></iframe>';
+			else
 			document.getElementById('printDiv').innerHTML='<iframe id="pdf" src="staticResources/pdfs/'+id+'.pdf"></iframe>';
 			var ifr=document.getElementById('pdf');
 			document.getElementById('authModal').style.display='none';
@@ -211,11 +245,16 @@
 	}
 	function singlePrint(type)
 	{
+		var subdepartment = '<c:out value="${financeForm.subdepartment}"/>';
 		var contentDiv=document.getElementById('singlePrintDiv');
-		if(type=='note')
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'L@'+currentNote+'L@print.pdf"></iframe>';
-		else
-			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'R@'+currentCorr+'R@print.pdf"></iframe>';
+		if(subdepartment != 'undefined' && subdepartment.includes("Bank Statement")){
+			contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'@'+currentNote+'@print.pdf"></iframe>';
+		}else{
+			if(type=='note')
+				contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'L@'+currentNote+'L@print.pdf"></iframe>';
+			else
+				contentDiv.innerHTML='<iframe id="singlePdf" src="staticResources/pdfs/'+fileId+'R@'+currentCorr+'R@print.pdf"></iframe>';
+		}
 		document.getElementById('singlePdf').contentWindow.print();
 	}
 	function firLas(type,page)
@@ -241,34 +280,68 @@
 		document.getElementById('authModal').style.display='block';
 	}
 </script>
+<c:choose>
+	<c:when test="${financeForm.subdepartment eq 'Bank Statement'}">
+		<div id="id01" class="base-modal" style="display: none; z-index:99999; margin: 0px; padding: 0px;">
+		    <a href="" style="font-size: 26px;"><span onclick="deleteFile();" style="float: right; color: red;"><b>&times;</b></span></a>
+			<table style="width: 100%;">
+				<tr>
+					<td>
+						<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
+						<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','fir');">First</button>
+						<button class="btn btn-primary" onclick="nexPre('noteDiv','pre');">Previous</button>
+						<select style="width: 70px; height: 25px;" id="notePage" onchange="getPage('notePage','self');"></select>
+						<button class="btn btn-primary" onclick="nexPre('noteDiv','nex');">Next</button>
+						<button class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','las');">Last</button>
+						<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('L');">Print It</button></c:if>
+					</td>
+					<%-- <td>
+						<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
+						<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','fir');">First</button>
+						<button class="btn btn-primary" onclick="nexPre('corrDiv','pre')">Previous</button>
+						<select style="width: 70px; height: 25px;" id="corrPage" onchange="getPage('corrPage','self');"></select>
+						<button class="btn btn-primary" onclick="nexPre('corrDiv','nex')">Next</button>
+						<button class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','las');">Last</button>
+						<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('R');">Print It</button></c:if>
+					</td> --%>
+				</tr>
+			</table>
+		   
+		    <div id="noteDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:100%; height:90%;"></div>
+		</div>
+	</c:when>
+	<c:otherwise>
+		<div id="id01" class="base-modal" style="display: none; z-index:99999; margin: 0px; padding: 0px;">
+	    <a href="" style="font-size: 26px;"><span onclick="deleteFile();" style="float: right; color: red;"><b>&times;</b></span></a>
+		<table style="width: 100%;">
+			<tr>
+				<td>
+					<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
+					<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','fir');">First</button>
+					<button class="btn btn-primary" onclick="nexPre('noteDiv','pre');">Previous</button>
+					<select style="width: 70px; height: 25px;" id="notePage" onchange="getPage('notePage','self');"></select>
+					<button class="btn btn-primary" onclick="nexPre('noteDiv','nex');">Next</button>
+					<button class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','las');">Last</button>
+					<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('L');">Print It</button></c:if>
+				</td>
+				<td>
+					<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
+					<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','fir');">First</button>
+					<button class="btn btn-primary" onclick="nexPre('corrDiv','pre')">Previous</button>
+					<select style="width: 70px; height: 25px;" id="corrPage" onchange="getPage('corrPage','self');"></select>
+					<button class="btn btn-primary" onclick="nexPre('corrDiv','nex')">Next</button>
+					<button class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','las');">Last</button>
+					<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('R');">Print It</button></c:if>
+				</td>
+			</tr>
+		</table>
+	    <div id="noteDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height:90%;"></div>
+	    <div id="corrDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height: 90%;"></div>
+	</div>
+	</c:otherwise>
+</c:choose>
 
-<div id="id01" class="base-modal" style="display: none; z-index:99999; margin: 0px; padding: 0px;">
-    <a href="" style="font-size: 26px;"><span onclick="deleteFile();" style="float: right; color: red;"><b>&times;</b></span></a>
-	<table style="width: 100%;">
-		<tr>
-			<td>
-				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
-				<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','fir');">First</button>
-				<button class="btn btn-primary" onclick="nexPre('noteDiv','pre');">Previous</button>
-				<select style="width: 70px; height: 25px;" id="notePage" onchange="getPage('notePage','self');"></select>
-				<button class="btn btn-primary" onclick="nexPre('noteDiv','nex');">Next</button>
-				<button class="btn btn-primary" id="preButNote" onclick="firLas('noteDiv','las');">Last</button>
-				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('L');">Print It</button></c:if>
-			</td>
-			<td>
-				<p style="margin-left: 42%; font-family: cambria; font-size: 18px; color: #ffffff;">Go To Page:</p>
-				<button style="margin-left: 20%;" class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','fir');">First</button>
-				<button class="btn btn-primary" onclick="nexPre('corrDiv','pre')">Previous</button>
-				<select style="width: 70px; height: 25px;" id="corrPage" onchange="getPage('corrPage','self');"></select>
-				<button class="btn btn-primary" onclick="nexPre('corrDiv','nex')">Next</button>
-				<button class="btn btn-primary" id="preButNote" onclick="firLas('corrDiv','las');">Last</button>
-				<c:if test="${print=='1'}"><button class="btn btn-primary" style="margin-left: 20%;" onclick="printConf('R');">Print It</button></c:if>
-			</td>
-		</tr>
-	</table>
-    <div id="noteDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height:90%;"></div>
-    <div id="corrDiv" class="base-modal-content base-card-8 base-animate-zoom" style="float: left; width:50%; height: 90%;"></div>
-</div>
+
 
 <div id="printModel" class="base-modal" style="display: none; z-index:99999;">
     <a href="#" style="text-decoration: none; color: red; font-family: cambria; font-size: 20px;"><span onclick="deleteFile();" class="base-closebtn base-hover-red base-display-topright">X</span></a>
@@ -360,7 +433,7 @@
              <td>
                 	<label style="font-family: cambria;" for="subdepartment"><h4><b>Sub-Department:</b></h4></label><br>
                 	<financeForm:select style="height: 35px; width: 200px;"  path="subdepartment" id="subdepartment">
-                		<financeForm:option  value="" label="Select"/>
+                		<financeForm:option  value="Select" label="Select"/>
                 		 <c:forTokens items = "${financeSubdepartment}" delims = "," var = "subdepartment">
 					         <financeForm:option value="${subdepartment}" label="${subdepartment}"/>
 					      </c:forTokens>
@@ -402,7 +475,7 @@
 						<td>${record.subdepartment}</td>
 						<td>
 							<a href="#" onclick="viewFile('${record.accountNo}','${record.sno}','${view}','${record.statement}')" style="text-decoration: none;">View</a>&nbsp;&nbsp;
-							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.accountNo}','${record.sno}','${download}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
+							<c:if test="${download=='1'}"><a href="#" onclick="downloadFile('${record.accountNo}','${record.sno}','${download}','${record.statement}');" style="text-decoration: none;">Download</a>&nbsp;&nbsp;</c:if>
 							<c:if test="${print=='1'}"><a href="#" onclick="printOut('${record.accountNo}','${record.sno}','${print}','${record.statement}');" style="text-decoration: none;">Print</a></c:if>
 						</td>
 					</tr>

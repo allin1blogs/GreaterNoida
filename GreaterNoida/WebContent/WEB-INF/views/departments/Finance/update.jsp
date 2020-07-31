@@ -90,12 +90,12 @@
                    	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="noteSheet"/>
                 </td>
                 </tr>
-            <tr>
-                <td>
-                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose Correspondence Page:</b></h4></label><br>
-                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file" name="correspondence"/>
-                </td>
-                </tr>
+		            <tr>
+		                <td>
+		                   	<label style="color: black; font-family: cambria;" for="File"><h4><b>Choose Correspondence Page:</b></h4></label><br>
+		                   	<input style="width: 235px; height: 35px; margin-top: 7px;" type="file"  name="correspondence"/>
+		                </td>
+	                </tr>
             <tr><td><financeForm:hidden path="sno"/></td><td colspan="2"><financeForm:hidden path="location"/></td></tr>
             <tr><td colspan="3" align="center"><br><input class="btn btn-primary" style="background-color: #2D6419; color: #ffffff;" value="Update It" onclick="update();"></td></tr>
         </table>

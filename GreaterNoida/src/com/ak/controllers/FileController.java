@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -644,7 +645,7 @@ public class FileController
 		fc.setSubdepartment(subDepartment);
 		fc.setAccountNo(data[11].trim());
 		fc.setLocation(utils.generateFilePath());
-		new File(pdfLocation+"/"+data[11].trim()+"pdf").renameTo(new File(fc.getLocation()+data[11].trim()+"pdf"));
+		new File(pdfLocation+"/"+data[11].trim()+".pdf").renameTo(new File(fc.getLocation()+data[11].trim()+".pdf"));
 		proFinService.insertOrUpdateFin(fc);
 	}
 	
@@ -1105,6 +1106,7 @@ public class FileController
 	@RequestMapping(value="/viewFile",method=RequestMethod.GET)
 	public String viewFile(HttpServletRequest request,HttpServletResponse response,@RequestParam("department")String department,@RequestParam("id")String id,@RequestParam("sno")String sno,@RequestParam("prFlage")String prFlage,@RequestParam("name")String alloteeName)throws IOException
 	{
+		
 		String uId=modelInitializer.getId(request);
 		if(uId==null)
 			return "error";
@@ -1132,6 +1134,7 @@ public class FileController
 						count=FileUtils.viewFile(alloteeName+".pdf",webLocation,location,modelInitializer.getId(request)+",v",false);
 						commonService.insertLogs(uId,"Viewed file of "+department+" with Id:"+id+" & name:"+alloteeName);
 						out.println(alloteeName+"<@>"+count);
+						
 						return null;
 					} 
 					else if(new File(location+"/"+id+".pdf").exists()) {
@@ -1285,7 +1288,25 @@ public class FileController
 				location=landService.getLocation(Integer.parseInt(sno),department);
 				FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
 			}
-			if(department.equals("Finance") || department.equals("Project"))
+			if(department.equals("Finance"))
+			{
+				location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
+				    if(request.getParameterValues("subdepartment")[0].equals("Bank Statement"))
+				    if(new File(location+"/"+id.trim()+".pdf").exists()) {
+				    	id=id+"_"+request.getParameterValues("subdepartment")[0];
+					   FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
+					   	out.print(id);
+				    	return null;
+				    }
+				    else {
+				    	alloteeName=alloteeName+"_"+request.getParameterValues("subdepartment")[0];
+				    	FileUtils.viewFile(alloteeName,webLocation,location,modelInitializer.getId(request),false);
+				    	out.print(alloteeName);
+				    	return null;
+				    }
+				    FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
+			}
+			if(department.equals("Project"))
 			{
 				location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
 					FileUtils.viewFile(id,webLocation,location,modelInitializer.getId(request),false);
@@ -1372,10 +1393,23 @@ public class FileController
 		if(department.equals("Finance") || department.equals("Project"))
 		{
 			location=proFinService.getProFinLocation(department,Integer.parseInt(sno));
-			if(department.equals("Finance"))
-				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
-			else
-				FileUtils.downloadFile(response,id,location,true,request.getServletContext().getRealPath("/")+"staticResources/pdfs/",modelInitializer.getId(request));
+			if (department.equals("Finance")) {
+				String statement = request.getParameterValues("statement")[0];
+				String subdepartment = request.getParameterValues("subdepartment")[0];
+				if (statement != "undefined" && subdepartment.equals("Bank Statement")) {
+					if (new File(location + "/" + statement.trim() + ".pdf").exists()) {
+						FileUtils.downloadFile(response, statement, location, false,request.getServletContext().getRealPath("/") + "staticResources/pdfs/",modelInitializer.getId(request));
+					} else
+						FileUtils.downloadFile(response, id, location, false,request.getServletContext().getRealPath("/") + "staticResources/pdfs/",modelInitializer.getId(request));
+				} else {
+					FileUtils.downloadFile(response, id, location, true,request.getServletContext().getRealPath("/") + "staticResources/pdfs/",modelInitializer.getId(request));
+				}
+
+			}
+			else {
+				FileUtils.downloadFile(response, id, location, true,request.getServletContext().getRealPath("/") + "staticResources/pdfs/",modelInitializer.getId(request));
+			}
+			
 		}
 		if(department.equals("EM") || department.equals("Law") || department.equals("EM2"))
 		{

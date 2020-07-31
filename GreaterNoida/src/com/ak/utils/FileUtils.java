@@ -132,7 +132,13 @@ public class FileUtils
 	
 	public static String viewFile(String name,String webLocation,String fileLocation,String uId,boolean agenda)
 	{   System.out.println("viewFile");
-	     
+	     String subdepartment = null;
+		if(name.contains("_"))
+		{
+			String[] department_name = name.split("_");
+			name = department_name[0];
+			subdepartment = department_name[1];
+		}
 		File copyFrom=new File(fileLocation+name);
 		
 		 System.out.println("fileLocation:1:"+fileLocation);
@@ -224,7 +230,10 @@ public class FileUtils
 			else {
 				if(true)
 				{
+					if(subdepartment == null)
 					mergeFiles(fileLocation+name+"L.pdf",fileLocation+name+"R.pdf","C:/Resources/"+name+".pdf");
+					else
+					mergeFiles(fileLocation+name+".pdf","","C:/Resources/"+name+".pdf");
 					fileLocation="C:/Resources/";
 					name=name+".pdf";
 				}
@@ -243,6 +252,13 @@ public class FileUtils
 			mergeFiles(fileLocation+name+"L.pdf",fileLocation+name+"R.pdf","C:/Resources/"+name+".pdf");
 			fileLocation="C:/Resources/";
 			name=name+".pdf";
+		}
+		else {
+			if(!name.contains("Report")) {
+			mergeFiles(fileLocation+name+".pdf","","C:/Resources/"+name+".pdf");
+			fileLocation="C:/Resources/";
+			name=name+".pdf";
+			}
 		}
 		File file=null;
 		BufferedInputStream bin=null;
